@@ -55,7 +55,7 @@ coloridos por categoria de macro (kcal, proteína, carboidrato, gordura).
 
 ## Logo
 
-- **Arquivo:** ainda não salvo em `identidade/` — usuário não tem o arquivo (png/svg) em mãos ainda
+- **Arquivo:** `identidade/logo.png` (copiado também pra `site/img/logo.png`)
 - **Descrição:** ícone circular com pessoa de braços abertos entre folhas verdes e uma tigela de salada laranja/verde; abaixo, texto "NutriBalance" ("Nutri" em verde escuro, "Balance" em preto) com tagline "equilíbrio que transforma saúde em vida"
 - **Versão pra fundo escuro:** não definida
 - **Onde usar:** slide final do carrossel (CTA), header de propostas, slides de apresentação
@@ -65,5 +65,4 @@ coloridos por categoria de macro (kcal, proteína, carboidrato, gordura).
 
 ## Observações adicionais
 
-Assim que o arquivo do logo existir (png/svg), salvar em `identidade/logo.png`
-(ou `.svg`) e atualizar o campo "Arquivo" acima.
+Logo salva em 2026-07-20.

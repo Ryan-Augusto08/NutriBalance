@@ -1,0 +1,385 @@
+:root {
+  --bg: #eef6ec;
+  --card-bg: #ffffff;
+  --text-main: #26312a;
+  --text-muted: #7c8a80;
+  --green-dark: #2f6d3f;
+  --green-btn: #3b8a4e;
+  --border-soft: #e2ede0;
+  --shadow: 0 2px 10px rgba(38, 49, 42, 0.06);
+
+  --kcal-bg: #fbe9e4;
+  --kcal-fg: #e2572c;
+  --protein-bg: #fbe6e6;
+  --protein-fg: #d64545;
+  --carbs-bg: #fdf1de;
+  --carbs-fg: #d99a3d;
+  --fat-bg: #fdf6dc;
+  --fat-fg: #c9a227;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", Inter, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text-main);
+}
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px 8px;
+}
+
+.logo-img {
+  height: 56px;
+  width: auto;
+}
+
+.hero-banner {
+  height: 140px;
+  margin: 0 20px 20px;
+  border-radius: 16px;
+  background-image: linear-gradient(135deg, rgba(47, 109, 63, 0.55), rgba(226, 87, 44, 0.35)),
+    url("../img/banner.jpg");
+  background-size: cover;
+  background-position: center;
+  background-color: #d8e8d2;
+}
+
+.content {
+  padding: 0 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.profile-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow);
+}
+
+.profile-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--green-dark);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.profile-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-name {
+  margin: 0;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.profile-goal {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.icon-btn {
+  border: none;
+  background: var(--border-soft);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.icon-btn:hover {
+  background: #d8e8d2;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin: 0 0 12px;
+}
+
+.section-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.section-header-row .section-title {
+  margin: 0;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.stat-tile {
+  border-radius: 14px;
+  padding: 12px 6px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-icon {
+  font-size: 16px;
+}
+
+.stat-value {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.stat-kcal {
+  background: var(--kcal-bg);
+}
+.stat-kcal .stat-value {
+  color: var(--kcal-fg);
+}
+
+.stat-protein {
+  background: var(--protein-bg);
+}
+.stat-protein .stat-value {
+  color: var(--protein-fg);
+}
+
+.stat-carbs {
+  background: var(--carbs-bg);
+}
+.stat-carbs .stat-value {
+  color: var(--carbs-fg);
+}
+
+.stat-fat {
+  background: var(--fat-bg);
+}
+.stat-fat .stat-value {
+  color: var(--fat-fg);
+}
+
+.add-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: var(--green-btn);
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.add-btn:hover {
+  background: var(--green-dark);
+}
+
+.meals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meal-card {
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.meal-main {
+  min-width: 0;
+}
+
+.meal-title {
+  font-weight: 700;
+  font-size: 14px;
+  margin: 0 0 2px;
+}
+
+.meal-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0 0 4px;
+}
+
+.meal-macros {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.meal-side {
+  text-align: right;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.meal-date {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.meal-delete {
+  border: none;
+  background: none;
+  color: #c9756a;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.meal-delete:hover {
+  text-decoration: underline;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 24px 0;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(38, 49, 42, 0.45);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 10;
+}
+
+.modal-overlay[hidden] {
+  display: none;
+}
+
+.modal {
+  background: var(--card-bg);
+  width: 100%;
+  max-width: 480px;
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal h3 {
+  margin: 0 0 14px;
+  font-size: 16px;
+  color: var(--green-dark);
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.modal input,
+.modal select {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  color: var(--text-main);
+}
+
+.macro-inputs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.btn-primary,
+.btn-secondary {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--green-btn);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--green-dark);
+}
+
+.btn-secondary {
+  background: var(--border-soft);
+  color: var(--text-main);
+}
+
+.btn-secondary:hover {
+  background: #d8e8d2;
+}

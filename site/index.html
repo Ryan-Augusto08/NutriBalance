@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NutriBalance</title>
+  <link rel="icon" type="image/png" href="img/logo.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <img class="logo-img" src="img/logo.png" alt="NutriBalance" />
+    </header>
+
+    <div class="hero-banner" role="img" aria-label="Tigela de comida saudável"></div>
+
+    <main class="content">
+      <section class="profile-card" id="profile-card">
+        <div class="profile-avatar" id="profile-avatar"></div>
+        <div class="profile-info">
+          <p class="profile-name" id="profile-name"></p>
+          <p class="profile-goal" id="profile-goal"></p>
+        </div>
+        <button class="icon-btn" id="edit-profile-btn" title="Editar perfil" aria-label="Editar perfil">✎</button>
+      </section>
+
+      <section>
+        <h2 class="section-title">Resumo do Dia</h2>
+        <div class="summary-grid">
+          <div class="stat-tile stat-kcal">
+            <span class="stat-icon">🔥</span>
+            <span class="stat-value" id="stat-kcal">0</span>
+            <span class="stat-label">kcal</span>
+          </div>
+          <div class="stat-tile stat-protein">
+            <span class="stat-icon">🥚</span>
+            <span class="stat-value" id="stat-protein">0g</span>
+            <span class="stat-label">Proteína</span>
+          </div>
+          <div class="stat-tile stat-carbs">
+            <span class="stat-icon">🌾</span>
+            <span class="stat-value" id="stat-carbs">0g</span>
+            <span class="stat-label">Carboidratos</span>
+          </div>
+          <div class="stat-tile stat-fat">
+            <span class="stat-icon">💧</span>
+            <span class="stat-value" id="stat-fat">0g</span>
+            <span class="stat-label">Gordura</span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-header-row">
+          <h2 class="section-title">Minhas Refeições</h2>
+          <button class="add-btn" id="add-meal-btn" title="Adicionar refeição" aria-label="Adicionar refeição">+</button>
+        </div>
+        <div class="meals-list" id="meals-list"></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-overlay" id="meal-modal-overlay" hidden>
+    <div class="modal">
+      <h3 id="meal-modal-title">Nova refeição</h3>
+      <form id="meal-form">
+        <label>
+          Tipo
+          <select id="meal-tipo" required>
+            <option value="Café da Manhã">Café da Manhã</option>
+            <option value="Almoço">Almoço</option>
+            <option value="Lanche da Tarde">Lanche da Tarde</option>
+            <option value="Jantar">Jantar</option>
+            <option value="Ceia">Ceia</option>
+          </select>
+        </label>
+        <label>
+          Descrição
+          <input type="text" id="meal-descricao" placeholder="Ex: Ovos mexidos com pão integral" required />
+        </label>
+        <label>
+          Data
+          <input type="date" id="meal-data" required />
+        </label>
+        <div class="macro-inputs">
+          <label>
+            Kcal
+            <input type="number" id="meal-kcal" min="0" required />
+          </label>
+          <label>
+            Proteína (g)
+            <input type="number" id="meal-proteina" min="0" required />
+          </label>
+          <label>
+            Carbo (g)
+            <input type="number" id="meal-carbo" min="0" required />
+          </label>
+          <label>
+            Gordura (g)
+            <input type="number" id="meal-gordura" min="0" required />
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="meal-cancel-btn">Cancelar</button>
+          <button type="submit" class="btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="profile-modal-overlay" hidden>
+    <div class="modal">
+      <h3>Editar perfil</h3>
+      <form id="profile-form">
+        <label>
+          Nome
+          <input type="text" id="profile-name-input" required />
+        </label>
+        <label>
+          Meta diária (kcal)
+          <input type="number" id="profile-goal-input" min="0" required />
+        </label>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="profile-cancel-btn">Cancelar</button>
+          <button type="submit" class="btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -113,3 +113,69 @@ Quando o usuário pedir skill nova:
 4. Se a skill precisar de arquivos de apoio (templates, exemplos),
    criar dentro da pasta da skill
 5. Seguir o fluxo da skill-creator nativa do Claude Code
+
+---
+
+# NutriBalance — regras específicas do projeto
+
+> Perfil: solopreneur / criador solo. Preenchido pelo `/instalar`.
+
+## O que é esse workspace
+
+Operação do TCC (Trabalho de Conclusão de Curso) de Ryan — desenvolvimento
+do site NutriBalance, um app de acompanhamento nutricional parecido com o
+MyFitnessPal (sem leitura/registro de alimento por código de barras).
+
+**Estrutura de pastas:**
+- `_memoria/` — quem é o projeto, como ele fala, o que tá em foco
+- `identidade/` — cores, fontes, logo, padrão visual do NutriBalance
+- `marketing/` — conteúdo, documentação, material de apresentação (saída das skills)
+- `saidas/` — análises, emails, documentos pontuais
+- `dados/` — arquivos a analisar (CSV, PDF, planilha)
+- `scripts/` — utilitários
+
+## Quem sou
+
+Sou Ryan, aluno do 3º ano do Ensino Médio integrado ao curso de
+Desenvolvimento de Sistemas. O NutriBalance é meu TCC — um site que facilita
+a vida de quem quer ter hábitos saudáveis.
+
+## O que produzo
+
+- Site NutriBalance (dashboard de kcal, macros e refeições diárias)
+- Documentação e material de apresentação do TCC
+
+## Minha audiência
+
+Pessoas interessadas em cuidar da saúde e melhorar fisicamente — seja
+ganhando, perdendo ou mantendo peso. Nesse momento, também a banca
+avaliadora do TCC.
+
+## Tom de voz
+
+Direto, formal e sério — sem emoji, sem gírias, sem tom jovial. Qualquer
+coisa que soe "escrita por IA" (emoji, informalidade excessiva) compromete
+a seriedade esperada de um trabalho acadêmico.
+
+Evitar: emoji em contexto formal, linguagem casual demais.
+
+## Posicionamento
+
+NutriBalance entrega o essencial do MyFitnessPal para hábitos saudáveis,
+sem a funcionalidade de leitura/registro por código de barras.
+
+## Regras do sistema
+
+- Projeto ainda sem equipe ativa — dois colegas estão nominalmente no
+  projeto mas não participaram até agora
+- Sem gargalo ou rotina repetitiva identificada ainda (fase inicial)
+- Logo do NutriBalance existe apenas como imagem de referência — ainda
+  sem arquivo salvo em `identidade/`
+
+## Ferramentas conectadas
+
+- [ ] Notion
+- [ ] Canva
+- [ ] Google Calendar
+
+*(Marcar conforme for instalando os MCPs)*

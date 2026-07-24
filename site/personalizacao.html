@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personalização — NutriBalance</title>
+  <link rel="icon" type="image/png" href="img/logo2.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card auth-card-wide">
+      <img class="auth-logo" src="img/logo2.png" alt="NutriBalance" />
+      <h1 class="auth-title" id="perfil-titulo">Vamos personalizar</h1>
+      <p class="auth-subtitle" id="perfil-subtitulo">
+        Com esses dados calculamos sua meta diária de calorias e macros.
+      </p>
+
+      <form id="perfil-form" class="auth-form">
+        <div class="form-grid">
+          <label>
+            Sexo
+            <select id="p-sexo" required>
+              <option value="" disabled selected>Selecione</option>
+              <option value="M">Masculino</option>
+              <option value="F">Feminino</option>
+            </select>
+          </label>
+          <label>
+            Idade (anos)
+            <input type="number" id="p-idade" min="10" max="120" step="1" required />
+          </label>
+          <label>
+            Altura (cm)
+            <input type="number" id="p-altura" min="100" max="250" step="1" required />
+          </label>
+          <label>
+            Peso (kg)
+            <input type="number" id="p-peso" min="30" max="350" step="0.1" required />
+          </label>
+        </div>
+
+        <label>
+          Nível de atividade física
+          <select id="p-atividade" required>
+            <option value="" disabled selected>Selecione</option>
+            <option value="sedentario">Sedentário (pouco ou nenhum exercício)</option>
+            <option value="leve">Leve (1–3 dias/semana)</option>
+            <option value="moderado">Moderado (3–5 dias/semana)</option>
+            <option value="intenso">Intenso (6–7 dias/semana)</option>
+            <option value="muito_intenso">Muito intenso (2× por dia / trabalho físico)</option>
+          </select>
+        </label>
+
+        <label>
+          Meta
+          <select id="p-meta" required>
+            <option value="" disabled selected>Selecione</option>
+            <option value="perder">Perder peso</option>
+            <option value="manter">Manter peso</option>
+            <option value="ganhar">Ganhar peso</option>
+          </select>
+        </label>
+
+        <!-- Objetivo: aparece apenas quando a meta é "Manter peso" -->
+        <label id="objetivo-wrap" hidden>
+          Objetivo
+          <select id="p-objetivo">
+            <option value="manter" selected>Manter minha composição atual</option>
+            <option value="definir">Ficar mais definido (mais proteína)</option>
+          </select>
+        </label>
+
+        <!-- Peso desejado: aparece quando a meta é "Perder peso" ou "Ganhar peso" -->
+        <label id="peso-alvo-wrap" hidden>
+          Peso desejado (kg)
+          <input type="number" id="p-peso-alvo" min="30" max="350" step="0.1" />
+        </label>
+
+        <!-- IMC e faixa de peso ideal, a partir da altura e peso informados -->
+        <div class="imc-preview" id="imc-preview" hidden>
+          <p class="meta-preview-label">Seu IMC e peso ideal</p>
+          <p class="imc-valor"><span id="imc-num">—</span> <small id="imc-classe"></small></p>
+          <p class="imc-faixa">
+            Faixa saudável para sua altura:
+            <b><span id="imc-min">—</span>–<span id="imc-max">—</span> kg</b>
+          </p>
+          <p class="imc-alvo" id="imc-alvo" hidden></p>
+        </div>
+
+        <!-- Prévia ao vivo da meta calculada -->
+        <div class="meta-preview" id="meta-preview" hidden>
+          <p class="meta-preview-label">Sua meta diária estimada</p>
+          <p class="meta-preview-kcal"><span id="preview-kcal">—</span> <small>kcal / dia</small></p>
+          <ul class="macro-legend" id="preview-macros"></ul>
+        </div>
+
+        <!-- Previsão de resultado (prazo até o objetivo), a partir dos dados -->
+        <div class="prev-resultado" id="prev-resultado" hidden>
+          <p class="meta-preview-label">Previsão de resultado</p>
+          <div id="prev-resultado-body"></div>
+          <p class="prev-caveat">
+            Estimativa baseada nos seus dados, assumindo um ritmo constante.
+            Resultados reais variam de pessoa para pessoa.
+          </p>
+        </div>
+
+        <p class="auth-error" id="perfil-error" hidden></p>
+        <button type="submit" class="btn-primary" id="perfil-submit">Salvar e continuar</button>
+        <a class="link-btn" id="perfil-cancelar" href="index.html" hidden>Cancelar</a>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/calculo.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/personalizacao.js"></script>
+</body>
+</html>

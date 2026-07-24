@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entrar — NutriBalance</title>
+  <link rel="icon" type="image/png" href="img/logo2.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="auth-page">
+    <div class="auth-card">
+      <img class="auth-logo" src="img/logo2.png" alt="NutriBalance" />
+      <h1 class="auth-title">Entrar</h1>
+      <p class="auth-subtitle">Acompanhe sua alimentação e suas metas.</p>
+
+      <form id="login-form" class="auth-form">
+        <label>
+          E-mail
+          <input type="email" id="login-email" autocomplete="email" required />
+        </label>
+        <label>
+          Senha
+          <input type="password" id="login-senha" autocomplete="current-password" required />
+        </label>
+        <p class="auth-error" id="login-error" hidden></p>
+        <button type="submit" class="btn-primary" id="login-submit">Entrar</button>
+      </form>
+
+      <p class="auth-switch">
+        Ainda não tem conta? <a href="cadastro.html">Criar conta</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script>
+    redirectIfLogged();
+    document.getElementById("login-form").addEventListener("submit", handleLogin);
+  </script>
+</body>
+</html>

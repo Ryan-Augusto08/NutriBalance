@@ -1,0 +1,2 @@
+# Mantém a pasta no projeto. As fotos de perfil enviadas pelos usuários
+# são gravadas aqui pelo api/foto.php (arquivos avatar_<id>_<hash>.<ext>).

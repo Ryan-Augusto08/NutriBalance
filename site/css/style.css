@@ -8,14 +8,21 @@
   --border-soft: #e2ede0;
   --shadow: 0 2px 10px rgba(38, 49, 42, 0.06);
 
-  --kcal-bg: #fbe9e4;
-  --kcal-fg: #e2572c;
+  --kcal-bg: #fbe0dd;
+  --kcal-fg: #d62828;
   --protein-bg: #fbe6e6;
   --protein-fg: #d64545;
   --carbs-bg: #fdf1de;
   --carbs-fg: #d99a3d;
   --fat-bg: #fdf6dc;
   --fat-fg: #c9a227;
+
+  /* Cores dos macros no gráfico pizza / barras (paleta validada dataviz) */
+  --pie-carbo: #1baf7a;
+  --pie-proteina: #4a3aa7;
+  --pie-gordura: #eb6834;
+  --track-bg: #e7f0e4;
+  --over-fg: #d03b3b;
 }
 
 * {
@@ -42,9 +49,30 @@ body {
   padding: 16px 20px 8px;
 }
 
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .logo-img {
-  height: 56px;
+  height: 88px;
   width: auto;
+}
+
+.brand-name {
+  font-weight: 800;
+  font-size: 32px;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.brand-nutri {
+  color: var(--green-dark);
+}
+
+.brand-balance {
+  color: var(--green-btn);
 }
 
 .hero-banner {
@@ -76,6 +104,7 @@ body {
 }
 
 .profile-avatar {
+  position: relative;
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -87,6 +116,75 @@ body {
   font-weight: 700;
   font-size: 16px;
   flex-shrink: 0;
+  overflow: hidden;
+  padding: 0;
+  border: none;
+}
+
+/* Variante clicável (avatar do card é um <button>): badge de câmera. */
+button.profile-avatar {
+  cursor: pointer;
+}
+
+button.profile-avatar::after {
+  content: "📷";
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+/* A foto cobre o círculo — dispensa o fundo verde das iniciais. */
+.profile-avatar.has-photo {
+  background: transparent;
+}
+
+/* Bloco de edição de foto no modal de perfil. */
+.avatar-edit {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.avatar-edit .profile-avatar {
+  width: 64px;
+  height: 64px;
+  font-size: 20px;
+}
+
+.avatar-edit-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.avatar-edit-actions .btn-secondary {
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+.avatar-error {
+  margin: 0 0 12px;
+  color: var(--kcal-fg);
+  font-size: 13px;
 }
 
 .profile-info {
@@ -121,6 +219,83 @@ body {
   background: #d8e8d2;
 }
 
+/* Botão "Mudar meta" no card de perfil: compacto, não estica como no modal. */
+#edit-plan-btn {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* ---------- barra de navegação por data ---------- */
+.date-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
+}
+
+.date-arrow {
+  border: none;
+  background: var(--border-soft);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--green-dark);
+  flex: 0 0 auto;
+}
+
+.date-arrow:hover {
+  background: #d8e8d2;
+}
+
+.date-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.date-label-top {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.date-label-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.copy-day-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: var(--border-soft);
+  color: var(--green-dark);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.copy-day-btn:hover {
+  background: #d8e8d2;
+}
+
 .section-title {
   font-size: 15px;
   font-weight: 700;
@@ -139,62 +314,245 @@ body {
   margin: 0;
 }
 
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-
-.stat-tile {
-  border-radius: 14px;
-  padding: 12px 6px;
-  text-align: center;
+/* Resumo do dia — barras "pista de corrida até a meta" */
+.daily-progress {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 16px 16px 6px;
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
+  gap: 14px;
 }
 
-.stat-icon {
-  font-size: 16px;
+.progress-row {
+  --fill: var(--green-btn);
 }
 
-.stat-value {
+.progress-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.progress-label {
   font-weight: 700;
-  font-size: 15px;
+  color: var(--text-main);
 }
 
-.stat-label {
-  font-size: 10px;
+.progress-nums {
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-track {
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--track-bg);
+  overflow: visible;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--fill);
+  transition: width 0.35s ease;
+}
+
+.progress-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.progress-row.kcal {
+  --fill: var(--kcal-fg);
+}
+.progress-row.carbo {
+  --fill: var(--pie-carbo);
+}
+.progress-row.proteina {
+  --fill: var(--pie-proteina);
+}
+.progress-row.gordura {
+  --fill: var(--pie-gordura);
+}
+
+.progress-row.over .progress-fill {
+  background: var(--over-fg);
+}
+.progress-row.over .progress-sub {
+  color: var(--over-fg);
+  font-weight: 700;
+}
+
+/* Gráfico pizza (conic-gradient) + legenda */
+.macro-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12px;
   color: var(--text-muted);
 }
 
-.stat-kcal {
-  background: var(--kcal-bg);
-}
-.stat-kcal .stat-value {
-  color: var(--kcal-fg);
+.macro-legend b {
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
 }
 
-.stat-protein {
-  background: var(--protein-bg);
-}
-.stat-protein .stat-value {
-  color: var(--protein-fg);
-}
-
-.stat-carbs {
-  background: var(--carbs-bg);
-}
-.stat-carbs .stat-value {
-  color: var(--carbs-fg);
+.macro-legend .dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
 }
 
-.stat-fat {
-  background: var(--fat-bg);
+.dot-carbo {
+  background: var(--pie-carbo);
 }
-.stat-fat .stat-value {
-  color: var(--fat-fg);
+.dot-proteina {
+  background: var(--pie-proteina);
+}
+.dot-gordura {
+  background: var(--pie-gordura);
+}
+
+/* ---------- Progresso: histórico de peso/cintura + gráfico ---------- */
+.progresso-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.progresso-resumo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.resumo-line {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
+}
+
+.resumo-line b {
+  color: var(--green-dark);
+}
+
+.resumo-delta {
+  color: var(--text-muted);
+}
+
+.resumo-nota {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--green-dark);
+  background: var(--track-bg);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.resumo-vazio {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.progresso-charts {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.chart-card {
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 10px 12px 6px;
+}
+
+.chart-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.chart-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.chart-current {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.chart-line {
+  fill: none;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.chart-line.peso {
+  stroke: var(--green-btn);
+}
+.chart-line.cintura {
+  stroke: var(--pie-proteina);
+}
+
+.chart-dot.peso {
+  fill: var(--green-btn);
+}
+.chart-dot.cintura {
+  fill: var(--pie-proteina);
+}
+
+.chart-axis {
+  font-size: 9px;
+  fill: var(--text-muted);
+  font-family: inherit;
+}
+
+.chart-hint {
+  margin: 2px 0 4px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.label-opt {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.medicao-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: -4px 0 0;
 }
 
 .add-btn {
@@ -223,48 +581,30 @@ body {
 .meal-card {
   background: var(--card-bg);
   border-radius: 14px;
-  padding: 12px 14px;
+  padding: 14px;
   box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.meal-card-head {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 10px;
 }
 
-.meal-main {
-  min-width: 0;
-}
-
 .meal-title {
   font-weight: 700;
   font-size: 14px;
-  margin: 0 0 2px;
-}
-
-.meal-desc {
-  font-size: 12px;
-  color: var(--text-muted);
-  margin: 0 0 4px;
-}
-
-.meal-macros {
-  font-size: 11px;
-  color: var(--text-muted);
   margin: 0;
-}
-
-.meal-side {
-  text-align: right;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 6px;
 }
 
 .meal-date {
   font-size: 11px;
   color: var(--text-muted);
+  margin: 2px 0 0;
 }
 
 .meal-delete {
@@ -274,10 +614,258 @@ body {
   font-size: 12px;
   cursor: pointer;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .meal-delete:hover {
   text-decoration: underline;
+}
+
+.meal-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.item-main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.item-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.item-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.item-del {
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 2px 4px;
+  flex-shrink: 0;
+}
+
+.item-del:hover {
+  color: var(--over-fg);
+}
+
+.meal-empty {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 4px 0;
+}
+
+.add-food-btn {
+  align-self: flex-start;
+  border: 1px dashed var(--green-btn);
+  background: none;
+  color: var(--green-btn);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.add-food-btn:hover {
+  background: #eaf4e7;
+}
+
+.meal-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 12px;
+}
+
+.meal-kcal {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--kcal-fg);
+  white-space: nowrap;
+}
+
+.meal-kcal span {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Modal de busca de alimento */
+.food-search-bar {
+  margin-bottom: 12px;
+}
+
+.food-search-bar input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  color: var(--text-main);
+}
+
+.food-results {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+.food-result {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 9px 11px;
+  cursor: pointer;
+}
+
+.food-result:hover {
+  border-color: var(--green-btn);
+  background: #eaf4e7;
+}
+
+.food-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.food-meta {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.food-hint,
+.food-error {
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 8px 2px;
+  margin: 0;
+}
+
+.food-error {
+  color: var(--over-fg);
+}
+
+.food-preview {
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.food-preview-name {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.qty-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.qty-label input {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 9px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  color: var(--text-main);
+  max-width: 140px;
+}
+
+.qty-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.qty-chip {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+.qty-chip:hover {
+  border-color: var(--green-btn);
+}
+
+.qty-chip.active {
+  background: var(--green-btn);
+  border-color: var(--green-btn);
+  color: #fff;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--green-btn);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 10px 0 4px;
+  text-align: left;
+}
+
+.link-btn:hover {
+  text-decoration: underline;
+}
+
+.manual-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
+.manual-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 2px 0;
 }
 
 .empty-state {
@@ -382,4 +970,298 @@ body {
 
 .btn-secondary:hover {
   background: #d8e8d2;
+}
+
+/* ---------- Login / cadastro / personalização (card centralizado) ---------- */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.auth-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 28px 22px;
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auth-card-wide {
+  max-width: 440px;
+}
+
+.auth-logo {
+  height: 160px;
+  width: auto;
+  max-width: 100%;
+  align-self: center;
+  margin-bottom: 8px;
+}
+
+.auth-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin: 0;
+  text-align: center;
+}
+
+.auth-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.auth-form input,
+.auth-form select {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  color: var(--text-main);
+}
+
+.auth-form .btn-primary {
+  margin-top: 4px;
+}
+
+.auth-hint {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: -6px 0 0;
+}
+
+.auth-error {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--over-fg);
+  background: #fbe6e6;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 0;
+}
+
+.auth-switch {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 14px 0 0;
+}
+
+.auth-switch a {
+  color: var(--green-btn);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+/* grade de 2 colunas para sexo/idade/altura/peso na personalização */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* painel de IMC + faixa de peso ideal (reusa o visual da prévia da meta) */
+.imc-preview {
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.imc-valor {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.imc-valor small {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.imc-faixa,
+.imc-alvo {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.imc-faixa b {
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
+}
+
+.imc-alvo {
+  font-weight: 700;
+  color: var(--green-dark);
+}
+
+/* prévia ao vivo da meta calculada */
+.meta-preview {
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meta-preview-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.meta-preview-kcal {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--kcal-fg);
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.meta-preview-kcal small {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* previsão de resultado (prazo até o objetivo) */
+.prev-resultado {
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prev-destaque {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--green-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.prev-linha {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-main);
+}
+
+.prev-linha b {
+  font-variant-numeric: tabular-nums;
+}
+
+.prev-nota {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.prev-alerta {
+  margin: 2px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--kcal-fg);
+}
+
+.prev-caveat {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* selo compacto de previsão no card de perfil do dashboard */
+.profile-forecast {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 4px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--green-dark);
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+
+.profile-forecast::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green-btn);
+  flex-shrink: 0;
+}
+
+/* display:inline-flex acima venceria o atributo hidden — reforça o none. */
+.profile-forecast[hidden] {
+  display: none;
+}
+
+/* botão Sair no header do dashboard */
+.header-spacer {
+  flex: 1;
+}
+
+.logout-btn {
+  border: 1px solid var(--border-soft);
+  background: var(--card-bg);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: var(--border-soft);
+  color: var(--text-main);
 }

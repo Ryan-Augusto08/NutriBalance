@@ -4,50 +4,61 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NutriBalance</title>
-  <link rel="icon" type="image/png" href="img/logo.png" />
+  <link rel="icon" type="image/png" href="img/logo2.png" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <div class="app">
     <header class="app-header">
-      <img class="logo-img" src="img/logo.png" alt="NutriBalance" />
+      <div class="brand">
+        <img class="logo-img" src="img/logo.png" alt="NutriBalance" />
+        <span class="brand-name"><span class="brand-nutri">Nutri</span><span class="brand-balance">Balance</span></span>
+      </div>
+      <span class="header-spacer"></span>
+      <button class="logout-btn" id="logout-btn" type="button">Sair</button>
     </header>
 
     <div class="hero-banner" role="img" aria-label="Tigela de comida saudável"></div>
 
     <main class="content">
       <section class="profile-card" id="profile-card">
-        <div class="profile-avatar" id="profile-avatar"></div>
+        <button class="profile-avatar" id="profile-avatar" type="button" title="Trocar foto de perfil" aria-label="Trocar foto de perfil"></button>
         <div class="profile-info">
           <p class="profile-name" id="profile-name"></p>
           <p class="profile-goal" id="profile-goal"></p>
+          <p class="profile-forecast" id="profile-forecast" hidden></p>
         </div>
+        <button class="btn-secondary" id="edit-plan-btn" type="button">Mudar meta</button>
         <button class="icon-btn" id="edit-profile-btn" title="Editar perfil" aria-label="Editar perfil">✎</button>
       </section>
 
+      <!-- Input escondido, disparado pelo avatar e pelo botão do modal de perfil -->
+      <input type="file" id="avatar-input" accept="image/jpeg,image/png,image/webp" hidden />
+
+      <section class="date-nav" aria-label="Selecionar dia">
+        <button class="date-arrow" id="date-prev" type="button" aria-label="Dia anterior">‹</button>
+        <div class="date-label">
+          <span class="date-label-top">Data</span>
+          <span class="date-label-value" id="date-value">—</span>
+        </div>
+        <button class="date-arrow" id="date-next" type="button" aria-label="Próximo dia">›</button>
+      </section>
+
+      <button class="copy-day-btn" id="copy-day-btn" type="button" hidden></button>
+
       <section>
-        <h2 class="section-title">Resumo do Dia</h2>
-        <div class="summary-grid">
-          <div class="stat-tile stat-kcal">
-            <span class="stat-icon">🔥</span>
-            <span class="stat-value" id="stat-kcal">0</span>
-            <span class="stat-label">kcal</span>
-          </div>
-          <div class="stat-tile stat-protein">
-            <span class="stat-icon">🥚</span>
-            <span class="stat-value" id="stat-protein">0g</span>
-            <span class="stat-label">Proteína</span>
-          </div>
-          <div class="stat-tile stat-carbs">
-            <span class="stat-icon">🌾</span>
-            <span class="stat-value" id="stat-carbs">0g</span>
-            <span class="stat-label">Carboidratos</span>
-          </div>
-          <div class="stat-tile stat-fat">
-            <span class="stat-icon">💧</span>
-            <span class="stat-value" id="stat-fat">0g</span>
-            <span class="stat-label">Gordura</span>
-          </div>
+        <h2 class="section-title">Resumo do Dia — pista até a meta</h2>
+        <div class="daily-progress" id="daily-progress"></div>
+      </section>
+
+      <section>
+        <div class="section-header-row">
+          <h2 class="section-title">Progresso</h2>
+          <button class="add-btn" id="add-medicao-btn" title="Registrar medição" aria-label="Registrar medição">+</button>
+        </div>
+        <div class="progresso-card">
+          <div class="progresso-resumo" id="progresso-resumo"></div>
+          <div class="progresso-charts" id="progresso-charts"></div>
         </div>
       </section>
 
@@ -61,58 +72,100 @@
     </main>
   </div>
 
+  <!-- Modal: nova refeição (só tipo + data; os alimentos entram depois) -->
   <div class="modal-overlay" id="meal-modal-overlay" hidden>
     <div class="modal">
-      <h3 id="meal-modal-title">Nova refeição</h3>
+      <h3>Nova refeição</h3>
       <form id="meal-form">
         <label>
           Tipo
           <select id="meal-tipo" required>
             <option value="Café da Manhã">Café da Manhã</option>
+            <option value="Lanche da Manhã">Lanche da Manhã</option>
             <option value="Almoço">Almoço</option>
             <option value="Lanche da Tarde">Lanche da Tarde</option>
+            <option value="Pós Treino">Pós Treino</option>
             <option value="Jantar">Jantar</option>
             <option value="Ceia">Ceia</option>
           </select>
         </label>
         <label>
-          Descrição
-          <input type="text" id="meal-descricao" placeholder="Ex: Ovos mexidos com pão integral" required />
-        </label>
-        <label>
           Data
           <input type="date" id="meal-data" required />
         </label>
-        <div class="macro-inputs">
-          <label>
-            Kcal
-            <input type="number" id="meal-kcal" min="0" required />
-          </label>
-          <label>
-            Proteína (g)
-            <input type="number" id="meal-proteina" min="0" required />
-          </label>
-          <label>
-            Carbo (g)
-            <input type="number" id="meal-carbo" min="0" required />
-          </label>
-          <label>
-            Gordura (g)
-            <input type="number" id="meal-gordura" min="0" required />
-          </label>
-        </div>
         <div class="modal-actions">
           <button type="button" class="btn-secondary" id="meal-cancel-btn">Cancelar</button>
-          <button type="submit" class="btn-primary">Salvar</button>
+          <button type="submit" class="btn-primary">Criar refeição</button>
         </div>
       </form>
     </div>
   </div>
 
+  <!-- Modal: buscar alimento (TACO / banco MySQL) -->
+  <div class="modal-overlay" id="food-modal-overlay" hidden>
+    <div class="modal">
+      <h3 id="food-modal-title">Adicionar alimento</h3>
+
+      <div class="food-search-bar">
+        <input type="text" id="food-search-input" autocomplete="off"
+          placeholder="Buscar alimento na TACO (ex: arroz cozido)" />
+      </div>
+
+      <div class="food-results" id="food-results"></div>
+
+      <!-- Preview do alimento escolhido: quantidade + pizza + macros -->
+      <div class="food-preview" id="food-preview" hidden>
+        <p class="food-preview-name" id="food-preview-name"></p>
+        <label class="qty-label">
+          Quantidade (g)
+          <input type="number" id="food-qty" min="1" step="1" value="100" />
+        </label>
+        <div class="qty-chips" id="food-qty-chips"></div>
+        <div id="food-preview-macros"></div>
+        <button type="button" class="btn-primary" id="food-add-btn">Adicionar à refeição</button>
+      </div>
+
+      <button type="button" class="link-btn" id="manual-toggle">Não achou? Adicionar manualmente</button>
+
+      <!-- Fallback manual (funciona sem internet) -->
+      <form class="manual-form" id="manual-form" hidden>
+        <label>
+          Nome do alimento
+          <input type="text" id="manual-nome" placeholder="Ex: Tapioca com queijo" required />
+        </label>
+        <label>
+          Quantidade (g)
+          <input type="number" id="manual-gramas" min="1" step="1" value="100" required />
+        </label>
+        <p class="manual-hint">Macros para essa quantidade:</p>
+        <div class="macro-inputs">
+          <label>Kcal <input type="number" id="manual-kcal" min="0" required /></label>
+          <label>Proteína (g) <input type="number" id="manual-proteina" min="0" required /></label>
+          <label>Carbo (g) <input type="number" id="manual-carbo" min="0" required /></label>
+          <label>Gordura (g) <input type="number" id="manual-gordura" min="0" required /></label>
+        </div>
+        <button type="submit" class="btn-primary">Adicionar à refeição</button>
+      </form>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" id="food-cancel-btn">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: editar perfil (nome + metas de kcal e macros) -->
   <div class="modal-overlay" id="profile-modal-overlay" hidden>
     <div class="modal">
       <h3>Editar perfil</h3>
       <form id="profile-form">
+        <div class="avatar-edit">
+          <span class="profile-avatar" id="modal-avatar"></span>
+          <div class="avatar-edit-actions">
+            <button type="button" class="btn-secondary" id="avatar-choose-btn">Trocar foto</button>
+            <button type="button" class="link-btn" id="avatar-remove-btn">Remover foto</button>
+          </div>
+        </div>
+        <p class="avatar-error" id="avatar-error" hidden></p>
         <label>
           Nome
           <input type="text" id="profile-name-input" required />
@@ -121,6 +174,12 @@
           Meta diária (kcal)
           <input type="number" id="profile-goal-input" min="0" required />
         </label>
+        <p class="manual-hint">Metas de macros (g) — calculadas automaticamente pelas kcal, mantendo sua proporção.</p>
+        <div class="macro-inputs">
+          <label>Carbo (g) <input type="number" id="profile-carbo-input" min="0" readonly /></label>
+          <label>Proteína (g) <input type="number" id="profile-proteina-input" min="0" readonly /></label>
+          <label>Gordura (g) <input type="number" id="profile-gordura-input" min="0" readonly /></label>
+        </div>
         <div class="modal-actions">
           <button type="button" class="btn-secondary" id="profile-cancel-btn">Cancelar</button>
           <button type="submit" class="btn-primary">Salvar</button>
@@ -129,6 +188,36 @@
     </div>
   </div>
 
+  <!-- Modal: registrar medição (peso obrigatório, cintura opcional) -->
+  <div class="modal-overlay" id="medicao-modal-overlay" hidden>
+    <div class="modal">
+      <h3>Registrar medição</h3>
+      <form id="medicao-form">
+        <label>
+          Data
+          <input type="date" id="medicao-data" required />
+        </label>
+        <label>
+          Peso (kg)
+          <input type="number" id="medicao-peso" min="30" max="350" step="0.1" required />
+        </label>
+        <label>
+          Cintura (cm) <span class="label-opt">— opcional</span>
+          <input type="number" id="medicao-cintura" min="30" max="200" step="0.1" />
+        </label>
+        <p class="medicao-hint">A cintura acompanha a mudança de composição corporal mesmo quando o peso não varia.</p>
+        <p class="auth-error" id="medicao-error" hidden></p>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="medicao-cancel-btn">Cancelar</button>
+          <button type="submit" class="btn-primary" id="medicao-submit">Salvar medição</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/calculo.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/progresso.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

@@ -15,7 +15,7 @@ $uid = exigir_login();
 try {
     $pdo  = conectar();
     $stmt = $pdo->prepare(
-        'SELECT id, nome, email, foto, sexo, idade, altura_cm, peso_kg, peso_alvo, atividade, meta, objetivo,
+        'SELECT id, nome, email, foto, sexo, idade, altura_cm, peso_kg, cintura_cm, peso_alvo, atividade, meta, objetivo,
                 goal_kcal, goal_carbo, goal_proteina, goal_gordura
          FROM usuarios WHERE id = ?'
     );
@@ -44,6 +44,7 @@ try {
             'idade'        => $u['idade'] !== null ? (int) $u['idade'] : null,
             'altura_cm'    => $u['altura_cm'] !== null ? (int) $u['altura_cm'] : null,
             'peso_kg'      => $u['peso_kg'] !== null ? (float) $u['peso_kg'] : null,
+            'cintura_cm'   => $u['cintura_cm'] !== null ? (float) $u['cintura_cm'] : null,
             'peso_alvo'    => $u['peso_alvo'] !== null ? (float) $u['peso_alvo'] : null,
             'atividade'    => $u['atividade'],
             'meta'         => $u['meta'],

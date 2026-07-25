@@ -11,6 +11,7 @@ para um banco MySQL, que alimenta a busca de alimentos do site.
 - `04_peso_alvo.sql`, `05_objetivo.sql` — colunas de peso desejado e objetivo
 - `06_foto.sql` — adiciona a coluna `foto` (foto de perfil do usuário)
 - `07_medicoes.sql` — cria a tabela `medicoes` (histórico de peso + cintura)
+- `08_cintura.sql` — adiciona a coluna `cintura_cm` em `usuarios` (cintura atual)
 
 ## Pré-requisitos
 
@@ -81,13 +82,16 @@ Cria o histórico de peso/cintura ao longo do tempo, que alimenta a seção
 
 ```
 D:\Xampp\mysql\bin\mysql.exe -u root < 07_medicoes.sql
+D:\Xampp\mysql\bin\mysql.exe -u root < 08_cintura.sql
 ```
 
 A tabela `medicoes` guarda um registro por dia por usuário (`UNIQUE
 (usuario_id, data)`); registrar de novo no mesmo dia atualiza o registro
 (upsert). Ao salvar, o `usuarios.peso_kg` e as metas são atualizados com o
 peso mais recente. O `usuarios.peso_kg` continua sendo o **peso atual**;
-`medicoes` é o **histórico**.
+`medicoes` é o **histórico**. O `08_cintura.sql` adiciona `usuarios.cintura_cm`
+(cintura atual do perfil, definida na personalização) — que também semeia a
+primeira medição do histórico.
 
 **4. Servir o site pelo Apache**
 

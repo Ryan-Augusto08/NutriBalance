@@ -34,6 +34,7 @@ $atividade = $dados['atividade'] ?? '';
 $meta      = $dados['meta'] ?? '';
 $pesoAlvoIn = $dados['peso_alvo'] ?? null;
 $objetivoIn = $dados['objetivo'] ?? 'manter';
+$cinturaIn  = $dados['cintura_cm'] ?? null;
 
 // validação de faixas
 if ($sexo !== 'M' && $sexo !== 'F') {
@@ -73,6 +74,15 @@ if (($meta === 'perder' || $meta === 'ganhar') && $pesoAlvoIn !== null && $pesoA
 // Objetivo: só vale para a meta "manter" (recomposição). Nas outras, grava 'manter'.
 $objetivo = ($meta === 'manter' && $objetivoIn === 'definir') ? 'definir' : 'manter';
 
+// Cintura: opcional. Serve para semear a 1ª medição no histórico (medicoes).
+$cintura = null;
+if ($cinturaIn !== null && $cinturaIn !== '') {
+    $cintura = (float) $cinturaIn;
+    if ($cintura < 30 || $cintura > 200) {
+        responder(['erro' => 'Cintura fora da faixa (30 a 200 cm).'], 422);
+    }
+}
+
 // Mifflin-St Jeor × fator de atividade × ajuste da meta
 $bmr      = 10 * $peso + 6.25 * $altura - 5 * $idade + ($sexo === 'M' ? 5 : -161);
 $tdee     = $bmr * FATOR_ATIVIDADE[$atividade];
@@ -88,18 +98,40 @@ $goalGordura  = (int) round(($goalKcal * $split['gordura'])  / 9);
 
 try {
     $pdo  = conectar();
+    // cintura_cm: COALESCE preserva a cintura já gravada quando o onboarding
+    // não informa uma nova (não sobrescreve com NULL).
     $stmt = $pdo->prepare(
         'UPDATE usuarios SET
-            sexo = ?, idade = ?, altura_cm = ?, peso_kg = ?, peso_alvo = ?,
+            sexo = ?, idade = ?, altura_cm = ?, peso_kg = ?,
+            cintura_cm = COALESCE(?, cintura_cm), peso_alvo = ?,
             atividade = ?, meta = ?, objetivo = ?,
             goal_kcal = ?, goal_carbo = ?, goal_proteina = ?, goal_gordura = ?
          WHERE id = ?'
     );
     $stmt->execute([
-        $sexo, $idade, $altura, $peso, $pesoAlvo, $atividade, $meta, $objetivo,
+        $sexo, $idade, $altura, $peso, $cintura, $pesoAlvo, $atividade, $meta, $objetivo,
         $goalKcal, $goalCarbo, $goalProteina, $goalGordura,
         $uid,
     ]);
+
+    // Semeia (ou atualiza) a medição de HOJE no histórico com o peso e, se
+    // informada, a cintura. Assim o gráfico de Progresso já começa com um ponto.
+    // COALESCE preserva uma cintura já registrada hoje quando o onboarding
+    // não informa cintura (não sobrescreve com NULL).
+    // Isolado num try próprio: se a tabela `medicoes` ainda não foi criada
+    // (07_medicoes.sql), o onboarding continua funcionando normalmente.
+    try {
+        $med = $pdo->prepare(
+            'INSERT INTO medicoes (usuario_id, data, peso_kg, cintura_cm)
+             VALUES (?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE
+                peso_kg = VALUES(peso_kg),
+                cintura_cm = COALESCE(VALUES(cintura_cm), cintura_cm)'
+        );
+        $med->execute([$uid, date('Y-m-d'), $peso, $cintura]);
+    } catch (Throwable $e) {
+        // Sem histórico ainda — segue sem semear a medição.
+    }
 
     responder([
         'ok'           => true,

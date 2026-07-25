@@ -9,6 +9,7 @@ const campos = {
   idade: document.getElementById("p-idade"),
   altura_cm: document.getElementById("p-altura"),
   peso_kg: document.getElementById("p-peso"),
+  cintura_cm: document.getElementById("p-cintura"),
   atividade: document.getElementById("p-atividade"),
   meta: document.getElementById("p-meta"),
   peso_alvo: document.getElementById("p-peso-alvo"),
@@ -43,6 +44,7 @@ function lerCampos() {
     idade: campos.idade.value,
     altura_cm: campos.altura_cm.value,
     peso_kg: campos.peso_kg.value,
+    cintura_cm: campos.cintura_cm.value,
     atividade: campos.atividade.value,
     meta: campos.meta.value,
     peso_alvo: campos.peso_alvo.value,
@@ -185,6 +187,7 @@ function entrarModoEdicao(perfil) {
   campos.idade.value = perfil.idade ?? "";
   campos.altura_cm.value = perfil.altura_cm ?? "";
   campos.peso_kg.value = perfil.peso_kg ?? "";
+  campos.cintura_cm.value = perfil.cintura_cm ?? "";
   campos.atividade.value = perfil.atividade ?? "";
   campos.meta.value = perfil.meta ?? "";
   campos.objetivo.value = perfil.objetivo ?? "manter";

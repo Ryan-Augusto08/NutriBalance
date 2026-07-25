@@ -472,6 +472,33 @@ button.profile-avatar::after {
   color: var(--text-muted);
 }
 
+.progresso-filtros {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.filtro-btn {
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.filtro-btn:hover:not(.active) {
+  background: var(--track-bg);
+}
+
+.filtro-btn.active {
+  background: var(--green-btn);
+  border-color: var(--green-btn);
+  color: #fff;
+}
+
 .progresso-charts {
   display: flex;
   flex-direction: column;
@@ -516,6 +543,12 @@ button.profile-avatar::after {
   vector-effect: non-scaling-stroke;
   stroke-linejoin: round;
   stroke-linecap: round;
+}
+
+/* Uma medição só: linha de nível tracejada e mais discreta. */
+.chart-line.single {
+  stroke-dasharray: 5 5;
+  opacity: 0.55;
 }
 
 .chart-line.peso {

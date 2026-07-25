@@ -10,6 +10,8 @@
 
 (function () {
   let medicoes = []; // [{ data:'YYYY-MM-DD', peso_kg:Number, cintura_cm:Number|null }]
+  let sessao = null; // sessão validada (usuário + perfil), para o fallback
+  let periodo = "tudo"; // janela do gráfico: '1m' | '3m' | '1a' | 'tudo'
 
   /* ---------- utilidades ---------- */
 
@@ -29,6 +31,23 @@
     const a = new Date(isoA + "T00:00:00");
     const b = new Date(isoB + "T00:00:00");
     return Math.round((b - a) / 86400000);
+  }
+
+  // Soma `dias` (pode ser negativo) a uma data ISO e devolve ISO.
+  function shiftDias(iso, dias) {
+    const d = new Date(iso + "T00:00:00");
+    d.setDate(d.getDate() + dias);
+    const p = (n) => String(n).padStart(2, "0");
+    return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+  }
+
+  // Filtra as medições pela janela selecionada (comparação lexical de ISO =
+  // cronológica). "tudo" devolve o histórico inteiro (do começo até hoje).
+  function filtrarPorPeriodo(lista) {
+    if (periodo === "tudo") return lista;
+    const dias = periodo === "1m" ? 30 : periodo === "3m" ? 90 : 365;
+    const corte = shiftDias(isoHoje(), -dias);
+    return lista.filter((m) => m.data >= corte);
   }
 
   const nf1 = new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -70,12 +89,18 @@
 
     const coords = pontos.map((p) => ({ px: x(p.iso), py: y(p.v), ...p }));
 
-    const linha =
-      coords.length > 1
-        ? `<polyline class="chart-line ${classe}" points="${coords.map((c) => `${c.px.toFixed(1)},${c.py.toFixed(1)}`).join(" ")}" />`
-        : "";
+    let linha;
+    if (coords.length > 1) {
+      // Linha de evolução ligando as medições.
+      linha = `<polyline class="chart-line ${classe}" points="${coords.map((c) => `${c.px.toFixed(1)},${c.py.toFixed(1)}`).join(" ")}" />`;
+    } else {
+      // Uma medição só: linha horizontal tracejada no nível atual (ainda não há
+      // evolução para traçar). Já dá a leitura de gráfico, sem inventar tendência.
+      const yy = coords[0].py.toFixed(1);
+      linha = `<line class="chart-line ${classe} single" x1="${padL}" y1="${yy}" x2="${W - padR}" y2="${yy}" />`;
+    }
     const dots = coords
-      .map((c) => `<circle class="chart-dot ${classe}" cx="${c.px.toFixed(1)}" cy="${c.py.toFixed(1)}" r="3" />`)
+      .map((c) => `<circle class="chart-dot ${classe}" cx="${c.px.toFixed(1)}" cy="${c.py.toFixed(1)}" r="3.5" />`)
       .join("");
 
     // Rótulos de valor (máx no topo, mín na base) e datas (primeira e última).
@@ -168,8 +193,9 @@
   /* ---------- render geral ---------- */
 
   function render() {
-    const pesos = medicoes.map((m) => ({ iso: m.data, v: m.peso_kg }));
-    const cinturas = medicoes
+    const dados = filtrarPorPeriodo(medicoes);
+    const pesos = dados.map((m) => ({ iso: m.data, v: m.peso_kg }));
+    const cinturas = dados
       .filter((m) => m.cintura_cm !== null && m.cintura_cm !== undefined)
       .map((m) => ({ iso: m.data, v: m.cintura_cm }));
 
@@ -197,6 +223,23 @@
       medicoes = dados && dados.ok && Array.isArray(dados.medicoes) ? dados.medicoes : [];
     } catch {
       medicoes = [];
+    }
+
+    // Garante um ponto de HOJE com o peso/cintura do perfil (a "meta", definida
+    // na personalização), a menos que já exista uma medição registrada hoje.
+    // Assim o gráfico sempre reflete os dados atuais do perfil — mesmo sem
+    // nenhum registro manual, e sem sumir ao registrar uma data passada.
+    if (sessao && sessao.perfil && sessao.perfil.peso_kg) {
+      const hoje = isoHoje();
+      if (!medicoes.some((m) => m.data === hoje)) {
+        medicoes = medicoes.concat([
+          {
+            data: hoje,
+            peso_kg: Number(sessao.perfil.peso_kg),
+            cintura_cm: sessao.perfil.cintura_cm != null ? Number(sessao.perfil.cintura_cm) : null,
+          },
+        ]);
+      }
     }
   }
 
@@ -251,12 +294,29 @@
     });
   }
 
+  /* ---------- filtros de período ---------- */
+
+  function bindFiltros() {
+    const bar = document.getElementById("progresso-filtros");
+    if (!bar) return;
+    bar.addEventListener("click", (e) => {
+      const btn = e.target.closest(".filtro-btn");
+      if (!btn) return;
+      periodo = btn.dataset.range;
+      bar.querySelectorAll(".filtro-btn").forEach((b) => b.classList.toggle("active", b === btn));
+      render();
+    });
+  }
+
   /* ---------- ponto de entrada ---------- */
 
-  // Chamada por boot() (app.js) após a sessão validada. Liga o modal uma vez,
-  // carrega o histórico e desenha.
-  window.initProgresso = async function initProgresso() {
+  // Chamada por boot() (app.js) após a sessão validada. Liga o modal e os
+  // filtros uma vez, carrega o histórico e desenha. `session` alimenta o
+  // fallback do perfil.
+  window.initProgresso = async function initProgresso(session) {
+    sessao = session || null;
     bindModal();
+    bindFiltros();
     await carregar();
     render();
   };

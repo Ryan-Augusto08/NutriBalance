@@ -8,13 +8,13 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div class="auth-page">
-    <div class="auth-card">
-      <img class="auth-logo" src="img/logo2.png" alt="NutriBalance" />
-      <h1 class="auth-title">Entrar</h1>
-      <p class="auth-subtitle">Acompanhe sua alimentação e suas metas.</p>
+  <div class="acesso-pagina">
+    <div class="acesso-card">
+      <img class="acesso-logo" src="img/logo2.png" alt="NutriBalance" />
+      <h1 class="acesso-titulo">Entrar</h1>
+      <p class="acesso-subtitulo">Acompanhe sua alimentação e suas metas.</p>
 
-      <form id="login-form" class="auth-form">
+      <form id="login-form" class="acesso-form">
         <label>
           E-mail
           <input type="email" id="login-email" autocomplete="email" required />
@@ -23,11 +23,11 @@
           Senha
           <input type="password" id="login-senha" autocomplete="current-password" required />
         </label>
-        <p class="auth-error" id="login-error" hidden></p>
-        <button type="submit" class="btn-primary" id="login-submit">Entrar</button>
+        <p class="acesso-erro" id="login-erro" hidden></p>
+        <button type="submit" class="btn-primario" id="login-enviar">Entrar</button>
       </form>
 
-      <p class="auth-switch">
+      <p class="acesso-troca">
         Ainda não tem conta? <a href="cadastro.html">Criar conta</a>
       </p>
     </div>
@@ -35,8 +35,8 @@
 
   <script src="js/auth.js"></script>
   <script>
-    redirectIfLogged();
-    document.getElementById("login-form").addEventListener("submit", handleLogin);
+    redirecionarSeLogado();
+    document.getElementById("login-form").addEventListener("submit", tratarLogin);
   </script>
 </body>
 </html>

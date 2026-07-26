@@ -3,7 +3,7 @@
  * Estado da sessão — guarda das páginas e fonte do perfil para o dashboard.
  *   GET api/sessao.php
  * Sem sessão → 401. Com sessão → devolve o usuário e o perfil no formato que
- * o app.js usa (goalKcal/goalCarbo/... em camelCase).
+ * o app.js usa (metaKcal/metaCarbo/... em camelCase).
  */
 
 require __DIR__ . '/_bootstrap.php';
@@ -16,7 +16,7 @@ try {
     $pdo  = conectar();
     $stmt = $pdo->prepare(
         'SELECT id, nome, email, foto, sexo, idade, altura_cm, peso_kg, cintura_cm, peso_alvo, atividade, meta, objetivo,
-                goal_kcal, goal_carbo, goal_proteina, goal_gordura
+                meta_kcal, meta_carbo, meta_proteina, meta_gordura
          FROM usuarios WHERE id = ?'
     );
     $stmt->execute([$uid]);
@@ -28,7 +28,7 @@ try {
         responder(['erro' => 'Não autenticado.'], 401);
     }
 
-    $perfilCompleto = $u['goal_kcal'] !== null;
+    $perfilCompleto = $u['meta_kcal'] !== null;
 
     responder([
         'ok'              => true,
@@ -49,10 +49,10 @@ try {
             'atividade'    => $u['atividade'],
             'meta'         => $u['meta'],
             'objetivo'     => $u['objetivo'],
-            'goalKcal'     => $u['goal_kcal'] !== null ? (int) $u['goal_kcal'] : null,
-            'goalCarbo'    => $u['goal_carbo'] !== null ? (int) $u['goal_carbo'] : null,
-            'goalProteina' => $u['goal_proteina'] !== null ? (int) $u['goal_proteina'] : null,
-            'goalGordura'  => $u['goal_gordura'] !== null ? (int) $u['goal_gordura'] : null,
+            'metaKcal'     => $u['meta_kcal'] !== null ? (int) $u['meta_kcal'] : null,
+            'metaCarbo'    => $u['meta_carbo'] !== null ? (int) $u['meta_carbo'] : null,
+            'metaProteina' => $u['meta_proteina'] !== null ? (int) $u['meta_proteina'] : null,
+            'metaGordura'  => $u['meta_gordura'] !== null ? (int) $u['meta_gordura'] : null,
         ],
     ]);
 } catch (Throwable $e) {

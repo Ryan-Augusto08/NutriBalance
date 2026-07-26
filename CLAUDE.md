@@ -179,3 +179,48 @@ sem a funcionalidade de leitura/registro por código de barras.
 - [ ] Google Calendar
 
 *(Marcar conforme for instalando os MCPs)*
+
+---
+
+## Convenção de código — português
+
+Todo o código do NutriBalance é escrito em **português**: variáveis, funções,
+constantes, nomes de arquivo e pasta, ids de HTML, classes de CSS e colunas do
+banco. É como o Ryan programa na escola, e a banca do TCC lê o código — misturar
+os dois idiomas passa impressão de descuido.
+
+**Estilo por camada:**
+
+| Camada | Estilo | Exemplo |
+|---|---|---|
+| Variáveis e funções JS/PHP | `camelCase` | `carregarDados`, `totaisDoDia`, `$metaKcal` |
+| Constantes | `MAIUSCULA_SNAKE` | `FATOR_ATIVIDADE`, `VERSAO_DADOS` |
+| Colunas e tabelas do banco | `snake_case` | `meta_kcal`, `cintura_cm` |
+| ids de HTML e classes de CSS | `kebab-case` | `lista-refeicoes`, `.grafico-card` |
+
+**Sem acento e sem cedilha em identificadores.** Escrever `refeicao`, não
+`refeição`. O JS aceita acento em nome de variável, mas quebra em seletor de
+CSS, chave de `localStorage` e coluna de SQL, e vira problema de encoding entre
+PHP/MySQL/navegador. Acento continua normal em **texto exibido na tela e em
+comentários** — isso não muda.
+
+**Fica em inglês só o jargão consolidado** (traduzir só piora): `id`, `kcal`,
+`iso`, `svg`, `json`, `html`, `hash`, `tdee`, `uid`, `modal`, `link`, `app`, e
+as APIs do navegador/PHP (`getElementById`, `addEventListener`, `localStorage`,
+`fetch`, `password_hash`).
+
+**Glossário canônico** — usar sempre o mesmo termo. O maior risco numa base
+traduzida é sair `refeicao` num arquivo e `comida` no outro:
+
+| Inglês | Português | | Inglês | Português |
+|---|---|---|---|---|
+| meal | `refeicao` | | goal | `meta` |
+| food | `alimento` | | profile | `perfil` |
+| chart | `grafico` | | state | `estado` |
+| progress | `progresso` | | data (dados) | `dados` |
+| add | `adicionar` | | remove / del | `remover` |
+| save | `salvar` | | load | `carregar` |
+| empty | `vazio` | | totals / sum | `totais` / `somar` |
+| render / draw | `mostrar` / `desenhar` | | handle | `tratar` |
+| show / hide | `mostrar` / `esconder` | | preview | `previa` |
+| bmr | `tmb` | | escapeHtml | `escaparHtml` |

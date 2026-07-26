@@ -6,37 +6,37 @@
  */
 
 /* ---------- metas de macro ---------- */
-// Splits de macro (kcal/g: carbo 4, proteína 4, gordura 9).
+// Divisões de macro (kcal/g: carbo 4, proteína 4, gordura 9).
 // Padrão: 50/20/30. Definição (recomposição): mais proteína — 40/35/25.
-const SPLIT_PADRAO = { carbo: 0.5, proteina: 0.2, gordura: 0.3 };
-const SPLIT_DEFINICAO = { carbo: 0.4, proteina: 0.35, gordura: 0.25 };
+const DIVISAO_PADRAO = { carbo: 0.5, proteina: 0.2, gordura: 0.3 };
+const DIVISAO_DEFINICAO = { carbo: 0.4, proteina: 0.35, gordura: 0.25 };
 
-// `objetivo` é opcional: só "definir" (meta manter) troca o split; o resto usa o padrão.
-function deriveMacroGoals(goalKcal, objetivo) {
-  const k = Number(goalKcal) || 0;
-  const s = objetivo === "definir" ? SPLIT_DEFINICAO : SPLIT_PADRAO;
+// `objetivo` é opcional: só "definir" (meta manter) troca a divisão; o resto usa o padrão.
+function derivarMetasMacro(metaKcal, objetivo) {
+  const k = Number(metaKcal) || 0;
+  const d = objetivo === "definir" ? DIVISAO_DEFINICAO : DIVISAO_PADRAO;
   return {
-    goalCarbo: Math.round((k * s.carbo) / 4),
-    goalProteina: Math.round((k * s.proteina) / 4),
-    goalGordura: Math.round((k * s.gordura) / 9),
+    metaCarbo: Math.round((k * d.carbo) / 4),
+    metaProteina: Math.round((k * d.proteina) / 4),
+    metaGordura: Math.round((k * d.gordura) / 9),
   };
 }
 
 // Reescala as metas de macro para um novo total de kcal MANTENDO a proporção
-// atual (percentual de cada macro no total). Preserva o split do usuário
-// (padrão, definição ou ajuste manual). Sem base válida, cai no split padrão.
+// atual (percentual de cada macro no total). Preserva a divisão do usuário
+// (padrão, definição ou ajuste manual). Sem base válida, cai na divisão padrão.
 // kcal/g: carbo 4, proteína 4, gordura 9.
-function scaleMacrosToKcal(newKcal, macros) {
-  const k = Number(newKcal) || 0;
-  const cK = (Number(macros.goalCarbo) || 0) * 4;
-  const pK = (Number(macros.goalProteina) || 0) * 4;
-  const gK = (Number(macros.goalGordura) || 0) * 9;
-  const total = cK + pK + gK;
-  if (!(total > 0)) return deriveMacroGoals(k);
+function ajustarMacrosParaKcal(novaKcal, macros) {
+  const k = Number(novaKcal) || 0;
+  const kcalCarbo = (Number(macros.metaCarbo) || 0) * 4;
+  const kcalProteina = (Number(macros.metaProteina) || 0) * 4;
+  const kcalGordura = (Number(macros.metaGordura) || 0) * 9;
+  const total = kcalCarbo + kcalProteina + kcalGordura;
+  if (!(total > 0)) return derivarMetasMacro(k);
   return {
-    goalCarbo: Math.round((k * (cK / total)) / 4),
-    goalProteina: Math.round((k * (pK / total)) / 4),
-    goalGordura: Math.round((k * (gK / total)) / 9),
+    metaCarbo: Math.round((k * (kcalCarbo / total)) / 4),
+    metaProteina: Math.round((k * (kcalProteina / total)) / 4),
+    metaGordura: Math.round((k * (kcalGordura / total)) / 9),
   };
 }
 
@@ -85,8 +85,8 @@ function calcularTDEE(d) {
   ) {
     return null;
   }
-  const bmr = 10 * peso + 6.25 * altura - 5 * idade + (sexo === "M" ? 5 : -161);
-  return bmr * fator;
+  const tmb = 10 * peso + 6.25 * altura - 5 * idade + (sexo === "M" ? 5 : -161);
+  return tmb * fator;
 }
 
 function calcularMeta(d) {
@@ -94,8 +94,8 @@ function calcularMeta(d) {
   const ajuste = AJUSTE_META[d.meta];
   if (tdee === null || ajuste === undefined) return null;
 
-  const goalKcal = Math.round(tdee * (1 + ajuste));
-  return { goalKcal, ...deriveMacroGoals(goalKcal, d.objetivo) };
+  const metaKcal = Math.round(tdee * (1 + ajuste));
+  return { metaKcal, ...derivarMetasMacro(metaKcal, d.objetivo) };
 }
 
 /* ---------- previsão de resultado (prazo até o objetivo) ---------- */
@@ -126,8 +126,8 @@ function prazoRelativo(dias) {
  * como estimativa. Retorna:
  *  - perder/ganhar (com peso_alvo válido): { tipo:'prazo', kg, dias, semanas,
  *      dataISO, taxaSemana, ritmoAcelerado, pesoAlvo }
- *  - manter:  { tipo:'manter',  goalKcal, peso }
- *  - definir: { tipo:'definir', goalKcal, peso }
+ *  - manter:  { tipo:'manter',  metaKcal, peso }
+ *  - definir: { tipo:'definir', metaKcal, peso }
  *  - dados insuficientes / sem kg a percorrer: null
  */
 function preverResultado(d) {
@@ -137,12 +137,12 @@ function preverResultado(d) {
   if (tdee === null || ajuste === undefined) return null;
 
   const peso = Number(d.peso_kg);
-  const goalKcal = Math.round(tdee * (1 + ajuste));
+  const metaKcal = Math.round(tdee * (1 + ajuste));
 
   // Manter: sem alvo de peso. "definir" (recomposição) é sinalizado pelo objetivo.
   if (meta === "manter") {
     const tipo = d.objetivo === "definir" ? "definir" : "manter";
-    return { tipo, goalKcal, peso };
+    return { tipo, metaKcal, peso };
   }
 
   // Perder / ganhar: precisa de peso desejado coerente com a direção da meta.
@@ -151,11 +151,11 @@ function preverResultado(d) {
   const kg = meta === "perder" ? peso - pesoAlvo : pesoAlvo - peso;
   if (!(kg > 0)) return null;
 
-  const deltaDia = Math.abs(tdee - goalKcal); // déficit ou superávit diário
-  if (!(deltaDia > 0)) return null;
+  const diferencaDia = Math.abs(tdee - metaKcal); // déficit ou superávit diário
+  if (!(diferencaDia > 0)) return null;
 
-  const dias = (kg * KCAL_POR_KG) / deltaDia;
-  const taxaSemana = (deltaDia * 7) / KCAL_POR_KG; // kg por semana
+  const dias = (kg * KCAL_POR_KG) / diferencaDia;
+  const taxaSemana = (diferencaDia * 7) / KCAL_POR_KG; // kg por semana
 
   const alvo = new Date();
   alvo.setDate(alvo.getDate() + Math.round(dias));

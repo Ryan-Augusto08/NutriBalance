@@ -5,7 +5,7 @@
  * Um registro por dia: se ja existir medicao nessa data, atualiza (upsert).
  *
  * Depois de salvar, sincroniza o PERFIL com o peso mais recente: atualiza
- * usuarios.peso_kg e RECALCULA as metas (goal_kcal + macros) — mesma formula
+ * usuarios.peso_kg e RECALCULA as metas (meta_kcal + macros) — mesma formula
  * de salvar_perfil.php — para o dashboard e a previsao (preverResultado)
  * ficarem coerentes com o peso mais novo. So recalcula se o perfil ja estiver
  * completo (tem sexo/idade/altura/atividade/meta).
@@ -78,7 +78,7 @@ try {
 
     // Recalcula as metas com o peso atual, se o perfil estiver completo.
     $perfil = $pdo->prepare(
-        'SELECT sexo, idade, altura_cm, atividade, meta, objetivo, goal_kcal
+        'SELECT sexo, idade, altura_cm, atividade, meta, objetivo, meta_kcal
          FROM usuarios WHERE id = ?'
     );
     $perfil->execute([$uid]);
@@ -86,7 +86,7 @@ try {
 
     $metas = null;
     $completo = $u
-        && $u['goal_kcal'] !== null
+        && $u['meta_kcal'] !== null
         && isset(FATOR_ATIVIDADE[$u['atividade']])
         && isset(AJUSTE_META[$u['meta']]);
 
@@ -95,28 +95,28 @@ try {
         $idade = (int) $u['idade'];
         $alt   = (int) $u['altura_cm'];
         // Mifflin-St Jeor x fator de atividade x ajuste da meta.
-        $bmr      = 10 * $pesoAtual + 6.25 * $alt - 5 * $idade + ($sexo === 'M' ? 5 : -161);
-        $tdee     = $bmr * FATOR_ATIVIDADE[$u['atividade']];
-        $goalKcal = (int) round($tdee * (1 + AJUSTE_META[$u['meta']]));
+        $tmb      = 10 * $pesoAtual + 6.25 * $alt - 5 * $idade + ($sexo === 'M' ? 5 : -161);
+        $tdee     = $tmb * FATOR_ATIVIDADE[$u['atividade']];
+        $metaKcal = (int) round($tdee * (1 + AJUSTE_META[$u['meta']]));
         // macros (carbo 4, proteina 4, gordura 9). Definir usa mais proteina (40/35/25).
-        $split = ($u['objetivo'] === 'definir')
+        $divisao = ($u['objetivo'] === 'definir')
             ? ['carbo' => 0.40, 'proteina' => 0.35, 'gordura' => 0.25]
             : ['carbo' => 0.50, 'proteina' => 0.20, 'gordura' => 0.30];
-        $goalCarbo    = (int) round(($goalKcal * $split['carbo'])    / 4);
-        $goalProteina = (int) round(($goalKcal * $split['proteina']) / 4);
-        $goalGordura  = (int) round(($goalKcal * $split['gordura'])  / 9);
+        $metaCarbo    = (int) round(($metaKcal * $divisao['carbo'])    / 4);
+        $metaProteina = (int) round(($metaKcal * $divisao['proteina']) / 4);
+        $metaGordura  = (int) round(($metaKcal * $divisao['gordura'])  / 9);
 
         $upd = $pdo->prepare(
-            'UPDATE usuarios SET peso_kg = ?, goal_kcal = ?, goal_carbo = ?, goal_proteina = ?, goal_gordura = ?
+            'UPDATE usuarios SET peso_kg = ?, meta_kcal = ?, meta_carbo = ?, meta_proteina = ?, meta_gordura = ?
              WHERE id = ?'
         );
-        $upd->execute([$pesoAtual, $goalKcal, $goalCarbo, $goalProteina, $goalGordura, $uid]);
+        $upd->execute([$pesoAtual, $metaKcal, $metaCarbo, $metaProteina, $metaGordura, $uid]);
 
         $metas = [
-            'goalKcal'     => $goalKcal,
-            'goalCarbo'    => $goalCarbo,
-            'goalProteina' => $goalProteina,
-            'goalGordura'  => $goalGordura,
+            'metaKcal'     => $metaKcal,
+            'metaCarbo'    => $metaCarbo,
+            'metaProteina' => $metaProteina,
+            'metaGordura'  => $metaGordura,
         ];
     } else {
         // Perfil incompleto: guarda o peso atual sem mexer nas metas.

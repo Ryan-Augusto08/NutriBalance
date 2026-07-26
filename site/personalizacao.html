@@ -8,16 +8,16 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div class="auth-page">
-    <div class="auth-card auth-card-wide">
-      <img class="auth-logo" src="img/logo2.png" alt="NutriBalance" />
-      <h1 class="auth-title" id="perfil-titulo">Vamos personalizar</h1>
-      <p class="auth-subtitle" id="perfil-subtitulo">
+  <div class="acesso-pagina">
+    <div class="acesso-card acesso-card-largo">
+      <img class="acesso-logo" src="img/logo2.png" alt="NutriBalance" />
+      <h1 class="acesso-titulo" id="perfil-titulo">Vamos personalizar</h1>
+      <p class="acesso-subtitulo" id="perfil-subtitulo">
         Com esses dados calculamos sua meta diária de calorias e macros.
       </p>
 
-      <form id="perfil-form" class="auth-form">
-        <div class="form-grid">
+      <form id="perfil-form" class="acesso-form">
+        <div class="form-grade">
           <label>
             Sexo
             <select id="p-sexo" required>
@@ -41,10 +41,10 @@
         </div>
 
         <label>
-          Cintura (cm) <span class="label-opt">— opcional</span>
+          Cintura (cm) <span class="rotulo-opcional">— opcional</span>
           <input type="number" id="p-cintura" min="30" max="200" step="0.1" />
         </label>
-        <p class="auth-hint">Medir na altura do umbigo. Acompanha a mudança de composição corporal mesmo quando o peso não varia.</p>
+        <p class="acesso-dica">Medir na altura do umbigo. Acompanha a mudança de composição corporal mesmo quando o peso não varia.</p>
 
         <label>
           Nível de atividade física
@@ -69,7 +69,7 @@
         </label>
 
         <!-- Objetivo: aparece apenas quando a meta é "Manter peso" -->
-        <label id="objetivo-wrap" hidden>
+        <label id="objetivo-caixa" hidden>
           Objetivo
           <select id="p-objetivo">
             <option value="manter" selected>Manter minha composição atual</option>
@@ -78,14 +78,14 @@
         </label>
 
         <!-- Peso desejado: aparece quando a meta é "Perder peso" ou "Ganhar peso" -->
-        <label id="peso-alvo-wrap" hidden>
+        <label id="peso-alvo-caixa" hidden>
           Peso desejado (kg)
           <input type="number" id="p-peso-alvo" min="30" max="350" step="0.1" />
         </label>
 
         <!-- IMC e faixa de peso ideal, a partir da altura e peso informados -->
-        <div class="imc-preview" id="imc-preview" hidden>
-          <p class="meta-preview-label">Seu IMC e peso ideal</p>
+        <div class="imc-previa" id="imc-previa" hidden>
+          <p class="meta-previa-rotulo">Seu IMC e peso ideal</p>
           <p class="imc-valor"><span id="imc-num">—</span> <small id="imc-classe"></small></p>
           <p class="imc-faixa">
             Faixa saudável para sua altura:
@@ -95,24 +95,24 @@
         </div>
 
         <!-- Prévia ao vivo da meta calculada -->
-        <div class="meta-preview" id="meta-preview" hidden>
-          <p class="meta-preview-label">Sua meta diária estimada</p>
-          <p class="meta-preview-kcal"><span id="preview-kcal">—</span> <small>kcal / dia</small></p>
-          <ul class="macro-legend" id="preview-macros"></ul>
+        <div class="meta-previa" id="meta-previa" hidden>
+          <p class="meta-previa-rotulo">Sua meta diária estimada</p>
+          <p class="meta-previa-kcal"><span id="previa-kcal">—</span> <small>kcal / dia</small></p>
+          <ul class="macro-legenda" id="previa-macros"></ul>
         </div>
 
         <!-- Previsão de resultado (prazo até o objetivo), a partir dos dados -->
         <div class="prev-resultado" id="prev-resultado" hidden>
-          <p class="meta-preview-label">Previsão de resultado</p>
-          <div id="prev-resultado-body"></div>
-          <p class="prev-caveat">
+          <p class="meta-previa-rotulo">Previsão de resultado</p>
+          <div id="prev-resultado-corpo"></div>
+          <p class="prev-ressalva">
             Estimativa baseada nos seus dados, assumindo um ritmo constante.
             Resultados reais variam de pessoa para pessoa.
           </p>
         </div>
 
-        <p class="auth-error" id="perfil-error" hidden></p>
-        <button type="submit" class="btn-primary" id="perfil-submit">Salvar e continuar</button>
+        <p class="acesso-erro" id="perfil-erro" hidden></p>
+        <button type="submit" class="btn-primario" id="perfil-enviar">Salvar e continuar</button>
         <a class="link-btn" id="perfil-cancelar" href="index.html" hidden>Cancelar</a>
       </form>
     </div>

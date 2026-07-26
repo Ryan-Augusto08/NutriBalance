@@ -22,7 +22,7 @@
   --pie-proteina: #4a3aa7;
   --pie-gordura: #eb6834;
   --track-bg: #e7f0e4;
-  --over-fg: #d03b3b;
+  --passou-fg: #d03b3b;
 }
 
 * {
@@ -43,13 +43,13 @@ body {
   background: var(--bg);
 }
 
-.app-header {
+.app-cabecalho {
   display: flex;
   align-items: center;
   padding: 16px 20px 8px;
 }
 
-.brand {
+.marca {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -60,22 +60,22 @@ body {
   width: auto;
 }
 
-.brand-name {
+.marca-nome {
   font-weight: 800;
   font-size: 32px;
   letter-spacing: -0.01em;
   line-height: 1;
 }
 
-.brand-nutri {
+.marca-nutri {
   color: var(--green-dark);
 }
 
-.brand-balance {
+.marca-balance {
   color: var(--green-btn);
 }
 
-.hero-banner {
+.banner-topo {
   height: 140px;
   margin: 0 20px 20px;
   border-radius: 16px;
@@ -86,14 +86,14 @@ body {
   background-color: #d8e8d2;
 }
 
-.content {
+.conteudo {
   padding: 0 20px 40px;
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.profile-card {
+.perfil-card {
   background: var(--card-bg);
   border-radius: 16px;
   padding: 16px;
@@ -103,7 +103,7 @@ body {
   box-shadow: var(--shadow);
 }
 
-.profile-avatar {
+.perfil-foto {
   position: relative;
   width: 48px;
   height: 48px;
@@ -121,12 +121,12 @@ body {
   border: none;
 }
 
-/* Variante clicável (avatar do card é um <button>): badge de câmera. */
-button.profile-avatar {
+/* Variante clicável (a foto do card é um <button>): selo de câmera. */
+button.perfil-foto {
   cursor: pointer;
 }
 
-button.profile-avatar::after {
+button.perfil-foto::after {
   content: "📷";
   position: absolute;
   right: -2px;
@@ -143,7 +143,7 @@ button.profile-avatar::after {
   line-height: 1;
 }
 
-.avatar-img {
+.foto-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -152,59 +152,59 @@ button.profile-avatar::after {
 }
 
 /* A foto cobre o círculo — dispensa o fundo verde das iniciais. */
-.profile-avatar.has-photo {
+.perfil-foto.com-foto {
   background: transparent;
 }
 
 /* Bloco de edição de foto no modal de perfil. */
-.avatar-edit {
+.foto-editar {
   display: flex;
   align-items: center;
   gap: 14px;
   margin-bottom: 12px;
 }
 
-.avatar-edit .profile-avatar {
+.foto-editar .perfil-foto {
   width: 64px;
   height: 64px;
   font-size: 20px;
 }
 
-.avatar-edit-actions {
+.foto-editar-acoes {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.avatar-edit-actions .btn-secondary {
+.foto-editar-acoes .btn-secundario {
   padding: 8px 14px;
   font-size: 13px;
 }
 
-.avatar-error {
+.foto-erro {
   margin: 0 0 12px;
   color: var(--kcal-fg);
   font-size: 13px;
 }
 
-.profile-info {
+.perfil-info {
   flex: 1;
   min-width: 0;
 }
 
-.profile-name {
+.perfil-nome {
   margin: 0;
   font-weight: 700;
   font-size: 15px;
 }
 
-.profile-goal {
+.perfil-meta {
   margin: 2px 0 0;
   font-size: 13px;
   color: var(--text-muted);
 }
 
-.icon-btn {
+.icone-btn {
   border: none;
   background: var(--border-soft);
   width: 32px;
@@ -215,12 +215,12 @@ button.profile-avatar::after {
   color: var(--text-muted);
 }
 
-.icon-btn:hover {
+.icone-btn:hover {
   background: #d8e8d2;
 }
 
 /* Botão "Mudar meta" no card de perfil: compacto, não estica como no modal. */
-#edit-plan-btn {
+#mudar-meta-btn {
   flex: 0 0 auto;
   padding: 8px 12px;
   border-radius: 10px;
@@ -229,7 +229,7 @@ button.profile-avatar::after {
 }
 
 /* ---------- barra de navegação por data ---------- */
-.date-nav {
+.dia-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -241,7 +241,7 @@ button.profile-avatar::after {
   margin-bottom: 12px;
 }
 
-.date-arrow {
+.dia-seta {
   border: none;
   background: var(--border-soft);
   width: 40px;
@@ -254,18 +254,18 @@ button.profile-avatar::after {
   flex: 0 0 auto;
 }
 
-.date-arrow:hover {
+.dia-seta:hover {
   background: #d8e8d2;
 }
 
-.date-label {
+.dia-rotulo {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 
-.date-label-top {
+.dia-rotulo-topo {
   font-size: 11px;
   font-weight: 700;
   color: var(--text-muted);
@@ -273,13 +273,13 @@ button.profile-avatar::after {
   letter-spacing: 0.04em;
 }
 
-.date-label-value {
+.dia-rotulo-valor {
   font-size: 15px;
   font-weight: 700;
   color: var(--text-main);
 }
 
-.copy-day-btn {
+.copiar-dia-btn {
   width: 100%;
   padding: 12px;
   border-radius: 10px;
@@ -292,30 +292,30 @@ button.profile-avatar::after {
   margin-bottom: 16px;
 }
 
-.copy-day-btn:hover {
+.copiar-dia-btn:hover {
   background: #d8e8d2;
 }
 
-.section-title {
+.secao-titulo {
   font-size: 15px;
   font-weight: 700;
   color: var(--green-dark);
   margin: 0 0 12px;
 }
 
-.section-header-row {
+.secao-cabecalho {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 4px;
 }
 
-.section-header-row .section-title {
+.secao-cabecalho .secao-titulo {
   margin: 0;
 }
 
 /* Resumo do dia — barras "pista de corrida até a meta" */
-.daily-progress {
+.progresso-diario {
   background: var(--card-bg);
   border-radius: 16px;
   padding: 16px 16px 6px;
@@ -325,11 +325,11 @@ button.profile-avatar::after {
   gap: 14px;
 }
 
-.progress-row {
+.progresso-linha {
   --fill: var(--green-btn);
 }
 
-.progress-head {
+.progresso-topo {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -337,17 +337,17 @@ button.profile-avatar::after {
   margin-bottom: 5px;
 }
 
-.progress-label {
+.progresso-rotulo {
   font-weight: 700;
   color: var(--text-main);
 }
 
-.progress-nums {
+.progresso-numeros {
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
 }
 
-.progress-track {
+.progresso-trilha {
   position: relative;
   height: 10px;
   border-radius: 999px;
@@ -355,42 +355,42 @@ button.profile-avatar::after {
   overflow: visible;
 }
 
-.progress-fill {
+.progresso-barra {
   height: 100%;
   border-radius: 999px;
   background: var(--fill);
   transition: width 0.35s ease;
 }
 
-.progress-sub {
+.progresso-sub {
   font-size: 11px;
   color: var(--text-muted);
   margin-top: 4px;
 }
 
-.progress-row.kcal {
+.progresso-linha.kcal {
   --fill: var(--kcal-fg);
 }
-.progress-row.carbo {
+.progresso-linha.carbo {
   --fill: var(--pie-carbo);
 }
-.progress-row.proteina {
+.progresso-linha.proteina {
   --fill: var(--pie-proteina);
 }
-.progress-row.gordura {
+.progresso-linha.gordura {
   --fill: var(--pie-gordura);
 }
 
-.progress-row.over .progress-fill {
-  background: var(--over-fg);
+.progresso-linha.passou .progresso-barra {
+  background: var(--passou-fg);
 }
-.progress-row.over .progress-sub {
-  color: var(--over-fg);
+.progresso-linha.passou .progresso-sub {
+  color: var(--passou-fg);
   font-weight: 700;
 }
 
 /* Gráfico pizza (conic-gradient) + legenda */
-.macro-legend {
+.macro-legenda {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -401,12 +401,12 @@ button.profile-avatar::after {
   color: var(--text-muted);
 }
 
-.macro-legend b {
+.macro-legenda b {
   color: var(--text-main);
   font-variant-numeric: tabular-nums;
 }
 
-.macro-legend .dot {
+.macro-legenda .bolinha {
   display: inline-block;
   width: 9px;
   height: 9px;
@@ -415,13 +415,13 @@ button.profile-avatar::after {
   vertical-align: middle;
 }
 
-.dot-carbo {
+.bolinha-carbo {
   background: var(--pie-carbo);
 }
-.dot-proteina {
+.bolinha-proteina {
   background: var(--pie-proteina);
 }
-.dot-gordura {
+.bolinha-gordura {
   background: var(--pie-gordura);
 }
 
@@ -442,18 +442,18 @@ button.profile-avatar::after {
   gap: 6px;
 }
 
-.resumo-line {
+.resumo-linha {
   margin: 0;
   font-size: 13px;
   color: var(--text-main);
   font-variant-numeric: tabular-nums;
 }
 
-.resumo-line b {
+.resumo-linha b {
   color: var(--green-dark);
 }
 
-.resumo-delta {
+.resumo-variacao {
   color: var(--text-muted);
 }
 
@@ -489,55 +489,55 @@ button.profile-avatar::after {
   cursor: pointer;
 }
 
-.filtro-btn:hover:not(.active) {
+.filtro-btn:hover:not(.ativo) {
   background: var(--track-bg);
 }
 
-.filtro-btn.active {
+.filtro-btn.ativo {
   background: var(--green-btn);
   border-color: var(--green-btn);
   color: #fff;
 }
 
-.progresso-charts {
+.progresso-graficos {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.chart-card {
+.grafico-card {
   border: 1px solid var(--border-soft);
   border-radius: 12px;
   padding: 10px 12px 6px;
 }
 
-.chart-head {
+.grafico-topo {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   margin-bottom: 4px;
 }
 
-.chart-title {
+.grafico-titulo {
   font-size: 12px;
   font-weight: 700;
   color: var(--text-muted);
 }
 
-.chart-current {
+.grafico-atual {
   font-size: 15px;
   font-weight: 700;
   color: var(--text-main);
   font-variant-numeric: tabular-nums;
 }
 
-.chart-svg {
+.grafico-svg {
   width: 100%;
   height: auto;
   display: block;
 }
 
-.chart-line {
+.grafico-linha {
   fill: none;
   stroke-width: 2;
   vector-effect: non-scaling-stroke;
@@ -546,49 +546,49 @@ button.profile-avatar::after {
 }
 
 /* Uma medição só: linha de nível tracejada e mais discreta. */
-.chart-line.single {
+.grafico-linha.unico {
   stroke-dasharray: 5 5;
   opacity: 0.55;
 }
 
-.chart-line.peso {
+.grafico-linha.peso {
   stroke: var(--green-btn);
 }
-.chart-line.cintura {
+.grafico-linha.cintura {
   stroke: var(--pie-proteina);
 }
 
-.chart-dot.peso {
+.grafico-ponto.peso {
   fill: var(--green-btn);
 }
-.chart-dot.cintura {
+.grafico-ponto.cintura {
   fill: var(--pie-proteina);
 }
 
-.chart-axis {
+.grafico-eixo {
   font-size: 9px;
   fill: var(--text-muted);
   font-family: inherit;
 }
 
-.chart-hint {
+.grafico-dica {
   margin: 2px 0 4px;
   font-size: 11px;
   color: var(--text-muted);
 }
 
-.label-opt {
+.rotulo-opcional {
   color: var(--text-muted);
   font-weight: 400;
 }
 
-.medicao-hint {
+.medicao-dica {
   font-size: 11px;
   color: var(--text-muted);
   margin: -4px 0 0;
 }
 
-.add-btn {
+.adicionar-btn {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -601,17 +601,17 @@ button.profile-avatar::after {
   box-shadow: var(--shadow);
 }
 
-.add-btn:hover {
+.adicionar-btn:hover {
   background: var(--green-dark);
 }
 
-.meals-list {
+.lista-refeicoes {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.meal-card {
+.refeicao-card {
   background: var(--card-bg);
   border-radius: 14px;
   padding: 14px;
@@ -621,26 +621,26 @@ button.profile-avatar::after {
   gap: 10px;
 }
 
-.meal-card-head {
+.refeicao-card-topo {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 10px;
 }
 
-.meal-title {
+.refeicao-titulo {
   font-weight: 700;
   font-size: 14px;
   margin: 0;
 }
 
-.meal-date {
+.refeicao-dia {
   font-size: 11px;
   color: var(--text-muted);
   margin: 2px 0 0;
 }
 
-.meal-delete {
+.refeicao-remover {
   border: none;
   background: none;
   color: #c9756a;
@@ -650,16 +650,16 @@ button.profile-avatar::after {
   flex-shrink: 0;
 }
 
-.meal-delete:hover {
+.refeicao-remover:hover {
   text-decoration: underline;
 }
 
-.meal-items {
+.refeicao-itens {
   display: flex;
   flex-direction: column;
 }
 
-.item-row {
+.item-linha {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -668,14 +668,14 @@ button.profile-avatar::after {
   border-top: 1px solid var(--border-soft);
 }
 
-.item-main {
+.item-principal {
   min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.item-name {
+.item-nome {
   font-size: 13px;
   font-weight: 600;
 }
@@ -686,7 +686,7 @@ button.profile-avatar::after {
   font-variant-numeric: tabular-nums;
 }
 
-.item-del {
+.item-remover {
   border: none;
   background: none;
   color: var(--text-muted);
@@ -696,17 +696,17 @@ button.profile-avatar::after {
   flex-shrink: 0;
 }
 
-.item-del:hover {
-  color: var(--over-fg);
+.item-remover:hover {
+  color: var(--passou-fg);
 }
 
-.meal-empty {
+.refeicao-vazia {
   font-size: 12px;
   color: var(--text-muted);
   margin: 4px 0;
 }
 
-.add-food-btn {
+.adicionar-alimento-btn {
   align-self: flex-start;
   border: 1px dashed var(--green-btn);
   background: none;
@@ -718,11 +718,11 @@ button.profile-avatar::after {
   cursor: pointer;
 }
 
-.add-food-btn:hover {
+.adicionar-alimento-btn:hover {
   background: #eaf4e7;
 }
 
-.meal-summary {
+.refeicao-resumo {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -731,25 +731,25 @@ button.profile-avatar::after {
   padding-top: 12px;
 }
 
-.meal-kcal {
+.refeicao-kcal {
   font-size: 20px;
   font-weight: 700;
   color: var(--kcal-fg);
   white-space: nowrap;
 }
 
-.meal-kcal span {
+.refeicao-kcal span {
   font-size: 12px;
   color: var(--text-muted);
   font-weight: 600;
 }
 
 /* Modal de busca de alimento */
-.food-search-bar {
+.alimento-busca-barra {
   margin-bottom: 12px;
 }
 
-.food-search-bar input {
+.alimento-busca-barra input {
   width: 100%;
   font-family: inherit;
   font-size: 14px;
@@ -760,7 +760,7 @@ button.profile-avatar::after {
   color: var(--text-main);
 }
 
-.food-results {
+.alimento-resultados {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -768,7 +768,7 @@ button.profile-avatar::after {
   overflow-y: auto;
 }
 
-.food-result {
+.alimento-resultado {
   display: flex;
   flex-direction: column;
   gap: 2px;
@@ -780,35 +780,35 @@ button.profile-avatar::after {
   cursor: pointer;
 }
 
-.food-result:hover {
+.alimento-resultado:hover {
   border-color: var(--green-btn);
   background: #eaf4e7;
 }
 
-.food-name {
+.alimento-nome {
   font-size: 13px;
   font-weight: 600;
   color: var(--text-main);
 }
 
-.food-meta {
+.alimento-info {
   font-size: 11px;
   color: var(--text-muted);
 }
 
-.food-hint,
-.food-error {
+.alimento-dica,
+.alimento-erro {
   font-size: 12px;
   color: var(--text-muted);
   padding: 8px 2px;
   margin: 0;
 }
 
-.food-error {
-  color: var(--over-fg);
+.alimento-erro {
+  color: var(--passou-fg);
 }
 
-.food-preview {
+.alimento-previa {
   border: 1px solid var(--border-soft);
   border-radius: 12px;
   padding: 12px;
@@ -818,13 +818,13 @@ button.profile-avatar::after {
   gap: 10px;
 }
 
-.food-preview-name {
+.alimento-previa-nome {
   font-size: 13px;
   font-weight: 700;
   margin: 0;
 }
 
-.qty-label {
+.qtd-rotulo {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -832,7 +832,7 @@ button.profile-avatar::after {
   color: var(--text-muted);
 }
 
-.qty-label input {
+.qtd-rotulo input {
   font-family: inherit;
   font-size: 14px;
   padding: 9px;
@@ -843,13 +843,13 @@ button.profile-avatar::after {
   max-width: 140px;
 }
 
-.qty-chips {
+.qtd-chips {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
 
-.qty-chip {
+.qtd-chip {
   font-family: inherit;
   font-size: 12px;
   font-weight: 600;
@@ -861,11 +861,11 @@ button.profile-avatar::after {
   cursor: pointer;
 }
 
-.qty-chip:hover {
+.qtd-chip:hover {
   border-color: var(--green-btn);
 }
 
-.qty-chip.active {
+.qtd-chip.ativo {
   background: var(--green-btn);
   border-color: var(--green-btn);
   color: #fff;
@@ -895,13 +895,13 @@ button.profile-avatar::after {
   margin-top: 4px;
 }
 
-.manual-hint {
+.manual-dica {
   font-size: 12px;
   color: var(--text-muted);
   margin: 2px 0;
 }
 
-.empty-state {
+.estado-vazio {
   text-align: center;
   color: var(--text-muted);
   font-size: 13px;
@@ -909,7 +909,7 @@ button.profile-avatar::after {
 }
 
 /* Modal */
-.modal-overlay {
+.modal-fundo {
   position: fixed;
   inset: 0;
   background: rgba(38, 49, 42, 0.45);
@@ -919,7 +919,7 @@ button.profile-avatar::after {
   z-index: 10;
 }
 
-.modal-overlay[hidden] {
+.modal-fundo[hidden] {
   display: none;
 }
 
@@ -964,20 +964,20 @@ button.profile-avatar::after {
   color: var(--text-main);
 }
 
-.macro-inputs {
+.macro-campos {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
 
-.modal-actions {
+.modal-acoes {
   display: flex;
   gap: 10px;
   margin-top: 4px;
 }
 
-.btn-primary,
-.btn-secondary {
+.btn-primario,
+.btn-secundario {
   flex: 1;
   padding: 12px;
   border-radius: 10px;
@@ -987,26 +987,26 @@ button.profile-avatar::after {
   cursor: pointer;
 }
 
-.btn-primary {
+.btn-primario {
   background: var(--green-btn);
   color: #fff;
 }
 
-.btn-primary:hover {
+.btn-primario:hover {
   background: var(--green-dark);
 }
 
-.btn-secondary {
+.btn-secundario {
   background: var(--border-soft);
   color: var(--text-main);
 }
 
-.btn-secondary:hover {
+.btn-secundario:hover {
   background: #d8e8d2;
 }
 
 /* ---------- Login / cadastro / personalização (card centralizado) ---------- */
-.auth-page {
+.acesso-pagina {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -1014,7 +1014,7 @@ button.profile-avatar::after {
   padding: 24px 16px;
 }
 
-.auth-card {
+.acesso-card {
   background: var(--card-bg);
   border-radius: 20px;
   box-shadow: var(--shadow);
@@ -1026,11 +1026,11 @@ button.profile-avatar::after {
   gap: 6px;
 }
 
-.auth-card-wide {
+.acesso-card-largo {
   max-width: 440px;
 }
 
-.auth-logo {
+.acesso-logo {
   height: 160px;
   width: auto;
   max-width: 100%;
@@ -1038,7 +1038,7 @@ button.profile-avatar::after {
   margin-bottom: 8px;
 }
 
-.auth-title {
+.acesso-titulo {
   font-size: 20px;
   font-weight: 700;
   color: var(--green-dark);
@@ -1046,20 +1046,20 @@ button.profile-avatar::after {
   text-align: center;
 }
 
-.auth-subtitle {
+.acesso-subtitulo {
   font-size: 13px;
   color: var(--text-muted);
   margin: 0 0 12px;
   text-align: center;
 }
 
-.auth-form {
+.acesso-form {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.auth-form label {
+.acesso-form label {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -1067,8 +1067,8 @@ button.profile-avatar::after {
   color: var(--text-muted);
 }
 
-.auth-form input,
-.auth-form select {
+.acesso-form input,
+.acesso-form select {
   font-family: inherit;
   font-size: 14px;
   padding: 10px;
@@ -1078,52 +1078,52 @@ button.profile-avatar::after {
   color: var(--text-main);
 }
 
-.auth-form .btn-primary {
+.acesso-form .btn-primario {
   margin-top: 4px;
 }
 
-.auth-hint {
+.acesso-dica {
   font-size: 11px;
   color: var(--text-muted);
   margin: -6px 0 0;
 }
 
-.auth-error {
+.acesso-erro {
   font-size: 12px;
   font-weight: 600;
-  color: var(--over-fg);
+  color: var(--passou-fg);
   background: #fbe6e6;
   border-radius: 8px;
   padding: 8px 10px;
   margin: 0;
 }
 
-.auth-switch {
+.acesso-troca {
   font-size: 13px;
   color: var(--text-muted);
   text-align: center;
   margin: 14px 0 0;
 }
 
-.auth-switch a {
+.acesso-troca a {
   color: var(--green-btn);
   font-weight: 700;
   text-decoration: none;
 }
 
-.auth-switch a:hover {
+.acesso-troca a:hover {
   text-decoration: underline;
 }
 
 /* grade de 2 colunas para sexo/idade/altura/peso na personalização */
-.form-grid {
+.form-grade {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 12px;
 }
 
 /* painel de IMC + faixa de peso ideal (reusa o visual da prévia da meta) */
-.imc-preview {
+.imc-previa {
   border: 1px solid var(--border-soft);
   background: var(--bg);
   border-radius: 12px;
@@ -1165,7 +1165,7 @@ button.profile-avatar::after {
 }
 
 /* prévia ao vivo da meta calculada */
-.meta-preview {
+.meta-previa {
   border: 1px solid var(--border-soft);
   background: var(--bg);
   border-radius: 12px;
@@ -1175,14 +1175,14 @@ button.profile-avatar::after {
   gap: 8px;
 }
 
-.meta-preview-label {
+.meta-previa-rotulo {
   font-size: 12px;
   font-weight: 700;
   color: var(--text-muted);
   margin: 0;
 }
 
-.meta-preview-kcal {
+.meta-previa-kcal {
   font-size: 26px;
   font-weight: 700;
   color: var(--kcal-fg);
@@ -1190,7 +1190,7 @@ button.profile-avatar::after {
   font-variant-numeric: tabular-nums;
 }
 
-.meta-preview-kcal small {
+.meta-previa-kcal small {
   font-size: 12px;
   font-weight: 600;
   color: var(--text-muted);
@@ -1237,7 +1237,7 @@ button.profile-avatar::after {
   color: var(--kcal-fg);
 }
 
-.prev-caveat {
+.prev-ressalva {
   margin: 2px 0 0;
   font-size: 11px;
   color: var(--text-muted);
@@ -1245,7 +1245,7 @@ button.profile-avatar::after {
 }
 
 /* selo compacto de previsão no card de perfil do dashboard */
-.profile-forecast {
+.perfil-previsao {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -1264,7 +1264,7 @@ button.profile-avatar::after {
   font-variant-numeric: tabular-nums;
 }
 
-.profile-forecast::before {
+.perfil-previsao::before {
   content: "";
   width: 6px;
   height: 6px;
@@ -1274,16 +1274,16 @@ button.profile-avatar::after {
 }
 
 /* display:inline-flex acima venceria o atributo hidden — reforça o none. */
-.profile-forecast[hidden] {
+.perfil-previsao[hidden] {
   display: none;
 }
 
 /* botão Sair no header do dashboard */
-.header-spacer {
+.cabecalho-espaco {
   flex: 1;
 }
 
-.logout-btn {
+.sair-btn {
   border: 1px solid var(--border-soft);
   background: var(--card-bg);
   color: var(--text-muted);
@@ -1294,7 +1294,7 @@ button.profile-avatar::after {
   cursor: pointer;
 }
 
-.logout-btn:hover {
+.sair-btn:hover {
   background: var(--border-soft);
   color: var(--text-main);
 }

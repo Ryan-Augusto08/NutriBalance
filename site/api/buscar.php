@@ -5,7 +5,7 @@
  *   GET api/buscar.php?q=arroz cozido
  *
  * Devolve um JSON no mesmo formato que o site espera para cada alimento:
- *   { nome, marca, categoria, kcal100, p100, c100, g100 }
+ *   { nome, marca, categoria, kcal100, proteina100, carbo100, gordura100 }
  * Todos os valores nutricionais sao por 100 g.
  */
 
@@ -46,15 +46,15 @@ try {
     $stmt->execute($params);
 
     $resultado = [];
-    foreach ($stmt as $row) {
+    foreach ($stmt as $linha) {
         $resultado[] = [
-            'nome'      => $row['descricao'],
-            'marca'     => '',                       // TACO nao tem marca
-            'categoria' => $row['categoria'],
-            'kcal100'   => (float) $row['energia_kcal'],
-            'p100'      => (float) $row['proteina'],
-            'c100'      => (float) $row['carboidrato'],
-            'g100'      => (float) $row['lipideos'],
+            'nome'        => $linha['descricao'],
+            'marca'       => '',                       // TACO nao tem marca
+            'categoria'   => $linha['categoria'],
+            'kcal100'     => (float) $linha['energia_kcal'],
+            'proteina100' => (float) $linha['proteina'],
+            'carbo100'    => (float) $linha['carboidrato'],
+            'gordura100'  => (float) $linha['lipideos'],
         ];
     }
 

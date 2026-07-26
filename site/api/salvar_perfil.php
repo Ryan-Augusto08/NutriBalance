@@ -2,7 +2,7 @@
 /**
  * Salva a personalização (onboarding) do usuário logado.
  *   POST api/salvar_perfil.php  { sexo, idade, altura_cm, peso_kg, atividade, meta, peso_alvo, objetivo }
- * Valida as faixas, RECALCULA goal_kcal + macros aqui (autoridade — não confia
+ * Valida as faixas, RECALCULA meta_kcal + macros aqui (autoridade — não confia
  * no valor que o front mandou) e faz UPDATE. Espelha o js/calculo.js.
  */
 
@@ -84,17 +84,17 @@ if ($cinturaIn !== null && $cinturaIn !== '') {
 }
 
 // Mifflin-St Jeor × fator de atividade × ajuste da meta
-$bmr      = 10 * $peso + 6.25 * $altura - 5 * $idade + ($sexo === 'M' ? 5 : -161);
-$tdee     = $bmr * FATOR_ATIVIDADE[$atividade];
-$goalKcal = (int) round($tdee * (1 + AJUSTE_META[$meta]));
+$tmb      = 10 * $peso + 6.25 * $altura - 5 * $idade + ($sexo === 'M' ? 5 : -161);
+$tdee     = $tmb * FATOR_ATIVIDADE[$atividade];
+$metaKcal = (int) round($tdee * (1 + AJUSTE_META[$meta]));
 
 // macros (carbo 4 kcal/g, proteína 4, gordura 9). Definir usa mais proteína (40/35/25).
-$split = $objetivo === 'definir'
+$divisao = $objetivo === 'definir'
     ? ['carbo' => 0.40, 'proteina' => 0.35, 'gordura' => 0.25]
     : ['carbo' => 0.50, 'proteina' => 0.20, 'gordura' => 0.30];
-$goalCarbo    = (int) round(($goalKcal * $split['carbo'])    / 4);
-$goalProteina = (int) round(($goalKcal * $split['proteina']) / 4);
-$goalGordura  = (int) round(($goalKcal * $split['gordura'])  / 9);
+$metaCarbo    = (int) round(($metaKcal * $divisao['carbo'])    / 4);
+$metaProteina = (int) round(($metaKcal * $divisao['proteina']) / 4);
+$metaGordura  = (int) round(($metaKcal * $divisao['gordura'])  / 9);
 
 try {
     $pdo  = conectar();
@@ -105,12 +105,12 @@ try {
             sexo = ?, idade = ?, altura_cm = ?, peso_kg = ?,
             cintura_cm = COALESCE(?, cintura_cm), peso_alvo = ?,
             atividade = ?, meta = ?, objetivo = ?,
-            goal_kcal = ?, goal_carbo = ?, goal_proteina = ?, goal_gordura = ?
+            meta_kcal = ?, meta_carbo = ?, meta_proteina = ?, meta_gordura = ?
          WHERE id = ?'
     );
     $stmt->execute([
         $sexo, $idade, $altura, $peso, $cintura, $pesoAlvo, $atividade, $meta, $objetivo,
-        $goalKcal, $goalCarbo, $goalProteina, $goalGordura,
+        $metaKcal, $metaCarbo, $metaProteina, $metaGordura,
         $uid,
     ]);
 
@@ -135,10 +135,10 @@ try {
 
     responder([
         'ok'           => true,
-        'goalKcal'     => $goalKcal,
-        'goalCarbo'    => $goalCarbo,
-        'goalProteina' => $goalProteina,
-        'goalGordura'  => $goalGordura,
+        'metaKcal'     => $metaKcal,
+        'metaCarbo'    => $metaCarbo,
+        'metaProteina' => $metaProteina,
+        'metaGordura'  => $metaGordura,
     ]);
 } catch (Throwable $e) {
     responder(['erro' => 'Falha ao salvar o perfil.'], 500);

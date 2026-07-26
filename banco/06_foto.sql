@@ -1,6 +1,6 @@
 -- NutriBalance — foto de perfil do usuario
 -- Rode DEPOIS do 03_usuarios.sql, no mesmo banco `nutribalance`.
--- Adiciona a coluna `foto` (caminho do arquivo salvo em site/uploads/avatars/).
+-- Adiciona a coluna `foto` (caminho do arquivo salvo em site/uploads/fotos/).
 -- NULL = usuario sem foto (o app cai nas iniciais do nome).
 
 USE nutribalance;

@@ -12,6 +12,7 @@ para um banco MySQL, que alimenta a busca de alimentos do site.
 - `06_foto.sql` — adiciona a coluna `foto` (foto de perfil do usuário)
 - `07_medicoes.sql` — cria a tabela `medicoes` (histórico de peso + cintura)
 - `08_cintura.sql` — adiciona a coluna `cintura_cm` em `usuarios` (cintura atual)
+- `09_renomear_metas.sql` — renomeia `goal_*` para `meta_*` (código em português)
 
 ## Pré-requisitos
 
@@ -58,8 +59,8 @@ D:\Xampp\mysql\bin\mysql.exe -u root < 03_usuarios.sql
 Ou, pelo phpMyAdmin: aba *Importar* → escolher `03_usuarios.sql`. A tabela
 `usuarios` guarda a conta (nome, e-mail, senha com hash) e os dados de
 personalização (sexo, idade, altura, peso, atividade, meta) + a meta diária
-calculada (`goal_kcal` e macros). As colunas de personalização ficam `NULL`
-até o usuário completar o onboarding — "perfil completo" = `goal_kcal IS NOT NULL`.
+calculada (`meta_kcal` e macros). As colunas de personalização ficam `NULL`
+até o usuário completar o onboarding — "perfil completo" = `meta_kcal IS NOT NULL`.
 
 **4a. Colunas adicionais (peso alvo, objetivo e foto de perfil)**
 
@@ -72,7 +73,7 @@ D:\Xampp\mysql\bin\mysql.exe -u root < 05_objetivo.sql
 D:\Xampp\mysql\bin\mysql.exe -u root < 06_foto.sql
 ```
 
-A foto enviada pelo usuário é gravada em `site/uploads/avatars/`, e a coluna
+A foto enviada pelo usuário é gravada em `site/uploads/fotos/`, e a coluna
 `foto` guarda o caminho relativo do arquivo (NULL = usa as iniciais do nome).
 
 **4b. Tabela de medições (histórico de progresso)**
@@ -92,6 +93,21 @@ peso mais recente. O `usuarios.peso_kg` continua sendo o **peso atual**;
 `medicoes` é o **histórico**. O `08_cintura.sql` adiciona `usuarios.cintura_cm`
 (cintura atual do perfil, definida na personalização) — que também semeia a
 primeira medição do histórico.
+
+**4c. Renomear as colunas de meta para português**
+
+O código do projeto é todo em português; esta migração alinha as quatro colunas
+de meta, que tinham nascido em inglês:
+
+```
+D:\Xampp\mysql\bin\mysql.exe -u root < 09_renomear_metas.sql
+```
+
+`goal_kcal` → `meta_kcal`, `goal_carbo` → `meta_carbo`, `goal_proteina` →
+`meta_proteina`, `goal_gordura` → `meta_gordura`. Renomear preserva os dados —
+nenhuma meta já calculada é perdida. Em bancos criados do zero com o
+`03_usuarios.sql` atual, as colunas já nascem com o nome novo e esta migração
+não é necessária.
 
 **4. Servir o site pelo Apache**
 

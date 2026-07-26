@@ -20,7 +20,7 @@ if ($email === '' || $senha === '') {
 
 try {
     $pdo  = conectar();
-    $stmt = $pdo->prepare('SELECT id, senha_hash, goal_kcal FROM usuarios WHERE email = ?');
+    $stmt = $pdo->prepare('SELECT id, senha_hash, meta_kcal FROM usuarios WHERE email = ?');
     $stmt->execute([$email]);
     $u = $stmt->fetch();
 
@@ -32,7 +32,7 @@ try {
     session_regenerate_id(true);
     $_SESSION['uid'] = (int) $u['id'];
 
-    responder(['ok' => true, 'perfil_completo' => $u['goal_kcal'] !== null]);
+    responder(['ok' => true, 'perfil_completo' => $u['meta_kcal'] !== null]);
 } catch (Throwable $e) {
     responder(['erro' => 'Falha ao entrar.'], 500);
 }

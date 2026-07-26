@@ -9,83 +9,83 @@
 </head>
 <body>
   <div class="app">
-    <header class="app-header">
-      <div class="brand">
+    <header class="app-cabecalho">
+      <div class="marca">
         <img class="logo-img" src="img/logo.png" alt="NutriBalance" />
-        <span class="brand-name"><span class="brand-nutri">Nutri</span><span class="brand-balance">Balance</span></span>
+        <span class="marca-nome"><span class="marca-nutri">Nutri</span><span class="marca-balance">Balance</span></span>
       </div>
-      <span class="header-spacer"></span>
-      <button class="logout-btn" id="logout-btn" type="button">Sair</button>
+      <span class="cabecalho-espaco"></span>
+      <button class="sair-btn" id="sair-btn" type="button">Sair</button>
     </header>
 
-    <div class="hero-banner" role="img" aria-label="Tigela de comida saudável"></div>
+    <div class="banner-topo" role="img" aria-label="Tigela de comida saudável"></div>
 
-    <main class="content">
-      <section class="profile-card" id="profile-card">
-        <button class="profile-avatar" id="profile-avatar" type="button" title="Trocar foto de perfil" aria-label="Trocar foto de perfil"></button>
-        <div class="profile-info">
-          <p class="profile-name" id="profile-name"></p>
-          <p class="profile-goal" id="profile-goal"></p>
-          <p class="profile-forecast" id="profile-forecast" hidden></p>
+    <main class="conteudo">
+      <section class="perfil-card" id="perfil-card">
+        <button class="perfil-foto" id="perfil-foto" type="button" title="Trocar foto de perfil" aria-label="Trocar foto de perfil"></button>
+        <div class="perfil-info">
+          <p class="perfil-nome" id="perfil-nome"></p>
+          <p class="perfil-meta" id="perfil-meta"></p>
+          <p class="perfil-previsao" id="perfil-previsao" hidden></p>
         </div>
-        <button class="btn-secondary" id="edit-plan-btn" type="button">Mudar meta</button>
-        <button class="icon-btn" id="edit-profile-btn" title="Editar perfil" aria-label="Editar perfil">✎</button>
+        <button class="btn-secundario" id="mudar-meta-btn" type="button">Mudar meta</button>
+        <button class="icone-btn" id="editar-perfil-btn" title="Editar perfil" aria-label="Editar perfil">✎</button>
       </section>
 
-      <!-- Input escondido, disparado pelo avatar e pelo botão do modal de perfil -->
-      <input type="file" id="avatar-input" accept="image/jpeg,image/png,image/webp" hidden />
+      <!-- Campo escondido, disparado pela foto do card e pelo botão do modal de perfil -->
+      <input type="file" id="foto-campo" accept="image/jpeg,image/png,image/webp" hidden />
 
-      <section class="date-nav" aria-label="Selecionar dia">
-        <button class="date-arrow" id="date-prev" type="button" aria-label="Dia anterior">‹</button>
-        <div class="date-label">
-          <span class="date-label-top">Data</span>
-          <span class="date-label-value" id="date-value">—</span>
+      <section class="dia-nav" aria-label="Selecionar dia">
+        <button class="dia-seta" id="dia-anterior" type="button" aria-label="Dia anterior">‹</button>
+        <div class="dia-rotulo">
+          <span class="dia-rotulo-topo">Data</span>
+          <span class="dia-rotulo-valor" id="dia-valor">—</span>
         </div>
-        <button class="date-arrow" id="date-next" type="button" aria-label="Próximo dia">›</button>
+        <button class="dia-seta" id="dia-proximo" type="button" aria-label="Próximo dia">›</button>
       </section>
 
-      <button class="copy-day-btn" id="copy-day-btn" type="button" hidden></button>
+      <button class="copiar-dia-btn" id="copiar-dia-btn" type="button" hidden></button>
 
       <section>
-        <h2 class="section-title">Resumo do Dia — pista até a meta</h2>
-        <div class="daily-progress" id="daily-progress"></div>
+        <h2 class="secao-titulo">Resumo do Dia — pista até a meta</h2>
+        <div class="progresso-diario" id="progresso-diario"></div>
       </section>
 
       <section>
-        <div class="section-header-row">
-          <h2 class="section-title">Progresso</h2>
-          <button class="add-btn" id="add-medicao-btn" title="Registrar medição" aria-label="Registrar medição">+</button>
+        <div class="secao-cabecalho">
+          <h2 class="secao-titulo">Progresso</h2>
+          <button class="adicionar-btn" id="nova-medicao-btn" title="Registrar medição" aria-label="Registrar medição">+</button>
         </div>
         <div class="progresso-card">
           <div class="progresso-resumo" id="progresso-resumo"></div>
           <div class="progresso-filtros" id="progresso-filtros" role="group" aria-label="Período do gráfico">
-            <button type="button" class="filtro-btn" data-range="1m">1 mês</button>
-            <button type="button" class="filtro-btn" data-range="3m">3 meses</button>
-            <button type="button" class="filtro-btn" data-range="1a">1 ano</button>
-            <button type="button" class="filtro-btn active" data-range="tudo">Tudo</button>
+            <button type="button" class="filtro-btn" data-periodo="1m">1 mês</button>
+            <button type="button" class="filtro-btn" data-periodo="3m">3 meses</button>
+            <button type="button" class="filtro-btn" data-periodo="1a">1 ano</button>
+            <button type="button" class="filtro-btn ativo" data-periodo="tudo">Tudo</button>
           </div>
-          <div class="progresso-charts" id="progresso-charts"></div>
+          <div class="progresso-graficos" id="progresso-graficos"></div>
         </div>
       </section>
 
       <section>
-        <div class="section-header-row">
-          <h2 class="section-title">Minhas Refeições</h2>
-          <button class="add-btn" id="add-meal-btn" title="Adicionar refeição" aria-label="Adicionar refeição">+</button>
+        <div class="secao-cabecalho">
+          <h2 class="secao-titulo">Minhas Refeições</h2>
+          <button class="adicionar-btn" id="nova-refeicao-btn" title="Adicionar refeição" aria-label="Adicionar refeição">+</button>
         </div>
-        <div class="meals-list" id="meals-list"></div>
+        <div class="lista-refeicoes" id="lista-refeicoes"></div>
       </section>
     </main>
   </div>
 
   <!-- Modal: nova refeição (só tipo + data; os alimentos entram depois) -->
-  <div class="modal-overlay" id="meal-modal-overlay" hidden>
+  <div class="modal-fundo" id="refeicao-modal-fundo" hidden>
     <div class="modal">
       <h3>Nova refeição</h3>
-      <form id="meal-form">
+      <form id="refeicao-form">
         <label>
           Tipo
-          <select id="meal-tipo" required>
+          <select id="refeicao-tipo" required>
             <option value="Café da Manhã">Café da Manhã</option>
             <option value="Lanche da Manhã">Lanche da Manhã</option>
             <option value="Almoço">Almoço</option>
@@ -97,43 +97,43 @@
         </label>
         <label>
           Data
-          <input type="date" id="meal-data" required />
+          <input type="date" id="refeicao-data" required />
         </label>
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" id="meal-cancel-btn">Cancelar</button>
-          <button type="submit" class="btn-primary">Criar refeição</button>
+        <div class="modal-acoes">
+          <button type="button" class="btn-secundario" id="refeicao-cancelar-btn">Cancelar</button>
+          <button type="submit" class="btn-primario">Criar refeição</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- Modal: buscar alimento (TACO / banco MySQL) -->
-  <div class="modal-overlay" id="food-modal-overlay" hidden>
+  <div class="modal-fundo" id="alimento-modal-fundo" hidden>
     <div class="modal">
-      <h3 id="food-modal-title">Adicionar alimento</h3>
+      <h3 id="alimento-modal-titulo">Adicionar alimento</h3>
 
-      <div class="food-search-bar">
-        <input type="text" id="food-search-input" autocomplete="off"
+      <div class="alimento-busca-barra">
+        <input type="text" id="alimento-busca-campo" autocomplete="off"
           placeholder="Buscar alimento na TACO (ex: arroz cozido)" />
       </div>
 
-      <div class="food-results" id="food-results"></div>
+      <div class="alimento-resultados" id="alimento-resultados"></div>
 
-      <!-- Preview do alimento escolhido: quantidade + pizza + macros -->
-      <div class="food-preview" id="food-preview" hidden>
-        <p class="food-preview-name" id="food-preview-name"></p>
-        <label class="qty-label">
+      <!-- Prévia do alimento escolhido: quantidade + macros -->
+      <div class="alimento-previa" id="alimento-previa" hidden>
+        <p class="alimento-previa-nome" id="alimento-previa-nome"></p>
+        <label class="qtd-rotulo">
           Quantidade (g)
-          <input type="number" id="food-qty" min="1" step="1" value="100" />
+          <input type="number" id="alimento-qtd" min="1" step="1" value="100" />
         </label>
-        <div class="qty-chips" id="food-qty-chips"></div>
-        <div id="food-preview-macros"></div>
-        <button type="button" class="btn-primary" id="food-add-btn">Adicionar à refeição</button>
+        <div class="qtd-chips" id="alimento-qtd-chips"></div>
+        <div id="alimento-previa-macros"></div>
+        <button type="button" class="btn-primario" id="alimento-adicionar-btn">Adicionar à refeição</button>
       </div>
 
-      <button type="button" class="link-btn" id="manual-toggle">Não achou? Adicionar manualmente</button>
+      <button type="button" class="link-btn" id="manual-alternar">Não achou? Adicionar manualmente</button>
 
-      <!-- Fallback manual (funciona sem internet) -->
+      <!-- Entrada manual (funciona sem o banco de alimentos) -->
       <form class="manual-form" id="manual-form" hidden>
         <label>
           Nome do alimento
@@ -143,59 +143,59 @@
           Quantidade (g)
           <input type="number" id="manual-gramas" min="1" step="1" value="100" required />
         </label>
-        <p class="manual-hint">Macros para essa quantidade:</p>
-        <div class="macro-inputs">
+        <p class="manual-dica">Macros para essa quantidade:</p>
+        <div class="macro-campos">
           <label>Kcal <input type="number" id="manual-kcal" min="0" required /></label>
           <label>Proteína (g) <input type="number" id="manual-proteina" min="0" required /></label>
           <label>Carbo (g) <input type="number" id="manual-carbo" min="0" required /></label>
           <label>Gordura (g) <input type="number" id="manual-gordura" min="0" required /></label>
         </div>
-        <button type="submit" class="btn-primary">Adicionar à refeição</button>
+        <button type="submit" class="btn-primario">Adicionar à refeição</button>
       </form>
 
-      <div class="modal-actions">
-        <button type="button" class="btn-secondary" id="food-cancel-btn">Fechar</button>
+      <div class="modal-acoes">
+        <button type="button" class="btn-secundario" id="alimento-cancelar-btn">Fechar</button>
       </div>
     </div>
   </div>
 
   <!-- Modal: editar perfil (nome + metas de kcal e macros) -->
-  <div class="modal-overlay" id="profile-modal-overlay" hidden>
+  <div class="modal-fundo" id="perfil-modal-fundo" hidden>
     <div class="modal">
       <h3>Editar perfil</h3>
-      <form id="profile-form">
-        <div class="avatar-edit">
-          <span class="profile-avatar" id="modal-avatar"></span>
-          <div class="avatar-edit-actions">
-            <button type="button" class="btn-secondary" id="avatar-choose-btn">Trocar foto</button>
-            <button type="button" class="link-btn" id="avatar-remove-btn">Remover foto</button>
+      <form id="perfil-form">
+        <div class="foto-editar">
+          <span class="perfil-foto" id="modal-foto"></span>
+          <div class="foto-editar-acoes">
+            <button type="button" class="btn-secundario" id="foto-escolher-btn">Trocar foto</button>
+            <button type="button" class="link-btn" id="foto-remover-btn">Remover foto</button>
           </div>
         </div>
-        <p class="avatar-error" id="avatar-error" hidden></p>
+        <p class="foto-erro" id="foto-erro" hidden></p>
         <label>
           Nome
-          <input type="text" id="profile-name-input" required />
+          <input type="text" id="perfil-nome-campo" required />
         </label>
         <label>
           Meta diária (kcal)
-          <input type="number" id="profile-goal-input" min="0" required />
+          <input type="number" id="perfil-meta-campo" min="0" required />
         </label>
-        <p class="manual-hint">Metas de macros (g) — calculadas automaticamente pelas kcal, mantendo sua proporção.</p>
-        <div class="macro-inputs">
-          <label>Carbo (g) <input type="number" id="profile-carbo-input" min="0" readonly /></label>
-          <label>Proteína (g) <input type="number" id="profile-proteina-input" min="0" readonly /></label>
-          <label>Gordura (g) <input type="number" id="profile-gordura-input" min="0" readonly /></label>
+        <p class="manual-dica">Metas de macros (g) — calculadas automaticamente pelas kcal, mantendo sua proporção.</p>
+        <div class="macro-campos">
+          <label>Carbo (g) <input type="number" id="perfil-carbo-campo" min="0" readonly /></label>
+          <label>Proteína (g) <input type="number" id="perfil-proteina-campo" min="0" readonly /></label>
+          <label>Gordura (g) <input type="number" id="perfil-gordura-campo" min="0" readonly /></label>
         </div>
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" id="profile-cancel-btn">Cancelar</button>
-          <button type="submit" class="btn-primary">Salvar</button>
+        <div class="modal-acoes">
+          <button type="button" class="btn-secundario" id="perfil-cancelar-btn">Cancelar</button>
+          <button type="submit" class="btn-primario">Salvar</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- Modal: registrar medição (peso obrigatório, cintura opcional) -->
-  <div class="modal-overlay" id="medicao-modal-overlay" hidden>
+  <div class="modal-fundo" id="medicao-modal-fundo" hidden>
     <div class="modal">
       <h3>Registrar medição</h3>
       <form id="medicao-form">
@@ -208,14 +208,14 @@
           <input type="number" id="medicao-peso" min="30" max="350" step="0.1" required />
         </label>
         <label>
-          Cintura (cm) <span class="label-opt">— opcional</span>
+          Cintura (cm) <span class="rotulo-opcional">— opcional</span>
           <input type="number" id="medicao-cintura" min="30" max="200" step="0.1" />
         </label>
-        <p class="medicao-hint">A cintura acompanha a mudança de composição corporal mesmo quando o peso não varia.</p>
-        <p class="auth-error" id="medicao-error" hidden></p>
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" id="medicao-cancel-btn">Cancelar</button>
-          <button type="submit" class="btn-primary" id="medicao-submit">Salvar medição</button>
+        <p class="medicao-dica">A cintura acompanha a mudança de composição corporal mesmo quando o peso não varia.</p>
+        <p class="acesso-erro" id="medicao-erro" hidden></p>
+        <div class="modal-acoes">
+          <button type="button" class="btn-secundario" id="medicao-cancelar-btn">Cancelar</button>
+          <button type="submit" class="btn-primario" id="medicao-enviar">Salvar medição</button>
         </div>
       </form>
     </div>

@@ -6,7 +6,7 @@
  */
 
 /** POST JSON num endpoint; devolve { status, dados }. */
-async function apiPost(url, corpo) {
+async function enviarApi(url, corpo) {
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -21,16 +21,16 @@ async function apiPost(url, corpo) {
   return { status: res.status, dados };
 }
 
-function showError(el, msg) {
+function mostrarErro(el, msg) {
   if (!el) return;
   el.textContent = msg;
   el.hidden = false;
 }
 
-function setLoading(btn, loading, textoNormal) {
+function definirCarregando(btn, carregando, textoNormal) {
   if (!btn) return;
-  btn.disabled = loading;
-  btn.textContent = loading ? "Aguarde…" : textoNormal;
+  btn.disabled = carregando;
+  btn.textContent = carregando ? "Aguarde…" : textoNormal;
 }
 
 /** Após login/cadastro: onboarding se o perfil estiver incompleto, senão dashboard. */
@@ -38,14 +38,14 @@ function irAposAutenticar(perfilCompleto) {
   window.location.href = perfilCompleto ? "index.html" : "personalizacao.html";
 }
 
-async function handleLogin(e) {
+async function tratarLogin(e) {
   e.preventDefault();
-  const btn = document.getElementById("login-submit");
-  const erro = document.getElementById("login-error");
+  const btn = document.getElementById("login-enviar");
+  const erro = document.getElementById("login-erro");
   erro.hidden = true;
-  setLoading(btn, true, "Entrar");
+  definirCarregando(btn, true, "Entrar");
 
-  const { status, dados } = await apiPost("api/login.php", {
+  const { status, dados } = await enviarApi("api/login.php", {
     email: document.getElementById("login-email").value.trim(),
     senha: document.getElementById("login-senha").value,
   }).catch(() => ({ status: 0, dados: {} }));
@@ -53,18 +53,18 @@ async function handleLogin(e) {
   if (status === 200 && dados.ok) {
     return irAposAutenticar(dados.perfil_completo);
   }
-  setLoading(btn, false, "Entrar");
-  showError(erro, dados.erro || "Não foi possível entrar. Verifique se o servidor está no ar.");
+  definirCarregando(btn, false, "Entrar");
+  mostrarErro(erro, dados.erro || "Não foi possível entrar. Verifique se o servidor está no ar.");
 }
 
-async function handleCadastro(e) {
+async function tratarCadastro(e) {
   e.preventDefault();
-  const btn = document.getElementById("cadastro-submit");
-  const erro = document.getElementById("cadastro-error");
+  const btn = document.getElementById("cadastro-enviar");
+  const erro = document.getElementById("cadastro-erro");
   erro.hidden = true;
-  setLoading(btn, true, "Criar conta");
+  definirCarregando(btn, true, "Criar conta");
 
-  const { status, dados } = await apiPost("api/registrar.php", {
+  const { status, dados } = await enviarApi("api/registrar.php", {
     nome: document.getElementById("cadastro-nome").value.trim(),
     email: document.getElementById("cadastro-email").value.trim(),
     senha: document.getElementById("cadastro-senha").value,
@@ -73,13 +73,13 @@ async function handleCadastro(e) {
   if (status === 200 && dados.ok) {
     return irAposAutenticar(dados.perfil_completo);
   }
-  setLoading(btn, false, "Criar conta");
-  showError(erro, dados.erro || "Não foi possível criar a conta. Verifique se o servidor está no ar.");
+  definirCarregando(btn, false, "Criar conta");
+  mostrarErro(erro, dados.erro || "Não foi possível criar a conta. Verifique se o servidor está no ar.");
 }
 
 /** Faz logout e volta pro login. */
-async function logout() {
-  await apiPost("api/logout.php").catch(() => {});
+async function sair() {
+  await enviarApi("api/logout.php").catch(() => {});
   window.location.href = "login.html";
 }
 
@@ -89,8 +89,8 @@ async function logout() {
  *  - perfil incompleto (e não estamos na personalização) → vai pro onboarding.
  *  - ok → devolve os dados da sessão pra página usar.
  */
-async function guard(opts) {
-  const permitirIncompleto = opts && opts.permitirIncompleto;
+async function exigirSessao(opcoes) {
+  const permitirIncompleto = opcoes && opcoes.permitirIncompleto;
   let res;
   try {
     res = await fetch("api/sessao.php", { headers: { Accept: "application/json" } });
@@ -115,7 +115,7 @@ async function guard(opts) {
 }
 
 /** Nas telas de login/cadastro: se já há sessão, pula direto pro app. */
-async function redirectIfLogged() {
+async function redirecionarSeLogado() {
   try {
     const res = await fetch("api/sessao.php", { headers: { Accept: "application/json" } });
     if (res.status !== 200) return;

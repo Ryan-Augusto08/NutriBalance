@@ -24,3 +24,8 @@ node_modules/
 # Drop zone do usuário (só o README vai versionado)
 dados/*
 !dados/README.md
+
+# Fotos de perfil enviadas pelos usuários (dado pessoal — não vai pro repo).
+# A pasta continua versionada pelo .gitkeep.
+site/uploads/fotos/*
+!site/uploads/fotos/.gitkeep

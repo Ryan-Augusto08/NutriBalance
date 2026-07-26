@@ -20,11 +20,11 @@ CREATE TABLE IF NOT EXISTS usuarios (
   meta          ENUM('perder','manter','ganhar') NULL,
   objetivo      ENUM('manter','definir') NULL,     -- so quando meta = 'manter' (definir = recomposicao)
 
-  -- metas calculadas (goal_kcal IS NOT NULL == perfil completo)
-  goal_kcal     INT UNSIGNED NULL,                 -- kcal/dia
-  goal_carbo    INT UNSIGNED NULL,                 -- g
-  goal_proteina INT UNSIGNED NULL,                 -- g
-  goal_gordura  INT UNSIGNED NULL,                 -- g
+  -- metas calculadas (meta_kcal IS NOT NULL == perfil completo)
+  meta_kcal     INT UNSIGNED NULL,                 -- kcal/dia
+  meta_carbo    INT UNSIGNED NULL,                 -- g
+  meta_proteina INT UNSIGNED NULL,                 -- g
+  meta_gordura  INT UNSIGNED NULL,                 -- g
 
   criado_em     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

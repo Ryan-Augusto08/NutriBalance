@@ -5,8 +5,8 @@
  *   POST api/foto.php  (multipart/form-data, campo `foto`)  → envia/troca a foto
  *   POST api/foto.php  { "acao": "remover" }                → remove a foto atual
  *
- * As imagens ficam em site/uploads/avatars/ com nome avatar_<uid>_<hash>.<ext>.
- * No banco guardamos só o caminho relativo (ex.: uploads/avatars/avatar_3_ab12.jpg),
+ * As imagens ficam em site/uploads/fotos/ com nome foto_<uid>_<hash>.<ext>.
+ * No banco guardamos só o caminho relativo (ex.: uploads/fotos/foto_3_ab12.jpg),
  * que o front usa direto como src. A troca apaga o arquivo anterior.
  */
 
@@ -16,8 +16,8 @@ exigir_metodo('POST');
 
 $uid = exigir_login();
 
-const PASTA_AVATARS = __DIR__ . '/../uploads/avatars/';
-const TAMANHO_MAX   = 3 * 1024 * 1024; // 3 MB
+const PASTA_FOTOS = __DIR__ . '/../uploads/fotos/';
+const TAMANHO_MAX = 3 * 1024 * 1024; // 3 MB
 // mime real (via getimagesize) → extensão do arquivo salvo
 const TIPOS_ACEITOS = [
     'image/jpeg' => 'jpg',
@@ -80,14 +80,14 @@ try {
     }
     $ext = TIPOS_ACEITOS[$mime];
 
-    if (!is_dir(PASTA_AVATARS) && !@mkdir(PASTA_AVATARS, 0755, true)) {
+    if (!is_dir(PASTA_FOTOS) && !@mkdir(PASTA_FOTOS, 0755, true)) {
         responder(['erro' => 'Não foi possível salvar a imagem no servidor.'], 500);
     }
 
-    $antiga    = foto_atual($pdo, $uid);
-    $nomeArq   = 'avatar_' . $uid . '_' . bin2hex(random_bytes(6)) . '.' . $ext;
-    $relativo  = 'uploads/avatars/' . $nomeArq;
-    $destino   = PASTA_AVATARS . $nomeArq;
+    $antiga   = foto_atual($pdo, $uid);
+    $nomeArq  = 'foto_' . $uid . '_' . bin2hex(random_bytes(6)) . '.' . $ext;
+    $relativo = 'uploads/fotos/' . $nomeArq;
+    $destino  = PASTA_FOTOS . $nomeArq;
 
     if (!move_uploaded_file($arquivo['tmp_name'], $destino)) {
         responder(['erro' => 'Não foi possível salvar a imagem no servidor.'], 500);

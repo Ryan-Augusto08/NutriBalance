@@ -8,13 +8,13 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div class="auth-page">
-    <div class="auth-card">
-      <img class="auth-logo" src="img/logo.png" alt="NutriBalance" />
-      <h1 class="auth-title">Criar conta</h1>
-      <p class="auth-subtitle">Leva menos de um minuto.</p>
+  <div class="acesso-pagina">
+    <div class="acesso-card">
+      <img class="acesso-logo" src="img/logo.png" alt="NutriBalance" />
+      <h1 class="acesso-titulo">Criar conta</h1>
+      <p class="acesso-subtitulo">Leva menos de um minuto.</p>
 
-      <form id="cadastro-form" class="auth-form">
+      <form id="cadastro-form" class="acesso-form">
         <label>
           Nome
           <input type="text" id="cadastro-nome" autocomplete="name" required />
@@ -28,12 +28,12 @@
           <input type="password" id="cadastro-senha" autocomplete="new-password"
                  minlength="6" required />
         </label>
-        <p class="auth-hint">Mínimo de 6 caracteres.</p>
-        <p class="auth-error" id="cadastro-error" hidden></p>
-        <button type="submit" class="btn-primary" id="cadastro-submit">Criar conta</button>
+        <p class="acesso-dica">Mínimo de 6 caracteres.</p>
+        <p class="acesso-erro" id="cadastro-erro" hidden></p>
+        <button type="submit" class="btn-primario" id="cadastro-enviar">Criar conta</button>
       </form>
 
-      <p class="auth-switch">
+      <p class="acesso-troca">
         Já tem conta? <a href="login.html">Entrar</a>
       </p>
     </div>
@@ -41,8 +41,8 @@
 
   <script src="js/auth.js"></script>
   <script>
-    redirectIfLogged();
-    document.getElementById("cadastro-form").addEventListener("submit", handleCadastro);
+    redirecionarSeLogado();
+    document.getElementById("cadastro-form").addEventListener("submit", tratarCadastro);
   </script>
 </body>
 </html>

@@ -1,0 +1,2174 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>NutriBalance — Documentação Técnica</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm 20mm 16mm; }
+
+  :root {
+    --verde: #2f7d4f;
+    --verde-escuro: #1e5233;
+    --cinza: #555;
+    --cinza-claro: #f4f6f4;
+    --borda: #d8ded8;
+    --destaque: #fff8e6;
+    --destaque-borda: #e6c86a;
+    --alerta: #fdf1f1;
+    --alerta-borda: #d99;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 10.8pt;
+    line-height: 1.55;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  h1, h2, h3, h4 { font-family: "Segoe UI", Arial, sans-serif; color: var(--verde-escuro); line-height: 1.25; }
+  h1 { font-size: 22pt; margin: 0 0 4pt; }
+  h2 {
+    font-size: 15pt;
+    margin: 26pt 0 10pt;
+    padding-bottom: 4pt;
+    border-bottom: 2px solid var(--verde);
+    page-break-after: avoid;
+  }
+  h3 { font-size: 12pt; margin: 16pt 0 6pt; page-break-after: avoid; }
+  h4 { font-size: 10.8pt; margin: 12pt 0 4pt; color: #333; page-break-after: avoid; }
+
+  p { margin: 0 0 8pt; text-align: justify; }
+  ul, ol { margin: 0 0 8pt; padding-left: 18pt; }
+  li { margin-bottom: 4pt; }
+
+  code {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 9.2pt;
+    background: var(--cinza-claro);
+    padding: 1px 4px;
+    border-radius: 3px;
+  }
+
+  pre {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 8.6pt;
+    line-height: 1.45;
+    background: var(--cinza-claro);
+    border-left: 3px solid var(--verde);
+    padding: 8pt 10pt;
+    margin: 8pt 0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    page-break-inside: avoid;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+
+  .capa {
+    text-align: center;
+    padding-top: 55mm;
+    page-break-after: always;
+  }
+  .capa .sub { font-size: 13pt; color: var(--cinza); margin-top: 6pt; }
+  .capa .meta { margin-top: 40mm; font-size: 10pt; color: var(--cinza); line-height: 1.9; }
+
+  .sumario { page-break-after: always; }
+  .sumario ol { padding-left: 20pt; }
+  .sumario > ol > li { margin-bottom: 6pt; font-weight: bold; }
+  .sumario ol ol { padding-left: 16pt; margin-top: 3pt; }
+  .sumario ol ol li { font-weight: normal; margin-bottom: 2pt; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8pt 0;
+    font-size: 9.4pt;
+    page-break-inside: avoid;
+  }
+  th, td { border: 1px solid var(--borda); padding: 4pt 6pt; text-align: left; vertical-align: top; }
+  th { background: var(--cinza-claro); font-family: "Segoe UI", Arial, sans-serif; }
+
+  .nota, .aviso, .porque {
+    padding: 8pt 10pt;
+    margin: 10pt 0;
+    font-size: 10pt;
+    page-break-inside: avoid;
+  }
+  .nota { background: var(--cinza-claro); border-left: 3px solid var(--cinza); }
+  .aviso { background: var(--alerta); border-left: 3px solid var(--alerta-borda); }
+  .porque { background: var(--destaque); border-left: 3px solid var(--destaque-borda); }
+  .nota p:last-child, .aviso p:last-child, .porque p:last-child { margin-bottom: 0; }
+  .rotulo {
+    display: block;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 8.6pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--verde-escuro);
+    margin-bottom: 3pt;
+    font-weight: bold;
+  }
+
+  .quebra { page-break-before: always; }
+  .fluxo {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 8.6pt;
+    line-height: 1.5;
+    background: #fff;
+    border: 1px solid var(--borda);
+    padding: 10pt;
+    margin: 10pt 0;
+    white-space: pre;
+    page-break-inside: avoid;
+  }
+  .pergunta {
+    font-weight: bold;
+    color: var(--verde-escuro);
+    font-family: "Segoe UI", Arial, sans-serif;
+    margin: 14pt 0 4pt;
+    page-break-after: avoid;
+  }
+  .arquivo {
+    font-family: Consolas, monospace;
+    font-size: 9pt;
+    color: var(--verde-escuro);
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<div class="capa">
+  <h1>NutriBalance</h1>
+  <p class="sub">Documentação Técnica Completa</p>
+  <p class="sub" style="font-size:11pt">Como o sistema funciona, e por que foi feito assim</p>
+  <div class="meta">
+    Trabalho de Conclusão de Curso<br />
+    Ensino Médio Integrado — Desenvolvimento de Sistemas<br />
+    Ryan da Silva Augusto<br />
+    Julho de 2026
+  </div>
+</div>
+
+<div class="sumario">
+  <h2 style="margin-top:0">Sumário</h2>
+  <ol>
+    <li>Visão geral do sistema
+      <ol>
+        <li>O que é o NutriBalance</li>
+        <li>As três camadas e por que separá-las</li>
+        <li>Por que o site não funciona com clique duplo</li>
+        <li>O ciclo completo de uma requisição</li>
+        <li>Por que o PHP não é misturado com o HTML</li>
+      </ol>
+    </li>
+    <li>O banco de dados
+      <ol>
+        <li>Por que um banco e não arquivos</li>
+        <li>A tabela alimentos</li>
+        <li>A tabela usuarios</li>
+        <li>A tabela medicoes</li>
+        <li>A tabela redefinicoes_senha</li>
+        <li>Conceitos de banco usados no projeto</li>
+        <li>Por que o banco cabe em um arquivo só</li>
+      </ol>
+    </li>
+    <li>O back-end em PHP
+      <ol>
+        <li>O bootstrap comum</li>
+        <li>Conexão com PDO</li>
+        <li>Prepared statements e SQL Injection</li>
+        <li>Sessões: como o servidor sabe quem está logado</li>
+        <li>Senhas: hash, nunca texto puro</li>
+        <li>Códigos de status HTTP</li>
+        <li>Percurso de cada endpoint</li>
+        <li>Por que o servidor recalcula tudo</li>
+        <li>Upload de imagem com validação real</li>
+        <li>Recuperação de senha: token de uso único</li>
+      </ol>
+    </li>
+    <li>A matemática nutricional
+      <ol>
+        <li>Taxa metabólica basal (Mifflin-St Jeor)</li>
+        <li>Fator de atividade e TDEE</li>
+        <li>Déficit e superávit calórico</li>
+        <li>Macronutrientes e os fatores 4/4/9</li>
+        <li>As divisões 50/20/30 e 40/35/25</li>
+        <li>IMC e faixa de peso ideal</li>
+        <li>Previsão de prazo até o objetivo</li>
+        <li>Exemplo numérico completo</li>
+      </ol>
+    </li>
+    <li>O front-end</li>
+    <li>Dados no navegador e versionamento</li>
+    <li>Convenção de código em português</li>
+    <li>Mapa de arquivos e como rodar</li>
+    <li>Perguntas prováveis da banca</li>
+    <li>Limitações honestas e próximos passos</li>
+    <li>Glossário</li>
+  </ol>
+</div>
+
+<h2>1. Visão geral do sistema</h2>
+
+<h3>1.1 O que é o NutriBalance</h3>
+
+<p>O NutriBalance é um site de acompanhamento nutricional. O usuário cria uma conta, informa
+seus dados corporais e seu objetivo, e o sistema calcula quantas calorias e quantos gramas de
+cada macronutriente ele deve consumir por dia. A partir daí, ele registra as refeições do dia
+e acompanha quanto falta para bater a meta, além de registrar peso e cintura ao longo do tempo
+para ver a evolução em gráfico.</p>
+
+<p>A referência é o MyFitnessPal, sem a funcionalidade de leitura de código de barras. A busca
+de alimentos usa a <strong>TACO — Tabela Brasileira de Composição de Alimentos, 4ª edição</strong>,
+publicada pela UNICAMP, com 597 alimentos importados para um banco MySQL local.</p>
+
+<div class="porque">
+  <span class="rotulo">Por que isso importa saber</span>
+  <p>Usar a TACO em vez de uma API estrangeira é uma decisão de projeto defensável: os dados são
+  de alimentos brasileiros, medidos por instituição pública nacional, e ficam no banco local — o
+  site não depende de internet nem de um serviço de terceiros que pode sair do ar no dia da
+  apresentação.</p>
+</div>
+
+<h3>1.2 As três camadas e por que separá-las</h3>
+
+<p>O sistema é dividido em três camadas. Entender essa divisão é o que permite explicar
+qualquer parte do projeto.</p>
+
+<table>
+  <tr>
+    <th style="width:20%">Camada</th>
+    <th style="width:22%">Onde roda</th>
+    <th style="width:22%">Tecnologia</th>
+    <th>Responsabilidade</th>
+  </tr>
+  <tr>
+    <td><strong>Front-end</strong></td>
+    <td>No navegador do usuário</td>
+    <td>HTML, CSS, JavaScript</td>
+    <td>Mostrar a interface, capturar cliques e digitação, desenhar gráficos</td>
+  </tr>
+  <tr>
+    <td><strong>Back-end</strong></td>
+    <td>No servidor (Apache)</td>
+    <td>PHP</td>
+    <td>Validar dados, autenticar, calcular metas, conversar com o banco</td>
+  </tr>
+  <tr>
+    <td><strong>Banco de dados</strong></td>
+    <td>No servidor (MySQL)</td>
+    <td>MySQL / MariaDB</td>
+    <td>Guardar de forma permanente: contas, perfis, medições, alimentos</td>
+  </tr>
+</table>
+
+<p>A razão de separar é <strong>confiança</strong>. Tudo o que roda no navegador está sob controle
+do usuário: ele pode abrir o DevTools, alterar o JavaScript, mudar valores antes de enviar. Por
+isso, nada que venha do navegador pode ser tratado como verdade. O back-end existe para ser a
+autoridade — ele revalida tudo e é o único que pode escrever no banco.</p>
+
+<div class="porque">
+  <span class="rotulo">Regra fundamental</span>
+  <p><strong>Nunca confie no cliente.</strong> No NutriBalance isso aparece de forma concreta: o
+  JavaScript calcula a meta de calorias para mostrar a prévia ao vivo na tela, mas quando o usuário
+  salva, o PHP <em>recalcula tudo do zero</em> e ignora o valor que o navegador mandou. Se alguém
+  editar o JavaScript para dizer "minha meta é 9000 kcal", o servidor simplesmente não usa esse
+  número.</p>
+</div>
+
+<h3>1.3 Por que o site não funciona com clique duplo</h3>
+
+<p>Um site feito só de HTML, CSS e JavaScript pode ser aberto com clique duplo no arquivo — o
+navegador lê o arquivo do disco e pronto. O NutriBalance não, e a razão é o PHP.</p>
+
+<p>PHP é uma linguagem que roda <strong>no servidor</strong>, não no navegador. O navegador não
+sabe o que fazer com um arquivo <code>.php</code>; ele espera receber HTML ou JSON já pronto. Quem
+lê o arquivo <code>.php</code>, executa o código, conversa com o banco e devolve o resultado é o
+<strong>Apache</strong> (o servidor web) junto com o interpretador PHP.</p>
+
+<p>Por isso o projeto exige o XAMPP, que empacota Apache, MySQL e PHP juntos, e o site precisa ser
+acessado por <code>http://localhost/nutribalance/</code> — nunca por
+<code>file:///C:/.../index.html</code>.</p>
+
+<h3>1.4 O ciclo completo de uma requisição</h3>
+
+<p>Este é o caminho que os dados percorrem quando o usuário busca um alimento. Se você entender
+este fluxo, entende o sistema inteiro, porque todos os outros seguem o mesmo padrão.</p>
+
+<div class="fluxo">1. O usuário digita "arroz" no campo de busca.
+
+2. NAVEGADOR (js/alimentos.js)
+   O evento "input" dispara a funcao executarBusca().
+   Ela espera 400 ms sem novas teclas (debounce) e entao chama:
+       fetch("api/buscar.php?q=arroz")
+
+3. REDE
+   Uma requisicao HTTP GET viaja ate o Apache.
+
+4. SERVIDOR (api/buscar.php)
+   O Apache reconhece a extensao .php e entrega ao interpretador.
+   O PHP le o parametro q, monta a consulta SQL com placeholders (?),
+   e pede ao MySQL.
+
+5. BANCO (MySQL)
+   Executa: SELECT descricao, categoria, energia_kcal, proteina,
+            carboidrato, lipideos FROM alimentos
+            WHERE energia_kcal IS NOT NULL AND descricao LIKE ?
+   Devolve as linhas encontradas.
+
+6. SERVIDOR (api/buscar.php)
+   Converte cada linha para o formato que o site usa e responde:
+   [{ "nome": "...", "kcal100": 128.26, "proteina100": 2.521, ... }]
+
+7. REDE
+   O JSON volta pelo mesmo caminho.
+
+8. NAVEGADOR (js/alimentos.js)
+   mostrarResultados() transforma o JSON em botoes HTML
+   e injeta na tela com innerHTML.
+
+9. O usuario ve a lista de alimentos.</div>
+
+<div class="nota">
+  <span class="rotulo">Vocabulário</span>
+  <p><strong>Requisição</strong> é o pedido que o navegador faz ao servidor.
+  <strong>Resposta</strong> é o que volta. <strong>Endpoint</strong> é cada endereço do servidor
+  que aceita requisições — no projeto, cada arquivo dentro de <code>api/</code> é um endpoint.
+  <strong>JSON</strong> é o formato de texto usado para trocar dados estruturados entre os dois
+  lados; é o "idioma comum" entre o PHP e o JavaScript.</p>
+</div>
+
+<h3>1.5 Por que o PHP não é misturado com o HTML</h3>
+
+<p>Existem duas maneiras consagradas de construir um site com PHP, e o NutriBalance usa a segunda.
+Vale explicar as duas, porque a diferença aparece em todo arquivo do projeto.</p>
+
+<p><strong>Renderização no servidor.</strong> Um único arquivo <code>.php</code> faz tudo: recebe o
+formulário, consulta o banco e imprime o HTML da resposta. A cada ação, a página inteira recarrega.
+É o modelo do WordPress e do Laravel Blade, e continua sendo usado em produção no mundo inteiro.</p>
+
+<pre><code>&lt;?php
+if (isset($_POST['ok'])) {           // 1. recebe o formulario
+    $sql = "SELECT ... WHERE ...";   // 2. consulta o banco
+    $erros[] = "E-mail invalido";    // 3. acumula mensagens
+}
+?&gt;
+&lt;form method="POST"&gt;                  &lt;!-- 4. e desenha a tela --&gt;
+  &lt;input name="email"&gt;
+&lt;/form&gt;</code></pre>
+
+<p><strong>API com front-end separado.</strong> O PHP não imprime tela nenhuma: ele responde apenas
+dados, em JSON. Quem monta a interface é o JavaScript, no navegador. A página não recarrega.</p>
+
+<pre><code>// api/login.php — nao existe uma linha de HTML aqui
+responder(['ok' =&gt; true, 'perfil_completo' =&gt; $perfilCompleto]);
+
+// js/auth.js — o navegador pede, recebe os dados e decide o que fazer
+const { status, dados } = await enviarApi("api/login.php", { email, senha });
+if (status === 200 &amp;&amp; dados.ok) irAposAutenticar(dados.perfil_completo);</code></pre>
+
+<div class="porque">
+  <span class="rotulo">Nenhuma das duas está errada</span>
+  <p>São arquiteturas diferentes para problemas diferentes, não uma certa e uma errada. A primeira é
+  mais simples de escrever e ótima para páginas de conteúdo. A segunda separa responsabilidades e é
+  o que se usa quando a interface precisa reagir sem recarregar.</p>
+</div>
+
+<p>A escolha aqui foi ditada pela natureza do NutriBalance: o dashboard é uma tela viva. O usuário
+adiciona um alimento e as barras de macros se movem; ele troca de dia e a lista muda; ele registra
+uma medição e o gráfico se redesenha. Se cada uma dessas ações recarregasse a página inteira, o app
+seria lento e perderia a posição da rolagem a cada clique.</p>
+
+<p>Há um segundo motivo, mais prático: o mesmo endpoint serve a mais de um consumidor. O
+<code>sessao.php</code> é chamado pelo dashboard, pela tela de personalização e pela guarda de todas
+as páginas. Como ele devolve dados e não HTML, cada tela usa o que precisa. Se ele imprimisse a tela
+do dashboard, não serviria para as outras.</p>
+
+<h4>Consistência vale mais que a escolha em si</h4>
+
+<p>O critério que realmente importa é o projeto inteiro seguir o mesmo padrão. Um sistema com dez
+endpoints em JSON e um décimo primeiro que imprime HTML é mais difícil de entender que um sistema
+inteiro em qualquer um dos dois modelos — porque quem lê precisa descobrir, arquivo por arquivo, qual
+regra vale ali.</p>
+
+<p>Por isso os onze endpoints de <span class="arquivo">api/</span> respondem todos em JSON, e dez
+deles seguem exatamente o mesmo esqueleto: incluem o <code>_bootstrap.php</code>, exigem o método
+HTTP, validam a entrada, falam com o banco por PDO e respondem com <code>responder()</code>.
+Aprendido um, os outros nove se leem sozinhos.</p>
+
+<p>A exceção é o <code>buscar.php</code>, que consulta a tabela de alimentos e não precisa de
+sessão: ele foi escrito antes do <code>_bootstrap.php</code> existir e define os próprios cabeçalhos.
+Devolve JSON como os demais, mas não compartilha os auxiliares — é uma inconsistência pequena e
+conhecida, registrada aqui em vez de escondida.</p>
+
+<div class="aviso">
+  <span class="rotulo">O que de fato é erro, em qualquer arquitetura</span>
+  <p>A arquitetura é escolha. Três coisas não são, e valem para os dois modelos igualmente:
+  concatenar valor do usuário dentro do SQL (abre SQL Injection), guardar senha com
+  <code>md5()</code> (quebrado há anos, reversível em segundos por sites públicos) e confiar em
+  validação feita apenas no navegador. O projeto usa prepared statements, <code>password_hash()</code>
+  e revalidação no servidor — as seções 3.3, 3.5 e 3.8 detalham cada um.</p>
+</div>
+
+<h2 class="quebra">2. O banco de dados</h2>
+
+<h3>2.1 Por que um banco e não arquivos</h3>
+
+<p>Seria possível guardar os dados em arquivos de texto. Não se faz isso por quatro motivos
+práticos:</p>
+
+<ul>
+  <li><strong>Busca eficiente.</strong> Encontrar "arroz" entre 597 alimentos num arquivo exige ler
+  o arquivo inteiro. O banco usa índices e vai direto.</li>
+  <li><strong>Concorrência.</strong> Se duas pessoas salvarem ao mesmo tempo, um arquivo pode ser
+  corrompido. O banco controla acesso simultâneo.</li>
+  <li><strong>Integridade.</strong> O banco garante regras: um e-mail não pode repetir, uma medição
+  precisa pertencer a um usuário que existe.</li>
+  <li><strong>Consultas combinadas.</strong> "Todas as medições do usuário 9 ordenadas por data" é
+  uma linha de SQL.</li>
+</ul>
+
+<h3>2.2 A tabela <span class="arquivo">alimentos</span></h3>
+
+<p>Guarda a TACO. Uma linha por alimento, e <strong>todos os valores nutricionais são por 100 g
+de parte comestível</strong> — essa é a unidade padrão da tabela, e é por isso que o código
+trabalha o tempo todo com campos chamados <code>kcal100</code>, <code>proteina100</code>,
+<code>carbo100</code> e <code>gordura100</code>.</p>
+
+<pre><code>CREATE TABLE alimentos (
+  id            INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  numero_taco   INT UNSIGNED NULL,        -- numero do alimento na TACO
+  categoria     VARCHAR(80)  NULL,        -- grupo (ex: "Cereais e derivados")
+  descricao     VARCHAR(255) NOT NULL,    -- nome do alimento
+
+  energia_kcal  DECIMAL(8,2) NULL,        -- kcal por 100 g
+  proteina      DECIMAL(8,3) NULL,        -- g
+  lipideos      DECIMAL(8,3) NULL,        -- g (gordura)
+  carboidrato   DECIMAL(8,3) NULL,        -- g
+  ... (minerais e vitaminas)
+
+  PRIMARY KEY (id),
+  KEY idx_descricao (descricao),
+  FULLTEXT KEY ft_descricao (descricao)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;</code></pre>
+
+<div class="porque">
+  <span class="rotulo">Decisão explicada: como os valores especiais da TACO foram tratados</span>
+  <p>A planilha original da TACO usa códigos em vez de números em alguns casos. Foram convertidos
+  assim na importação:</p>
+  <ul style="margin-bottom:0">
+    <li><code>NA</code> (não disponível), <code>*</code> (não aplicável) e células em branco viraram
+    <strong>NULL</strong> — que em banco significa "não existe informação", diferente de zero.</li>
+    <li><code>Tr</code> (traço, quantidade insignificante mas medida) virou <strong>0</strong>,
+    porque nesse caso a informação existe e o valor é praticamente nulo.</li>
+  </ul>
+</div>
+
+<p>A distinção entre <code>NULL</code> e <code>0</code> não é detalhe: a consulta de busca filtra
+<code>WHERE energia_kcal IS NOT NULL</code> justamente para não mostrar alimentos sem informação
+calórica, que quebrariam o cálculo da refeição.</p>
+
+<h3>2.3 A tabela <span class="arquivo">usuarios</span></h3>
+
+<p>Guarda a conta e o perfil. Note que ela mistura duas coisas: os dados de login e os dados de
+personalização.</p>
+
+<pre><code>CREATE TABLE IF NOT EXISTS usuarios (
+  id            INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  nome          VARCHAR(120) NOT NULL,
+  email         VARCHAR(190) NOT NULL,
+  senha_hash    VARCHAR(255) NOT NULL,     -- nunca a senha, so o hash
+  foto          VARCHAR(255) NULL,         -- caminho do arquivo, nao a imagem
+
+  -- personalizacao (NULL ate o usuario completar o onboarding)
+  sexo          ENUM('M','F') NULL,
+  idade         INT UNSIGNED NULL,
+  altura_cm     INT UNSIGNED NULL,
+  peso_kg       DECIMAL(5,1)  NULL,
+  cintura_cm    DECIMAL(5,1)  NULL,
+  peso_alvo     DECIMAL(5,1)  NULL,
+  atividade     ENUM('sedentario','leve','moderado','intenso','muito_intenso') NULL,
+  meta          ENUM('perder','manter','ganhar') NULL,
+  objetivo      ENUM('manter','definir') NULL,
+
+  -- metas calculadas (meta_kcal IS NOT NULL == perfil completo)
+  meta_kcal     INT UNSIGNED NULL,
+  meta_carbo    INT UNSIGNED NULL,
+  meta_proteina INT UNSIGNED NULL,
+  meta_gordura  INT UNSIGNED NULL,
+
+  criado_em     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_email (email)
+);</code></pre>
+
+<h4>Três decisões que valem explicar</h4>
+
+<p><strong>1. As colunas de personalização aceitam NULL.</strong> Quando o usuário se cadastra, ele
+só informa nome, e-mail e senha. O perfil vem depois, na tela de personalização. Enquanto não vier,
+essas colunas ficam vazias. O sistema usa isso como sinal: <code>meta_kcal IS NOT NULL</code>
+significa "perfil completo". É por isso que, ao entrar, quem ainda não preencheu é redirecionado
+para a personalização em vez do dashboard.</p>
+
+<p><strong>2. A foto guarda o caminho, não a imagem.</strong> A coluna <code>foto</code> guarda um
+texto como <code>uploads/fotos/foto_9_73119afeb9ac.png</code>. O arquivo em si fica no disco. Guardar
+imagens dentro do banco é possível, mas deixa o banco pesado, lento para copiar e difícil de servir —
+o navegador precisaria de um endpoint PHP só para devolver cada imagem, em vez de o Apache entregar
+o arquivo diretamente.</p>
+
+<p><strong>3. As metas calculadas ficam salvas, não são recalculadas a cada acesso.</strong> Poderiam
+ser derivadas do peso e da altura toda vez. Salvá-las tem duas vantagens: o dashboard não precisa
+refazer a conta a cada carregamento, e fica registrado qual era a meta vigente — inclusive se o
+usuário ajustou os macros manualmente.</p>
+
+<h3>2.4 A tabela <span class="arquivo">medicoes</span></h3>
+
+<pre><code>CREATE TABLE IF NOT EXISTS medicoes (
+  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  usuario_id  INT UNSIGNED NOT NULL,
+  data        DATE          NOT NULL,
+  peso_kg     DECIMAL(5,1)  NOT NULL,
+  cintura_cm  DECIMAL(5,1)  NULL,          -- opcional
+  criado_em   TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_usuario_data (usuario_id, data),
+  CONSTRAINT fk_medicoes_usuario
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);</code></pre>
+
+<div class="porque">
+  <span class="rotulo">A distinção mais importante do projeto</span>
+  <p><code>usuarios.peso_kg</code> é o <strong>peso atual</strong>. A tabela
+  <code>medicoes</code> é o <strong>histórico</strong>. São coisas diferentes com propósitos
+  diferentes: o peso atual alimenta o cálculo da meta; o histórico alimenta o gráfico de evolução.
+  Quando o usuário registra uma medição nova, o sistema atualiza os dois — grava no histórico e
+  sincroniza o peso atual com a medição mais recente por data.</p>
+</div>
+
+<p>A chave <code>UNIQUE (usuario_id, data)</code> garante <strong>uma medição por dia por
+usuário</strong>. Isso permite usar a técnica de <em>upsert</em>: se já existe registro naquele dia,
+atualiza; se não existe, insere. Em SQL:</p>
+
+<pre><code>INSERT INTO medicoes (usuario_id, data, peso_kg, cintura_cm)
+VALUES (?, ?, ?, ?)
+ON DUPLICATE KEY UPDATE
+   peso_kg = VALUES(peso_kg),
+   cintura_cm = VALUES(cintura_cm)</code></pre>
+
+<p>Sem a chave única, registrar duas vezes no mesmo dia criaria dois pontos no gráfico na mesma
+data — visualmente confuso e sem sentido.</p>
+
+<h3>2.5 A tabela <span class="arquivo">redefinicoes_senha</span></h3>
+
+<pre><code>CREATE TABLE IF NOT EXISTS redefinicoes_senha (
+  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  usuario_id  INT UNSIGNED NOT NULL,
+  token_hash  CHAR(64)     NOT NULL,   -- sha256 do token enviado no link
+  expira_em   DATETIME     NOT NULL,   -- prazo de validade
+  usado_em    DATETIME     NULL,       -- NULL = ainda nao foi usado
+  criado_em   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_token_hash (token_hash),
+  KEY idx_usuario_pendente (usuario_id, usado_em),
+  CONSTRAINT fk_redefinicoes_usuario
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);</code></pre>
+
+<p>Guarda os pedidos de "esqueci minha senha". Cada linha representa um link enviado por e-mail.</p>
+
+<div class="porque">
+  <span class="rotulo">Por que a coluna se chama token_hash e não token</span>
+  <p>Pelo mesmo motivo que a senha vira <code>senha_hash</code>. O token é a chave que troca a senha
+  de uma conta — na prática, vale tanto quanto a senha enquanto está válido. Se ficasse em texto puro
+  e o banco vazasse, quem lesse a tabela poderia trocar a senha de qualquer usuário com pedido
+  pendente. Guardando só o SHA-256, o vazamento não serve para nada: o link já enviado não é
+  recuperável a partir do hash.</p>
+</div>
+
+<p>Duas colunas fazem o token valer <strong>uma vez só e por tempo limitado</strong>. O
+<code>expira_em</code> é conferido na consulta (<code>expira_em &gt; NOW()</code>) e o
+<code>usado_em</code> começa <code>NULL</code>, recebendo a data no momento em que a senha é trocada.
+Um link só funciona enquanto as duas condições valem.</p>
+
+<p>A chave <code>ON DELETE CASCADE</code> tem função de limpeza: apagar um usuário apaga junto todos
+os pedidos de redefinição dele, sem deixar linhas órfãs apontando para um id que não existe mais.</p>
+
+<h3>2.6 Conceitos de banco usados no projeto</h3>
+
+<table>
+  <tr><th style="width:26%">Conceito</th><th>O que faz e onde aparece</th></tr>
+  <tr>
+    <td><code>PRIMARY KEY</code></td>
+    <td>Identificador único de cada linha. Com <code>AUTO_INCREMENT</code>, o banco gera sozinho:
+    1, 2, 3... Nunca se repete, nem se a linha for apagada.</td>
+  </tr>
+  <tr>
+    <td><code>UNIQUE KEY</code></td>
+    <td>Impede valores repetidos. Em <code>usuarios</code> impede dois cadastros com o mesmo e-mail;
+    em <code>medicoes</code> impede duas medições no mesmo dia.</td>
+  </tr>
+  <tr>
+    <td><code>FOREIGN KEY</code></td>
+    <td>Liga uma tabela à outra. <code>medicoes.usuario_id</code> tem que apontar para um
+    <code>usuarios.id</code> que existe. O banco recusa uma medição de um usuário inexistente.</td>
+  </tr>
+  <tr>
+    <td><code>ON DELETE CASCADE</code></td>
+    <td>Se o usuário for apagado, suas medições são apagadas junto, automaticamente. Evita "dados
+    órfãos" apontando para alguém que não existe mais.</td>
+  </tr>
+  <tr>
+    <td><code>ENUM</code></td>
+    <td>Lista fechada de valores permitidos. <code>meta</code> só aceita
+    <code>'perder'</code>, <code>'manter'</code> ou <code>'ganhar'</code>. É uma validação feita
+    pelo próprio banco, além da validação do PHP.</td>
+  </tr>
+  <tr>
+    <td><code>DECIMAL(5,1)</code></td>
+    <td>Número com 5 dígitos no total e 1 casa decimal (até 9999,9). Usado para peso e cintura.
+    <strong>Não se usa FLOAT</strong> para medidas assim porque FLOAT é aproximado e pode gerar
+    valores como 80,000000001.</td>
+  </tr>
+  <tr>
+    <td><code>NULL</code></td>
+    <td>Ausência de informação — diferente de zero ou de texto vazio. Cintura <code>NULL</code>
+    significa "não medida", e o gráfico simplesmente não desenha aquele ponto.</td>
+  </tr>
+  <tr>
+    <td><code>utf8mb4</code></td>
+    <td>Codificação de caracteres que suporta acentos e cedilha corretamente. O
+    <code>COLLATE utf8mb4_unicode_ci</code> faz a comparação ignorar acentos e maiúsculas — é por
+    isso que buscar "acucar" encontra "Açúcar".</td>
+  </tr>
+  <tr>
+    <td>Índice (<code>KEY</code>)</td>
+    <td>Estrutura auxiliar que acelera buscas numa coluna, como o índice remissivo de um livro.
+    Sem ele, o banco lê todas as linhas.</td>
+  </tr>
+</table>
+
+<h3>2.7 Por que o banco cabe em um arquivo só</h3>
+
+<p>Todo o banco vive em <code>banco/nutribalance_completo.sql</code>: as três tabelas e os 597
+alimentos da TACO. Instalar é importar esse arquivo no phpMyAdmin — um passo, sem sequência a
+respeitar.</p>
+
+<p>Não foi sempre assim. Durante o desenvolvimento, a pasta chegou a ter nove arquivos numerados
+(<code>01_schema.sql</code> até <code>09_renomear_metas.sql</code>). Cada um era uma
+<strong>migration</strong>: uma alteração no formato do banco, com ordem definida. Quando a coluna
+<code>peso_alvo</code> passou a ser necessária, em vez de reescrever a criação da tabela criou-se um
+arquivo novo que só a adicionava:</p>
+
+<pre><code>-- 04_peso_alvo.sql
+ALTER TABLE usuarios ADD COLUMN peso_alvo DECIMAL(5,1) NULL AFTER peso_kg;</code></pre>
+
+<p>Essa é a prática correta <strong>quando existe um banco em produção com dados dentro</strong>:
+reescrever a criação da tabela quebraria quem já tinha o banco montado, enquanto a migration é
+aplicada por cima, preservando os registros.</p>
+
+<div class="porque">
+  <span class="rotulo">Por que abandonar as migrations aqui</span>
+  <p>A condição que justifica migrations nunca se aplicou a este projeto: não há banco em produção,
+  nem outra pessoa com uma cópia de dados para preservar. O único banco existente é o de
+  desenvolvimento, recriável a qualquer momento.</p>
+  <p>Sem essa condição, a cadeia numerada só acumulou defeitos. Três migrations
+  (<code>04_peso_alvo</code>, <code>05_objetivo</code> e <code>09_renomear_metas</code>) acabaram
+  absorvidas pela criação da tabela quando ela foi reescrita, e passaram a <strong>falhar</strong> em
+  banco novo com <code>Duplicate column name</code>. A documentação da época orientava ignorar o
+  erro — o que é frágil de defender e transforma a instalação em algo que só funciona para quem já
+  sabe onde ela quebra.</p>
+  <p>A regra geral: <em>migrations existem para proteger dados que você não pode perder.</em> Sem
+  dados a proteger, elas são custo sem benefício, e um schema único e legível vale mais.</p>
+</div>
+
+<div class="nota">
+  <span class="rotulo">O que se perdeu e o que se ganhou</span>
+  <p>Perdeu-se o histórico de evolução do schema registrado em arquivos — mas ele continua no
+  <strong>Git</strong>, que é onde histórico deve morar. Ganhou-se uma instalação de um passo,
+  um schema que se lê de cima a baixo sem reconstruir mentalmente nove alterações, e o fim das
+  credenciais duplicadas: o importador da TACO agora reaproveita a conexão de
+  <code>site/api/conexao.php</code> em vez de repetir usuário e senha.</p>
+</div>
+
+<h2 class="quebra">3. O back-end em PHP</h2>
+
+<p>Todos os endpoints ficam em <code>site/api/</code>. Cada arquivo faz uma coisa só. Nenhum deles
+gera HTML: todos respondem <strong>JSON</strong>, e quem monta a tela é o JavaScript.</p>
+
+<h3>3.1 O bootstrap comum</h3>
+
+<p>O arquivo <code>_bootstrap.php</code> é incluído por todos os endpoints de conta e perfil. Ele
+faz três coisas: abre a sessão, define os cabeçalhos de resposta e cria funções auxiliares que
+evitam repetir código.</p>
+
+<pre><code>session_start();
+header('Content-Type: application/json; charset=utf-8');
+header('Cache-Control: no-store');
+
+/** Envia um JSON e encerra. */
+function responder(array $dados, int $status = 200): void {
+    http_response_code($status);
+    echo json_encode($dados, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+/** Exige método HTTP; encerra com 405 se não bater. */
+function exigir_metodo(string $metodo): void {
+    if (($_SERVER['REQUEST_METHOD'] ?? '') !== $metodo) {
+        responder(['erro' => 'Método não permitido.'], 405);
+    }
+}
+
+/** Retorna o id do usuário logado ou encerra com 401. */
+function exigir_login(): int {
+    if (empty($_SESSION['uid'])) {
+        responder(['erro' => 'Não autenticado.'], 401);
+    }
+    return (int) $_SESSION['uid'];
+}</code></pre>
+
+<p>Vale notar detalhes que parecem pequenos e não são:</p>
+
+<ul>
+  <li><code>Cache-Control: no-store</code> impede o navegador de guardar a resposta em cache. Sem
+  isso, o navegador poderia mostrar dados antigos do perfil depois de uma alteração.</li>
+  <li><code>JSON_UNESCAPED_UNICODE</code> faz os acentos saírem como "Almoço" em vez de
+  <code>Almo\u00e7o</code>. Funciona igual, mas é legível ao depurar.</li>
+  <li><code>exit</code> dentro de <code>responder()</code> é essencial: encerra o script na hora, para
+  que nenhum código depois dele execute por engano.</li>
+</ul>
+
+<h3>3.2 Conexão com PDO</h3>
+
+<pre><code>function conectar(): PDO {
+    $dsn = 'mysql:host=' . DB_HOST . ';port=' . DB_PORT
+         . ';dbname=' . DB_NAME . ';charset=utf8mb4';
+    return new PDO($dsn, DB_USER, DB_PASS, [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES   => false,
+    ]);
+}</code></pre>
+
+<p><strong>PDO</strong> (PHP Data Objects) é a interface moderna do PHP para bancos de dados. As três
+opções configuradas têm motivo:</p>
+
+<ul>
+  <li><code>ERRMODE_EXCEPTION</code> — faz o PDO lançar exceção quando algo dá errado, em vez de
+  falhar em silêncio. É o que permite o <code>try/catch</code> capturar o erro e responder 500 com
+  mensagem controlada.</li>
+  <li><code>FETCH_ASSOC</code> — as linhas vêm como array associativo
+  (<code>$linha['nome']</code>) em vez de virem duplicadas também por posição.</li>
+  <li><code>EMULATE_PREPARES => false</code> — força prepared statements <em>de verdade</em>, feitos
+  pelo MySQL, e não simulados pelo PHP. É mais seguro, e é o assunto do próximo item.</li>
+</ul>
+
+<h3>3.3 Prepared statements e SQL Injection</h3>
+
+<p>Este é provavelmente o conceito de segurança mais importante do projeto inteiro.</p>
+
+<p>Imagine que a busca de alimentos fosse escrita concatenando texto:</p>
+
+<pre><code>// CODIGO ERRADO - NUNCA FAZER
+$sql = "SELECT * FROM alimentos WHERE descricao LIKE '%" . $_GET['q'] . "%'";</code></pre>
+
+<p>Se o usuário digitar algo comum, funciona. Mas se digitar:</p>
+
+<pre><code>'; DROP TABLE usuarios; --</code></pre>
+
+<p>a string final que chega ao banco vira:</p>
+
+<pre><code>SELECT * FROM alimentos WHERE descricao LIKE '%'; DROP TABLE usuarios; --%'</code></pre>
+
+<p>O banco recebe <strong>dois comandos</strong>: a consulta e, em seguida, a destruição da tabela de
+usuários. Isso é <strong>SQL Injection</strong>. O erro conceitual é que o dado digitado pelo usuário
+foi tratado como <em>código</em>.</p>
+
+<p>O prepared statement resolve separando as duas coisas. Primeiro envia-se a estrutura da consulta
+com marcadores <code>?</code>; depois, os valores. É o que o projeto faz:</p>
+
+<pre><code>$stmt = $pdo->prepare('SELECT id, senha_hash, meta_kcal FROM usuarios WHERE email = ?');
+$stmt->execute([$email]);</code></pre>
+
+<div class="porque">
+  <span class="rotulo">Por que isso funciona</span>
+  <p>O banco recebe a consulta já compilada, com um "buraco" onde vai o valor. Quando o valor chega,
+  ele é inserido <strong>como dado</strong>, jamais interpretado como comando. Se o usuário digitar
+  <code>'; DROP TABLE usuarios; --</code>, o banco vai procurar um alimento cuja descrição seja
+  literalmente esse texto — e não achar nada. É a defesa correta, e não depende de o programador
+  lembrar de "limpar" a entrada.</p>
+</div>
+
+<p>Na busca por múltiplas palavras, o projeto monta os placeholders dinamicamente, mas continua sem
+concatenar valores:</p>
+
+<pre><code>$palavras = preg_split('/\s+/', $q, -1, PREG_SPLIT_NO_EMPTY);
+$condicoes = [];
+$params = [];
+foreach ($palavras as $palavra) {
+    $condicoes[] = 'descricao LIKE ?';       // so o marcador entra no SQL
+    $params[] = '%' . $palavra . '%';        // o valor vai separado
+}
+$sql = 'SELECT ... WHERE energia_kcal IS NOT NULL AND '
+     . implode(' AND ', $condicoes) . ' ORDER BY descricao LIMIT 30';
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);</code></pre>
+
+<p>Cada palavra digitada vira um <code>LIKE</code>, e todas precisam aparecer na descrição. É por
+isso que "arroz cozido" encontra "Arroz, integral, cozido", mesmo com uma vírgula e outra palavra no
+meio.</p>
+
+<h3>3.4 Sessões: como o servidor sabe quem está logado</h3>
+
+<p>HTTP é um protocolo <strong>sem estado</strong>: cada requisição é independente e o servidor não
+lembra nada da anterior. Isso levanta um problema: como o servidor sabe que a pessoa que está pedindo
+o dashboard é a mesma que fez login há cinco minutos?</p>
+
+<p>A resposta é o mecanismo de sessão, que funciona assim:</p>
+
+<div class="fluxo">1. O usuario envia email e senha para api/login.php.
+
+2. O PHP confere a senha. Estando correta, executa:
+       session_regenerate_id(true);
+       $_SESSION['uid'] = 3;
+
+   Isso cria um ARQUIVO no servidor com o conteudo { uid: 3 },
+   identificado por um codigo aleatorio longo (o "id de sessao").
+
+3. O PHP envia esse codigo ao navegador dentro de um COOKIE.
+
+4. Em toda requisicao seguinte, o navegador reenvia o cookie
+   automaticamente.
+
+5. O PHP le o cookie, abre o arquivo correspondente no servidor
+   e descobre: uid = 3. Agora sabe quem esta falando.</div>
+
+<div class="porque">
+  <span class="rotulo">Detalhe de segurança: por que <code>session_regenerate_id(true)</code></span>
+  <p>Essa linha troca o identificador da sessão no momento do login. Sem ela, o site fica vulnerável
+  a <em>session fixation</em>: um atacante forneceria à vítima um identificador de sessão conhecido
+  por ele; quando a vítima fizesse login, aquela mesma sessão passaria a estar autenticada, e o
+  atacante entraria com o identificador que já tinha. Trocando o identificador no login, o antigo
+  deixa de valer.</p>
+</div>
+
+<p>O importante é que <strong>o cookie guarda apenas o identificador, nunca os dados</strong>. O
+navegador não sabe o <code>uid</code>; ele carrega só uma chave aleatória. Os dados ficam no servidor,
+fora do alcance do usuário.</p>
+
+<p>O logout desfaz tudo: limpa <code>$_SESSION</code>, manda o navegador expirar o cookie (definindo
+a data no passado) e destrói o arquivo de sessão com <code>session_destroy()</code>.</p>
+
+<h3>3.5 Senhas: hash, nunca texto puro</h3>
+
+<p>A coluna se chama <code>senha_hash</code>, e o nome é proposital: <strong>a senha do usuário nunca
+é guardada</strong>. O que se guarda é o resultado de uma função de hash.</p>
+
+<pre><code>// no cadastro (registrar.php)
+$hash = password_hash($senha, PASSWORD_DEFAULT);
+
+// no login (login.php)
+if (!$u || !password_verify($senha, $u['senha_hash'])) {
+    responder(['erro' => 'E-mail ou senha incorretos.'], 401);
+}</code></pre>
+
+<p>Uma função de hash transforma um texto em outro de tamanho fixo, e o caminho de volta não existe.
+Da senha se chega ao hash; do hash não se chega à senha. Na verificação, o PHP aplica a mesma função
+à senha digitada e compara os resultados.</p>
+
+<div class="porque">
+  <span class="rotulo">Por que isso é obrigatório</span>
+  <p>Se o banco vazar, o atacante leva os hashes, não as senhas. Como muita gente reutiliza senha em
+  vários sites, guardar senha em texto puro exporia as contas de e-mail e banco dos usuários, não só
+  a conta do NutriBalance. Além disso, o <code>password_hash</code> aplica um <em>salt</em>
+  aleatório automaticamente: dois usuários com a mesma senha têm hashes diferentes, o que impede
+  descobrir todas as contas de uma vez.</p>
+</div>
+
+<h4>Um detalhe deliberado: a mensagem de erro genérica</h4>
+
+<p>Quando o login falha, a mensagem é sempre "E-mail ou senha incorretos" — nunca "esse e-mail não
+existe" ou "senha errada". Isso é intencional. Mensagens específicas permitiriam a um atacante
+descobrir quais e-mails têm conta no site, testando um por um. O código deixa isso explícito num
+comentário: <em>"Mensagem genérica (não revela se o e-mail existe)"</em>.</p>
+
+<h3>3.6 Códigos de status HTTP</h3>
+
+<p>Toda resposta HTTP carrega um número que diz o que aconteceu. O projeto usa esses códigos de
+forma consistente, e o JavaScript decide o que fazer com base neles.</p>
+
+<table>
+  <tr><th style="width:12%">Código</th><th style="width:26%">Significado</th><th>Onde o projeto usa</th></tr>
+  <tr><td><strong>200</strong></td><td>OK</td><td>Sucesso em qualquer endpoint.</td></tr>
+  <tr><td><strong>401</strong></td><td>Não autenticado</td><td>Sem sessão válida, ou senha incorreta. O front-end redireciona para o login.</td></tr>
+  <tr><td><strong>405</strong></td><td>Método não permitido</td><td>Ex.: acessar por GET um endpoint que exige POST.</td></tr>
+  <tr><td><strong>409</strong></td><td>Conflito</td><td>Cadastro com e-mail que já existe.</td></tr>
+  <tr><td><strong>422</strong></td><td>Dado inválido</td><td>Idade fora de 10–120, peso fora de 30–350, sexo não informado.</td></tr>
+  <tr><td><strong>500</strong></td><td>Erro do servidor</td><td>Falha inesperada, como o banco fora do ar.</td></tr>
+</table>
+
+<div class="nota">
+  <span class="rotulo">Por que 422 e não 400</span>
+  <p>400 significa "requisição malformada" — o servidor não conseguiu nem entender. 422 significa
+  "entendi perfeitamente, mas o conteúdo não passa nas regras de negócio". Uma idade de 500 anos é
+  sintaticamente válida e semanticamente impossível: é exatamente o caso do 422.</p>
+</div>
+
+<h3>3.7 Percurso de cada endpoint</h3>
+
+<table>
+  <tr><th style="width:30%">Arquivo</th><th>O que faz</th></tr>
+  <tr><td><code>_bootstrap.php</code></td><td>Base comum: sessão, cabeçalhos e as funções <code>responder</code>, <code>corpo</code>, <code>exigir_metodo</code>, <code>exigir_login</code>.</td></tr>
+  <tr><td><code>conexao.php</code></td><td>Credenciais e a função <code>conectar()</code> que devolve o PDO.</td></tr>
+  <tr><td><code>registrar.php</code></td><td>Valida nome, e-mail e senha (mínimo 6 caracteres); verifica se o e-mail já existe (409); grava com hash; abre a sessão.</td></tr>
+  <tr><td><code>login.php</code></td><td>Confere a senha com <code>password_verify</code>; regenera o id de sessão; devolve <code>perfil_completo</code> para o front decidir o destino.</td></tr>
+  <tr><td><code>logout.php</code></td><td>Limpa a sessão, expira o cookie e destrói o arquivo de sessão.</td></tr>
+  <tr><td><code>sessao.php</code></td><td>Guarda das páginas. Sem sessão devolve 401; com sessão devolve o usuário e o perfil no formato camelCase que o JavaScript espera.</td></tr>
+  <tr><td><code>salvar_perfil.php</code></td><td>Recebe os dados do onboarding, valida faixas, <strong>recalcula</strong> a meta e os macros, grava, e semeia a primeira medição de hoje.</td></tr>
+  <tr><td><code>buscar.php</code></td><td>Busca na TACO por palavras, devolve até 30 resultados no formato do site.</td></tr>
+  <tr><td><code>salvar_medicao.php</code></td><td>Upsert da medição do dia; sincroniza <code>usuarios.peso_kg</code> com a medição mais recente e recalcula as metas.</td></tr>
+  <tr><td><code>listar_medicoes.php</code></td><td>Devolve o histórico em ordem cronológica, para o gráfico.</td></tr>
+  <tr><td><code>foto.php</code></td><td>Envio, troca e remoção da foto de perfil.</td></tr>
+  <tr><td><code>esqueceu_senha.php</code></td><td>Gera o token de redefinição, grava o hash dele e envia o link por e-mail. Responde sempre a mesma coisa, exista ou não a conta.</td></tr>
+  <tr><td><code>redefinir_senha.php</code></td><td>Confere o token (válido, não usado, no prazo) e grava a senha nova com hash, dentro de uma transação.</td></tr>
+  <tr><td><code>email.php</code></td><td>Infraestrutura, não é endpoint: envia mensagens pelo SMTP usando o PHPMailer.</td></tr>
+</table>
+
+<h3>3.8 Por que o servidor recalcula tudo</h3>
+
+<p>O cabeçalho do <code>salvar_perfil.php</code> declara a regra explicitamente: <em>"Valida as
+faixas, RECALCULA meta_kcal + macros aqui (autoridade — não confia no valor que o front mandou)"</em>.</p>
+
+<p>A fórmula de cálculo existe em dois lugares: em <code>js/calculo.js</code> e em
+<code>api/salvar_perfil.php</code>. Isso é duplicação de código, o que normalmente se evita. Aqui é
+deliberado, e a justificativa é sólida:</p>
+
+<ul>
+  <li>A versão em <strong>JavaScript</strong> existe para a experiência de uso: ela atualiza a prévia
+  na tela conforme o usuário digita, sem precisar ir ao servidor a cada tecla.</li>
+  <li>A versão em <strong>PHP</strong> é a que vale. É ela que grava no banco.</li>
+</ul>
+
+<p>Se o usuário adulterar o JavaScript, ele consegue mudar o número que aparece na tela dele — e
+nada mais. Ao salvar, o servidor refaz a conta a partir de sexo, idade, altura, peso, atividade e
+meta, e grava o próprio resultado.</p>
+
+<div class="aviso">
+  <span class="rotulo">Ponto de atenção honesto</span>
+  <p>Código duplicado é uma dívida real: se a fórmula mudar, é preciso alterar nos dois arquivos, e
+  esquecer um deles causaria divergência entre a prévia e o valor salvo. A alternativa seria calcular
+  só no servidor e consultar a cada mudança de campo, ao custo de muitas requisições. A escolha foi
+  consciente, e está registrada em comentário nos dois arquivos justamente para que ninguém altere um
+  sem o outro.</p>
+</div>
+
+<h3>3.9 Upload de imagem com validação real</h3>
+
+<p>O <code>foto.php</code> aceita a imagem e faz quatro verificações antes de gravar:</p>
+
+<pre><code>const TAMANHO_MAX   = 3 * 1024 * 1024; // 3 MB
+const TIPOS_ACEITOS = [
+    'image/jpeg' => 'jpg',
+    'image/png'  => 'png',
+    'image/webp' => 'webp',
+];
+
+// Valida que e mesmo uma imagem e descobre o tipo real
+// (nao confia na extensao).
+$info = @getimagesize($arquivo['tmp_name']);
+$mime = $info['mime'] ?? '';
+if (!$info || !isset(TIPOS_ACEITOS[$mime])) {
+    responder(['erro' => 'Formato inválido. Use JPG, PNG ou WEBP.'], 422);
+}
+$ext = TIPOS_ACEITOS[$mime];</code></pre>
+
+<div class="porque">
+  <span class="rotulo">Por que não olhar a extensão do arquivo</span>
+  <p>Qualquer pessoa pode renomear <code>virus.php</code> para <code>foto.jpg</code>. A extensão é
+  só texto no nome, não diz nada sobre o conteúdo. A função <code>getimagesize()</code> abre o
+  arquivo e lê os primeiros bytes, onde ficam as assinaturas que identificam o formato real. Se não
+  for uma imagem de verdade, ela falha. O nome final gravado no disco é gerado pelo próprio servidor
+  (<code>foto_&lt;id&gt;_&lt;hash aleatório&gt;.&lt;ext&gt;</code>), então o nome enviado pelo
+  usuário é descartado por completo.</p>
+</div>
+
+<p>A ordem das operações também importa: o arquivo novo é gravado <strong>primeiro</strong> e o
+antigo só é apagado <strong>depois</strong> que o novo já está no disco e o banco atualizado. Se algo
+falhar no meio, o usuário fica com a foto antiga em vez de ficar sem nenhuma.</p>
+
+<h3>3.10 Recuperação de senha: token de uso único</h3>
+
+<p>O fluxo de "esqueci minha senha" tem um problema central: como deixar alguém trocar a senha
+<em>sem</em> saber a senha atual, e ainda assim ter certeza de que é o dono da conta. A resposta é
+usar o acesso ao e-mail como prova de identidade.</p>
+
+<p>O caminho ingênuo seria gerar uma senha nova e enviá-la pronta por e-mail. O projeto não faz
+isso, por dois motivos: a senha trafegaria em texto puro e ficaria guardada na caixa de entrada
+indefinidamente; e qualquer pessoa poderia trocar a senha de outra só sabendo o e-mail dela, mesmo
+sem acesso à caixa — bastaria pedir a redefinição para trancar a vítima fora da conta.</p>
+
+<p>Em vez disso, o sistema emite um <strong>token</strong>: uma chave aleatória, temporária, que
+autoriza uma única troca de senha. A senha atual continua valendo até a pessoa efetivamente escolher
+a nova.</p>
+
+<h4>Os dois passos</h4>
+
+<pre><code>// 1. esqueceu_senha.php — emite o token
+$token = bin2hex(random_bytes(32));            // 64 caracteres imprevisiveis
+$pdo->prepare(
+    'INSERT INTO redefinicoes_senha (usuario_id, token_hash, expira_em)
+     VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 60 MINUTE))'
+)->execute([$usuario['id'], hash('sha256', $token)]);
+
+$link = url_site() . '/redefinir-senha.html?token=' . $token;
+
+// 2. redefinir_senha.php — consome o token
+$stmt = $pdo->prepare(
+    'SELECT id, usuario_id FROM redefinicoes_senha
+      WHERE token_hash = ? AND usado_em IS NULL AND expira_em > NOW()'
+);
+$stmt->execute([hash('sha256', $token)]);</code></pre>
+
+<p>O token em claro existe em dois lugares apenas: no e-mail da pessoa e na barra de endereço do
+navegador dela. No banco fica só o hash. Na hora de validar, o servidor aplica o mesmo
+<code>sha256</code> ao token recebido e procura por igualdade — a mesma lógica do
+<code>password_verify</code>, na seção 3.5.</p>
+
+<div class="porque">
+  <span class="rotulo">Por que random_bytes e não md5(time())</span>
+  <p>Um token precisa ser <strong>imprevisível</strong>. O <code>time()</code> devolve o segundo
+  atual: quem soubesse aproximadamente quando o pedido foi feito testaria algumas centenas de
+  valores e acertaria o token. A função <code>random_bytes()</code> usa o gerador criptográfico do
+  sistema operacional; com 32 bytes, o espaço de possibilidades é grande demais para ser varrido por
+  tentativa e erro.</p>
+</div>
+
+<h4>Três proteções que valem mencionar na defesa</h4>
+
+<p><strong>Resposta genérica.</strong> O endpoint responde exatamente a mesma mensagem se o e-mail
+existe ou não. Se dissesse "e-mail não cadastrado", a tela viraria uma ferramenta para descobrir
+quem tem conta no site — o mesmo critério já aplicado no <code>login.php</code>, que nunca diz se
+errou o e-mail ou a senha.</p>
+
+<p><strong>Uso único e prazo.</strong> Ao trocar a senha, o <code>usado_em</code> é preenchido e o
+link morre. Pedir um link novo também invalida os anteriores, então só o último e-mail funciona.
+Fora do prazo de uma hora, a consulta não encontra nada.</p>
+
+<p><strong>Transação.</strong> Gravar a senha nova e dar baixa no token são duas operações que
+precisam valer juntas:</p>
+
+<pre><code>$pdo->beginTransaction();
+$pdo->prepare('UPDATE usuarios SET senha_hash = ? WHERE id = ?')
+    ->execute([password_hash($senha, PASSWORD_DEFAULT), $pedido['usuario_id']]);
+$pdo->prepare('UPDATE redefinicoes_senha SET usado_em = NOW() WHERE id = ?')
+    ->execute([$pedido['id']]);
+$pdo->commit();</code></pre>
+
+<p>Sem a transação, uma falha entre os dois comandos deixaria a senha já trocada com o link ainda
+ativo — utilizável de novo por quem tivesse o e-mail. Com ela, ou as duas gravações acontecem, ou
+nenhuma.</p>
+
+<div class="aviso">
+  <span class="rotulo">Dependência externa</span>
+  <p>Este é o único ponto do projeto que depende de um serviço de fora: o envio precisa de um
+  servidor SMTP. A função <code>mail()</code> nativa do PHP não serve, porque o XAMPP não inclui
+  servidor de e-mail — ela falha silenciosamente. O projeto usa o <strong>PHPMailer</strong>,
+  instalado como três arquivos em <span class="arquivo">api/lib/PHPMailer/</span>, sem Composer. É a
+  única biblioteca externa do NutriBalance. As credenciais ficam em <code>email_config.php</code>,
+  fora do controle de versão.</p>
+</div>
+
+<h2 class="quebra">4. A matemática nutricional</h2>
+
+<p>Esta é a parte que a banca mais provavelmente vai questionar, porque é onde o projeto deixa de
+ser "um site" e passa a ter uma regra de negócio própria. Toda a lógica está em
+<span class="arquivo">js/calculo.js</span>, espelhada em
+<span class="arquivo">api/salvar_perfil.php</span>.</p>
+
+<h3>4.1 Taxa metabólica basal (Mifflin-St Jeor)</h3>
+
+<p>A <strong>TMB</strong> é quanto de energia o corpo gasta em repouso absoluto, só para se manter
+vivo: respiração, circulação, temperatura, funcionamento dos órgãos. É o piso do gasto diário.</p>
+
+<p>O projeto usa a equação de <strong>Mifflin-St Jeor</strong>, publicada em 1990:</p>
+
+<pre><code>Homens:    TMB = (10 × peso_kg) + (6,25 × altura_cm) − (5 × idade) + 5
+Mulheres:  TMB = (10 × peso_kg) + (6,25 × altura_cm) − (5 × idade) − 161</code></pre>
+
+<p>No código:</p>
+
+<pre><code>const tmb = 10 * peso + 6.25 * altura - 5 * idade + (sexo === "M" ? 5 : -161);</code></pre>
+
+<div class="porque">
+  <span class="rotulo">Por que Mifflin-St Jeor e não Harris-Benedict</span>
+  <p>Harris-Benedict é mais antiga (1919, revisada em 1984) e é a fórmula que aparece na maioria
+  dos sites. Mifflin-St Jeor foi desenvolvida depois, com uma amostra mais representativa da
+  população contemporânea, e estudos de validação a apontam como mais precisa para pessoas com
+  sobrepeso e obesidade — justamente o público que mais usa um app de contagem de calorias. A
+  Academy of Nutrition and Dietetics dos Estados Unidos a recomenda como padrão para adultos
+  saudáveis.</p>
+</div>
+
+<p>Sobre os termos da fórmula, vale entender o sinal de cada um:</p>
+
+<ul>
+  <li><strong>Peso e altura entram positivo:</strong> mais massa corporal significa mais tecido para
+  manter, logo mais energia.</li>
+  <li><strong>Idade entra negativo:</strong> o metabolismo desacelera com o tempo, entre outros
+  fatores pela perda gradual de massa magra.</li>
+  <li><strong>A constante muda com o sexo</strong> (+5 ou −161): em média, homens têm proporção
+  maior de massa magra, que é metabolicamente mais ativa que a gordura.</li>
+</ul>
+
+<h3>4.2 Fator de atividade e TDEE</h3>
+
+<p>A TMB é o gasto em repouso. Ninguém fica em repouso o dia inteiro. O <strong>TDEE</strong>
+(<em>Total Daily Energy Expenditure</em>, gasto energético diário total) é a TMB multiplicada por um
+fator que representa o nível de atividade:</p>
+
+<pre><code>const FATOR_ATIVIDADE = {
+  sedentario:    1.2,     // pouco ou nenhum exercicio
+  leve:          1.375,   // exercicio leve, 1 a 3 dias por semana
+  moderado:      1.55,    // exercicio moderado, 3 a 5 dias
+  intenso:       1.725,   // exercicio pesado, 6 a 7 dias
+  muito_intenso: 1.9,     // trabalho fisico pesado ou 2 treinos por dia
+};
+
+TDEE = TMB × fator</code></pre>
+
+<p>Um sedentário gasta cerca de 20% acima do basal só com as atividades cotidianas — andar, sentar,
+digerir. Alguém muito ativo pode chegar a 90% acima.</p>
+
+<h3>4.3 Déficit e superávit calórico</h3>
+
+<p>Este é o princípio central do sistema, e ele é simples: <strong>o peso corporal responde ao
+balanço entre a energia consumida e a energia gasta.</strong></p>
+
+<ul>
+  <li>Consumir <strong>menos</strong> que o TDEE cria um <strong>déficit</strong>. O corpo cobre a
+  diferença usando reservas — resultado: perda de peso.</li>
+  <li>Consumir <strong>mais</strong> que o TDEE cria um <strong>superávit</strong>. O excedente é
+  armazenado — resultado: ganho de peso.</li>
+  <li>Consumir <strong>igual</strong> ao TDEE mantém o peso.</li>
+</ul>
+
+<pre><code>const AJUSTE_META = {
+  perder: -0.15,   // deficit de 15%
+  manter:  0,
+  ganhar:  0.15,   // superavit de 15%
+};
+
+meta_kcal = TDEE × (1 + ajuste)</code></pre>
+
+<div class="porque">
+  <span class="rotulo">Por que 15%, e não 30%</span>
+  <p>Um déficit maior emagreceria mais rápido, então por que não usar? Porque déficits agressivos
+  têm três problemas: aumentam a perda de massa magra junto com a gordura, são difíceis de sustentar
+  (levando ao abandono), e podem gerar deficiência de nutrientes por reduzir demais o volume de
+  comida. Um déficit percentual de 10% a 20% é a faixa geralmente recomendada como sustentável. O
+  projeto adota 15%, o meio dessa faixa.</p>
+  <p>Usar <strong>percentual</strong> em vez de um valor fixo (como "menos 500 kcal") também é uma
+  escolha: 500 kcal a menos representa muito mais para quem gasta 1800 do que para quem gasta 3500.
+  O percentual se ajusta sozinho ao tamanho da pessoa.</p>
+</div>
+
+<h3>4.4 Macronutrientes e os fatores 4/4/9</h3>
+
+<p>Não basta saber quantas calorias. Os <strong>macronutrientes</strong> — carboidrato, proteína e
+gordura — têm papéis diferentes no corpo, e cada grama fornece uma quantidade específica de energia:</p>
+
+<table>
+  <tr><th style="width:24%">Macronutriente</th><th style="width:20%">kcal por grama</th><th>Papel principal</th></tr>
+  <tr><td>Carboidrato</td><td><strong>4 kcal/g</strong></td><td>Fonte primária de energia rápida</td></tr>
+  <tr><td>Proteína</td><td><strong>4 kcal/g</strong></td><td>Construção e manutenção de tecidos, inclusive músculo</td></tr>
+  <tr><td>Gordura</td><td><strong>9 kcal/g</strong></td><td>Reserva de energia, hormônios, absorção de vitaminas</td></tr>
+</table>
+
+<p>Esses são os <strong>fatores de Atwater</strong>, estabelecidos no fim do século XIX e usados até
+hoje em rotulagem nutricional. A gordura fornece mais que o dobro por grama — é por isso que
+alimentos gordurosos são caloricamente densos.</p>
+
+<p>A conversão de calorias para gramas é uma divisão:</p>
+
+<pre><code>gramas_de_carboidrato = (meta_kcal × percentual_carbo) / 4
+gramas_de_proteina    = (meta_kcal × percentual_proteina) / 4
+gramas_de_gordura     = (meta_kcal × percentual_gordura) / 9</code></pre>
+
+<h3>4.5 As divisões 50/20/30 e 40/35/25</h3>
+
+<pre><code>const DIVISAO_PADRAO    = { carbo: 0.5, proteina: 0.2,  gordura: 0.3  };
+const DIVISAO_DEFINICAO = { carbo: 0.4, proteina: 0.35, gordura: 0.25 };</code></pre>
+
+<p>A divisão padrão (50% carboidrato, 20% proteína, 30% gordura) está dentro das faixas de
+distribuição aceitáveis de macronutrientes recomendadas por órgãos de nutrição, e serve para a
+maioria dos objetivos.</p>
+
+<p>A segunda divisão entra em um caso específico: quando o usuário escolhe <strong>manter</strong> o
+peso mas com objetivo <strong>definir</strong> — o que em treinamento se chama
+<em>recomposição corporal</em>: perder gordura e ganhar músculo ao mesmo tempo, sem que a balança
+mude muito.</p>
+
+<div class="porque">
+  <span class="rotulo">Por que mais proteína na recomposição</span>
+  <p>A proteína fornece os aminoácidos que o corpo usa para construir e reparar músculo. Em um
+  contexto de recomposição, uma ingestão proteica mais alta ajuda a preservar e ganhar massa magra
+  enquanto a gordura é reduzida. Por isso a proteína sobe de 20% para 35%, e carboidrato e gordura
+  cedem espaço proporcionalmente.</p>
+</div>
+
+<h4>A função que preserva a proporção do usuário</h4>
+
+<p>O modal de perfil permite ajustar a meta de calorias manualmente. Quando isso acontece, os macros
+precisam ser recalculados — mas seria errado jogar de volta para 50/20/30, porque o usuário pode ter
+uma divisão personalizada. A função <code>ajustarMacrosParaKcal</code> resolve isso mantendo a
+proporção atual:</p>
+
+<pre><code>function ajustarMacrosParaKcal(novaKcal, macros) {
+  const k = Number(novaKcal) || 0;
+  const kcalCarbo    = (Number(macros.metaCarbo)    || 0) * 4;
+  const kcalProteina = (Number(macros.metaProteina) || 0) * 4;
+  const kcalGordura  = (Number(macros.metaGordura)  || 0) * 9;
+  const total = kcalCarbo + kcalProteina + kcalGordura;
+  if (!(total > 0)) return derivarMetasMacro(k);   // sem base valida, usa o padrao
+  return {
+    metaCarbo:    Math.round((k * (kcalCarbo    / total)) / 4),
+    metaProteina: Math.round((k * (kcalProteina / total)) / 4),
+    metaGordura:  Math.round((k * (kcalGordura  / total)) / 9),
+  };
+}</code></pre>
+
+<p>O raciocínio: converte os gramas atuais de volta para calorias, descobre qual fração do total cada
+macro representa, aplica essas mesmas frações à nova meta e converte de volta para gramas.</p>
+
+<h3>4.6 IMC e faixa de peso ideal</h3>
+
+<p>O <strong>Índice de Massa Corporal</strong> relaciona peso e altura:</p>
+
+<pre><code>IMC = peso_kg / (altura_m)²</code></pre>
+
+<p>A classificação segue as faixas da Organização Mundial da Saúde:</p>
+
+<table>
+  <tr><th style="width:30%">IMC</th><th>Classificação</th></tr>
+  <tr><td>abaixo de 18,5</td><td>Abaixo do peso</td></tr>
+  <tr><td>18,5 a 24,9</td><td>Peso normal</td></tr>
+  <tr><td>25 a 29,9</td><td>Sobrepeso</td></tr>
+  <tr><td>30 ou mais</td><td>Obesidade</td></tr>
+</table>
+
+<p>A faixa de peso ideal é o cálculo inverso: fixa-se o IMC nos limites saudáveis e resolve-se para
+o peso.</p>
+
+<pre><code>peso_minimo = 18,5 × (altura_m)²
+peso_maximo = 24,9 × (altura_m)²</code></pre>
+
+<div class="aviso">
+  <span class="rotulo">Limitação que você deve saber apontar</span>
+  <p>O IMC não distingue massa magra de gordura. Um atleta musculoso pode ser classificado como
+  "sobrepeso" tendo pouquíssima gordura corporal. É um indicador populacional, útil como referência
+  rápida, não um diagnóstico individual. Foi justamente por isso que o projeto incluiu o
+  acompanhamento da <strong>cintura</strong>: ela reflete mudanças de composição corporal que o peso
+  sozinho esconde — é possível manter o peso e reduzir a cintura, sinal de troca de gordura por
+  músculo.</p>
+</div>
+
+<h3>4.7 Previsão de prazo até o objetivo</h3>
+
+<p>A função <code>preverResultado()</code> estima quando o usuário alcança o peso desejado. Ela parte
+de uma constante:</p>
+
+<pre><code>const KCAL_POR_KG = 7700;</code></pre>
+
+<p>A ideia é que aproximadamente 7.700 kcal correspondem a 1 kg de tecido corporal. Daí o cálculo é
+direto:</p>
+
+<pre><code>diferencaDia = |TDEE − meta_kcal|              // deficit ou superavit por dia
+dias         = (kg_a_percorrer × 7700) / diferencaDia
+taxaSemana   = (diferencaDia × 7) / 7700       // kg por semana</code></pre>
+
+<p>O sistema ainda emite um alerta quando o ritmo é agressivo:</p>
+
+<pre><code>ritmoAcelerado: taxaSemana > peso * 0.01   // mais de 1% do peso por semana</code></pre>
+
+<div class="aviso">
+  <span class="rotulo">Limitações desta previsão — importante admitir</span>
+  <p>O modelo é <strong>linear</strong>, e a realidade não é. Três limitações concretas:</p>
+  <ul style="margin-bottom:0">
+    <li><strong>O TDEE muda conforme o peso muda.</strong> Ao emagrecer, a pessoa fica mais leve, a
+    TMB cai e o déficit real diminui — o emagrecimento desacelera. O cálculo assume o TDEE inicial
+    constante, então tende a ser otimista em prazos longos.</li>
+    <li><strong>O valor 7.700 é uma aproximação.</strong> A literatura cita entre 7.000 e 7.700, e
+    ele descreve tecido adiposo; o peso perdido inclui também água e massa magra.</li>
+    <li><strong>Adesão não é considerada.</strong> O cálculo pressupõe que a meta será cumprida
+    exatamente todos os dias.</li>
+  </ul>
+  <p style="margin-top:6pt;margin-bottom:0">O próprio código registra isso em comentário: <em>"Modelo
+  linear (ritmo constante) — o TDEE real muda com o peso, então trate como estimativa."</em> Saber
+  apontar a limitação da própria ferramenta é mais forte, numa defesa, do que fingir precisão que
+  ela não tem.</p>
+</div>
+
+<h3>4.8 Exemplo numérico completo</h3>
+
+<p>Acompanhe um caso do início ao fim. Estes são valores reais, conferidos no sistema em execução.</p>
+
+<p><strong>Dados de entrada:</strong> homem, 17 anos, 175 cm, 80 kg, atividade moderada, meta perder,
+peso desejado 72 kg, objetivo manter (sem recomposição).</p>
+
+<pre><code>PASSO 1 — Taxa metabolica basal (Mifflin-St Jeor, homem)
+  TMB = (10 × 80) + (6,25 × 175) − (5 × 17) + 5
+      = 800 + 1093,75 − 85 + 5
+      = 1813,75 kcal/dia
+
+PASSO 2 — Gasto diario total (atividade moderada, fator 1,55)
+  TDEE = 1813,75 × 1,55
+       = 2811,31 kcal/dia
+
+PASSO 3 — Meta com deficit de 15%
+  meta_kcal = 2811,31 × (1 − 0,15)
+            = 2811,31 × 0,85
+            = 2389,61  ->  arredondado: 2390 kcal/dia
+
+PASSO 4 — Macronutrientes (divisao padrao 50/20/30)
+  carboidrato = (2390 × 0,50) / 4 = 1195 / 4 = 298,75  ->  299 g
+  proteina    = (2390 × 0,20) / 4 =  478 / 4 = 119,50  ->  120 g
+  gordura     = (2390 × 0,30) / 9 =  717 / 9 =  79,67  ->   80 g
+
+  Conferencia: (299×4) + (120×4) + (80×9)
+             = 1196 + 480 + 720 = 2396 kcal
+  (a pequena diferenca para 2390 vem do arredondamento de cada macro)
+
+PASSO 5 — IMC e faixa saudavel
+  altura em metros = 1,75  ->  1,75² = 3,0625
+  IMC = 80 / 3,0625 = 26,12  ->  "Sobrepeso"
+  peso minimo = 18,5 × 3,0625 = 56,7 kg
+  peso maximo = 24,9 × 3,0625 = 76,3 kg
+
+PASSO 6 — Previsao de prazo
+  kg a perder   = 80 − 72 = 8 kg
+  deficit/dia   = |2811,31 − 2390| = 421,31 kcal
+  dias          = (8 × 7700) / 421,31 = 61600 / 421,31 = 146,2 dias
+  taxa/semana   = (421,31 × 7) / 7700 = 0,38 kg por semana
+
+  Como 146 dias >= 56, o texto sai em meses:
+  146,2 / 30 = 4,87  ->  arredondado: 5
+  Exibido na tela: "Meta daqui a 5 meses"
+
+  Ritmo acelerado? 0,38 > (80 × 0,01 = 0,8)?  Nao.
+  Logo, nenhum alerta e mostrado.</code></pre>
+
+<div class="nota">
+  <span class="rotulo">Como validar isso na apresentação</span>
+  <p>Se a banca pedir para você provar que o sistema calcula certo, este é o roteiro: informe esses
+  dados na tela de personalização e confira que aparecem 2.390 kcal, os macros 299/120/80, o IMC
+  26,1 classificado como "Sobrepeso", a faixa de 56,7 a 76,3 kg e o prazo de 5 meses. Todos os
+  números acima foram verificados no sistema rodando.</p>
+</div>
+
+<h2 class="quebra">5. O front-end</h2>
+
+<h3>5.1 Por que HTML, CSS e JavaScript puros</h3>
+
+<p>O projeto não usa React, Vue, jQuery nem qualquer biblioteca. Isso foi decisão, não limitação, e
+há bons argumentos para defendê-la:</p>
+
+<ul>
+  <li><strong>Nada a instalar.</strong> Não há <code>node_modules</code>, nem etapa de build. Copiar
+  a pasta e abrir pelo Apache basta — o que importa muito para apresentar em um computador que não é
+  o seu.</li>
+  <li><strong>Aprendizado real.</strong> Escrever a manipulação de DOM na mão ensina o que os
+  frameworks fazem por baixo. Quem aprende só o framework não sabe explicar o que está acontecendo.</li>
+  <li><strong>Tamanho adequado ao problema.</strong> O site tem quatro páginas. Um framework
+  resolveria problemas que este projeto não tem, ao custo de complexidade que ele não precisa.</li>
+</ul>
+
+<h3>5.2 Módulos ES: cada arquivo declara do que depende</h3>
+
+<p>O JavaScript do site é organizado em <strong>módulos ES</strong>. Cada arquivo declara
+explicitamente o que oferece (<code>export</code>) e o que consome (<code>import</code>). O HTML
+carrega um único script — o resto o navegador resolve sozinho, seguindo os imports:</p>
+
+<pre><code>&lt;!-- index.html --&gt;
+&lt;script type="module" src="js/principal.js"&gt;&lt;/script&gt;</code></pre>
+
+<pre><code>// js/tela.js — o topo do arquivo diz tudo de que ele precisa
+import { estado } from "./estado.js";
+import { arred, escaparHtml, rotuloData } from "./utilitarios.js";
+import { blocoMacros, totaisDoDia } from "./macros.js";</code></pre>
+
+<table>
+  <tr><th style="width:26%">Arquivo</th><th>Responsabilidade</th></tr>
+  <tr><td><code>principal.js</code></td><td><em>Entry point</em> do dashboard. Valida a sessão, carrega os dados e monta a tela.</td></tr>
+  <tr><td><code>estado.js</code></td><td>O estado compartilhado do dashboard: dados do usuário, dia exibido, previsão.</td></tr>
+  <tr><td><code>dados.js</code></td><td><code>localStorage</code> e a migração entre versões do formato salvo.</td></tr>
+  <tr><td><code>utilitarios.js</code></td><td>Datas, texto e ids. Não importa nada — é a base de todos.</td></tr>
+  <tr><td><code>macros.js</code></td><td>Converte gramas em kcal e macros consumidos.</td></tr>
+  <tr><td><code>tela.js</code></td><td>Desenha o dashboard. Só lê o estado; nunca o altera.</td></tr>
+  <tr><td><code>refeicoes.js</code>, <code>alimentos.js</code>, <code>perfil.js</code></td><td>As três áreas de interação. Alteram o estado e chamam <code>atualizarTela()</code>.</td></tr>
+  <tr><td><code>calculo.js</code></td><td>Só matemática: TMB, TDEE, macros, IMC, previsão. Não toca na tela nem na rede. É o arquivo mais fácil de testar e reaproveitar.</td></tr>
+  <tr><td><code>auth.js</code></td><td>Login, cadastro, logout e a guarda de sessão. Usado por todas as páginas.</td></tr>
+  <tr><td><code>progresso.js</code></td><td>Histórico de peso e cintura, e o gráfico SVG.</td></tr>
+  <tr><td><code>personalizacao.js</code></td><td>Só na tela de onboarding: lê os campos e mostra a prévia ao vivo.</td></tr>
+</table>
+
+<div class="porque">
+  <span class="rotulo">O que isso resolveu</span>
+  <p>Antes, cada arquivo era uma tag <code>&lt;script&gt;</code> separada e todas as funções viravam
+  <strong>globais</strong>. Funcionava, mas com dois problemas. A <strong>ordem</strong> das tags era
+  significativa e invisível: trocar duas linhas de lugar quebrava o site sem erro claro. E as
+  dependências eram <strong>invisíveis</strong> — abrindo um arquivo, não havia como saber que ele
+  precisava de uma função definida em outro; só descobrindo em execução.</p>
+  <p>Com módulos, o topo de cada arquivo é a lista de dependências. Um nome escrito errado vira erro
+  imediato no console, não um <code>undefined</code> silencioso três telas adiante. E o escopo é
+  privado por padrão: o que não é exportado não existe para os outros arquivos, sem precisar de
+  truques como a IIFE que o <code>progresso.js</code> usava.</p>
+</div>
+
+<h4>O estado compartilhado</h4>
+
+<p>Módulos trazem uma regra que muda como o estado é escrito: quem importa uma variável só pode
+<strong>lê-la</strong>. Reatribuir de outro arquivo é erro. Como vários módulos precisam alterar o dia
+exibido ou os dados do usuário, esses valores vivem como campos de um objeto:</p>
+
+<pre><code>// js/estado.js
+export const estado = {
+  dados: null,                 // refeicoes e perfil do usuario logado
+  previsao: null,              // prazo estimado ate o objetivo
+  dataSelecionada: isoHoje(),  // dia que o dashboard esta exibindo
+  chaveStorage: null,          // chave do localStorage deste usuario
+};</code></pre>
+
+<p>A referência ao objeto nunca muda, então todos os módulos enxergam a mesma coisa; o que muda são
+os campos. Quando <code>refeicoes.js</code> faz <code>estado.dataSelecionada = ...</code>, o
+<code>tela.js</code> lê o valor novo na próxima chamada.</p>
+
+<div class="nota">
+  <span class="rotulo">Detalhe de execução</span>
+  <p>Um <code>&lt;script type="module"&gt;</code> é adiado automaticamente: só roda depois que o HTML
+  terminou de ser lido. Por isso os módulos podem buscar elementos da página no topo do arquivo, sem
+  esperar por evento nenhum. Em compensação, módulos só carregam por <code>http://</code> — abrir o
+  <code>index.html</code> por clique duplo não funciona, o que já era verdade por causa do PHP.</p>
+</div>
+
+<h3>5.3 A guarda de sessão</h3>
+
+<p>Nenhuma página do sistema deve ser acessível sem login. Quem garante isso é a função
+<code>exigirSessao()</code>, em <code>auth.js</code>:</p>
+
+<pre><code>async function exigirSessao(opcoes) {
+  const permitirIncompleto = opcoes && opcoes.permitirIncompleto;
+  let res;
+  try {
+    res = await fetch("api/sessao.php", { headers: { Accept: "application/json" } });
+  } catch {
+    window.location.href = "login.html";   // servidor fora do ar
+    return null;
+  }
+  if (res.status === 401) {                 // sem sessao
+    window.location.href = "login.html";
+    return null;
+  }
+  const dados = await res.json().catch(() => null);
+  if (!dados || !dados.ok) {
+    window.location.href = "login.html";
+    return null;
+  }
+  if (!dados.perfil_completo && !permitirIncompleto) {
+    window.location.href = "personalizacao.html";   // falta o onboarding
+    return null;
+  }
+  return dados;
+}</code></pre>
+
+<p>Ela cobre quatro situações e as trata de forma diferente: servidor inacessível, sem sessão,
+resposta inválida e perfil incompleto. O parâmetro <code>permitirIncompleto</code> existe para um
+caso específico: a própria tela de personalização precisa aceitar perfil incompleto — é lá que ele se
+completa. Sem essa exceção, o site entraria em laço de redirecionamento infinito.</p>
+
+<div class="aviso">
+  <span class="rotulo">Ponto conceitual importante</span>
+  <p>Essa guarda é de <strong>usabilidade</strong>, não de segurança. Ela roda no navegador e pode
+  ser burlada. A segurança de verdade está no back-end: todo endpoint chama
+  <code>exigir_login()</code> e devolve 401 sem sessão válida. Mesmo que alguém force a abertura do
+  <code>index.html</code>, a tela apareceria vazia — nenhum dado viria do servidor. Vale muito saber
+  fazer essa distinção numa defesa: <em>validação no cliente é conveniência; validação no servidor é
+  segurança</em>.</p>
+</div>
+
+<h3>5.4 Renderização com template strings</h3>
+
+<p>O HTML da lista de refeições não existe no arquivo <code>index.html</code>; ele é gerado por
+JavaScript a partir dos dados. A técnica usada é a <strong>template string</strong> — texto entre
+crases, onde <code>${...}</code> insere valores:</p>
+
+<pre><code>function linhaProgresso(rotulo, unidade, consumido, meta, classe) {
+  const pct = meta > 0 ? Math.min(100, (consumido / meta) * 100) : 0;
+  const passou = consumido > meta && meta > 0;
+  const restante = Math.max(0, meta - consumido);
+  return `
+    &lt;div class="progresso-linha ${classe} ${passou ? "passou" : ""}"&gt;
+      &lt;div class="progresso-topo"&gt;
+        &lt;span class="progresso-rotulo"&gt;${rotulo}&lt;/span&gt;
+        &lt;span class="progresso-numeros"&gt;${arred(consumido)} / ${arred(meta)} ${unidade}&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class="progresso-trilha"&gt;
+        &lt;div class="progresso-barra" style="width:${pct}%"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      ...</code></pre>
+
+<p>Dois detalhes de lógica valem notar. O <code>Math.min(100, ...)</code> impede que a barra
+ultrapasse visualmente a largura do container quando o usuário come mais que a meta. E a classe
+condicional <code>${passou ? "passou" : ""}</code> adiciona uma classe extra que o CSS usa para
+pintar a barra de vermelho — a decisão visual fica no CSS, o JavaScript só sinaliza o estado.</p>
+
+<h3>5.5 Delegação de eventos</h3>
+
+<p>Cada refeição na tela tem botões de remover item, remover refeição e adicionar alimento. Como o
+HTML é regerado toda vez que algo muda, associar um <code>addEventListener</code> a cada botão daria
+trabalho e criaria vazamento de memória.</p>
+
+<p>A solução é <strong>delegação</strong>: um único ouvinte no elemento pai, que descobre qual botão
+foi clicado.</p>
+
+<pre><code>document.getElementById("lista-refeicoes").addEventListener("click", (e) => {
+  // dataset converte o atributo kebab-case em camelCase:
+  // data-adicionar-alimento -> dataset.adicionarAlimento
+  const botaoAdicionarAlimento = e.target.closest("[data-adicionar-alimento]");
+  if (botaoAdicionarAlimento) return abrirBuscaAlimento(botaoAdicionarAlimento.dataset.adicionarAlimento);
+
+  const botaoRemoverItem = e.target.closest("[data-remover-item]");
+  if (botaoRemoverItem) return removerItem(botaoRemoverItem.dataset.removerItem);
+
+  const botaoRemoverRefeicao = e.target.closest("[data-remover-refeicao]");
+  if (botaoRemoverRefeicao &amp;&amp; confirm("Remover essa refeição inteira?")) {
+    return removerRefeicao(botaoRemoverRefeicao.dataset.removerRefeicao);
+  }
+});</code></pre>
+
+<p>Funciona porque o clique <strong>borbulha</strong> (<em>event bubbling</em>): ao clicar num botão,
+o evento sobe pelos elementos pais até chegar ao container. Lá, <code>e.target</code> é o elemento
+efetivamente clicado, e <code>closest()</code> sobe a partir dele procurando o primeiro ancestral que
+tenha o atributo indicado.</p>
+
+<p>O identificador da refeição viaja pelo próprio HTML, em um atributo <code>data-*</code>. Essa é a
+forma padrão de anexar dados a um elemento sem inventar atributos inválidos.</p>
+
+<div class="porque">
+  <span class="rotulo">A vantagem decisiva</span>
+  <p>O ouvinte é registrado <strong>uma vez</strong>, na carga da página, e continua funcionando para
+  botões que ainda nem existiam quando ele foi criado. Como a lista é reconstruída a cada alteração,
+  isso é essencial — sem delegação, seria preciso reassociar todos os eventos após cada
+  renderização.</p>
+</div>
+
+<h3>5.6 XSS e a função escaparHtml</h3>
+
+<p>Quando o texto do usuário é inserido na página com <code>innerHTML</code>, ele é interpretado como
+HTML. Se alguém cadastrar um alimento chamado:</p>
+
+<pre><code>&lt;img src=x onerror="alert('invadido')"&gt;</code></pre>
+
+<p>esse código seria <strong>executado</strong> no navegador de quem visse a lista. Isso é
+<strong>XSS</strong> (<em>Cross-Site Scripting</em>). Um ataque real roubaria o cookie de sessão e
+enviaria para o atacante.</p>
+
+<p>A defesa do projeto é converter os caracteres especiais antes de inserir:</p>
+
+<pre><code>function escaparHtml(texto) {
+  const div = document.createElement("div");
+  div.textContent = texto ?? "";
+  return div.innerHTML;
+}</code></pre>
+
+<div class="porque">
+  <span class="rotulo">Por que essa implementação é elegante</span>
+  <p>Ela não usa expressão regular nem lista de caracteres a substituir — que é onde normalmente se
+  esquece um caso. Ela cria uma <code>&lt;div&gt;</code> na memória e atribui o texto via
+  <code>textContent</code>, que trata tudo como <strong>texto puro</strong>. Ao ler de volta
+  <code>innerHTML</code>, o próprio navegador devolve a versão escapada: <code>&lt;</code> virou
+  <code>&amp;lt;</code>, <code>&gt;</code> virou <code>&amp;gt;</code>. Delega ao navegador uma
+  tarefa que ele já sabe fazer perfeitamente.</p>
+</div>
+
+<p>Por isso todo dado vindo do usuário passa por ela antes de entrar no HTML:
+<code>escaparHtml(item.nome)</code>, <code>escaparHtml(refeicao.tipo)</code>,
+<code>escaparHtml(a.nome)</code>.</p>
+
+<h3>5.7 Debounce na busca</h3>
+
+<p>Se cada tecla digitada disparasse uma requisição, digitar "arroz" geraria cinco chamadas ao
+servidor — quatro delas inúteis, porque o usuário ainda não terminou. O <strong>debounce</strong>
+resolve adiando a execução até que as teclas parem:</p>
+
+<pre><code>function atrasarChamada(fn, ms) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);                          // cancela o agendamento anterior
+    t = setTimeout(() =&gt; fn(...args), ms);    // e agenda de novo
+  };
+}
+
+const executarBusca = atrasarChamada(async () =&gt; { ... }, 400);
+campoBuscaAlimento.addEventListener("input", executarBusca);</code></pre>
+
+<p>A cada tecla, o temporizador anterior é cancelado e um novo é criado. A busca só roda quando o
+usuário fica 400 ms sem digitar. Digitar "arroz" gera uma requisição em vez de cinco.</p>
+
+<div class="nota">
+  <span class="rotulo">Conceito por trás: closure</span>
+  <p>A função devolvida "lembra" da variável <code>t</code> mesmo depois que
+  <code>atrasarChamada</code> já terminou de executar. Isso se chama <strong>closure</strong>: uma
+  função que mantém acesso ao escopo onde foi criada. É o que permite que cada chamada saiba qual
+  temporizador cancelar.</p>
+</div>
+
+<h3>5.8 O gráfico SVG feito à mão</h3>
+
+<p>O gráfico de evolução de peso e cintura não usa biblioteca. Ele é <strong>SVG</strong> gerado por
+código, e entender essa parte impressiona numa defesa, porque envolve matemática de conversão de
+escala.</p>
+
+<p>O problema: os dados estão em quilogramas e datas; a tela está em pixels. É preciso mapear um
+espaço no outro.</p>
+
+<pre><code>const LARGURA = 300, ALTURA = 132;
+const margemEsq = 10, margemDir = 12, margemTopo = 14, margemBase = 22;
+
+// Folga vertical: 15% da amplitude (ou 1 unidade quando todos iguais).
+const folga = vmax - vmin > 0 ? (vmax - vmin) * 0.15 : 1;
+vmin -= folga;
+vmax += folga;
+
+// eixo X: data -> pixel
+const x = (iso) =&gt; {
+  if (t1 === t0) return (margemEsq + (LARGURA - margemDir)) / 2;   // ponto unico: centro
+  const t = new Date(iso + "T00:00:00").getTime();
+  return margemEsq + ((t - t0) / (t1 - t0)) * (LARGURA - margemEsq - margemDir);
+};
+
+// eixo Y: valor -> pixel
+const y = (v) =&gt; {
+  if (vmax === vmin) return (margemTopo + (ALTURA - margemBase)) / 2;
+  return margemTopo + (1 - (v - vmin) / (vmax - vmin)) * (ALTURA - margemTopo - margemBase);
+};</code></pre>
+
+<h4>Como ler essas duas funções</h4>
+
+<p>Ambas seguem o mesmo padrão em três passos:</p>
+
+<ol>
+  <li><strong>Normalizar:</strong> <code>(t - t0) / (t1 - t0)</code> transforma qualquer data em um
+  número entre 0 e 1, onde 0 é a primeira medição e 1 é a última.</li>
+  <li><strong>Escalar:</strong> multiplicar pela largura útil converte a fração em pixels.</li>
+  <li><strong>Deslocar:</strong> somar a margem afasta da borda, deixando espaço para os rótulos.</li>
+</ol>
+
+<p>A diferença crucial está no <code>1 -</code> da função <code>y</code>. Em matemática, o eixo Y
+cresce para cima; em tela, cresce para <strong>baixo</strong> — a coordenada 0 é o topo. O
+<code>1 - fração</code> inverte o eixo, para que um peso maior apareça mais alto no gráfico.</p>
+
+<div class="porque">
+  <span class="rotulo">Duas decisões de projeto no gráfico</span>
+  <p><strong>A folga de 15%.</strong> Sem ela, o maior valor tocaria o topo e o menor tocaria a base,
+  e os pontos ficariam colados na borda. Ampliar a faixa em 15% para cada lado dá respiro visual.
+  O caso <code>: 1</code> cobre a situação em que todos os valores são iguais — sem folga, a divisão
+  <code>(v - vmin) / (vmax - vmin)</code> seria divisão por zero.</p>
+  <p><strong>O caso de uma medição só.</strong> Com um único ponto não existe evolução para traçar.
+  Em vez de deixar o gráfico vazio, o código desenha uma linha horizontal tracejada no nível atual e
+  mostra a dica "Registre em outro dia para ver a linha de evolução". Preserva a leitura de gráfico
+  sem inventar uma tendência que os dados não sustentam.</p>
+</div>
+
+<p>O elemento <code>viewBox="0 0 300 132"</code> merece nota: ele define um sistema de coordenadas
+interno independente do tamanho real na tela. O código calcula tudo em uma grade de 300 por 132, e o
+navegador escala o desenho para o espaço disponível. Como SVG é vetorial, não perde qualidade em
+nenhum tamanho de tela.</p>
+
+<h2 class="quebra">6. Dados no navegador e versionamento</h2>
+
+<h3>6.1 O que é o localStorage</h3>
+
+<p>O <code>localStorage</code> é um armazenamento de pares chave/valor dentro do navegador. Diferente
+do cookie, ele não é enviado ao servidor a cada requisição — fica só na máquina do usuário. Guarda
+apenas texto, então objetos precisam ser convertidos com <code>JSON.stringify</code> ao gravar e
+<code>JSON.parse</code> ao ler. O limite típico é de 5 a 10 MB por site.</p>
+
+<pre><code>CHAVE_STORAGE = `nutribalance_data_${sessao.usuario.id}`;</code></pre>
+
+<p>A chave inclui o id do usuário. Isso isola os dados de contas diferentes no mesmo navegador — sem
+isso, dois irmãos usando o mesmo computador veriam as refeições um do outro.</p>
+
+<h3>6.2 Por que refeições no navegador e perfil no banco</h3>
+
+<table>
+  <tr><th style="width:32%">Dado</th><th style="width:24%">Onde fica</th><th>Consequência</th></tr>
+  <tr><td>Conta, perfil, metas</td><td>Banco (MySQL)</td><td>Acompanha o usuário em qualquer dispositivo</td></tr>
+  <tr><td>Histórico de peso e cintura</td><td>Banco (MySQL)</td><td>Acompanha o usuário em qualquer dispositivo</td></tr>
+  <tr><td>Refeições do dia</td><td><code>localStorage</code></td><td>Ficam presas àquele navegador</td></tr>
+</table>
+
+<div class="aviso">
+  <span class="rotulo">Esta é a maior dívida técnica do projeto — assuma antes que perguntem</span>
+  <p>As refeições deveriam estar no banco, como todo o resto. Estão no <code>localStorage</code> por
+  motivo histórico: o dashboard foi construído primeiro, sem login, e naquele momento não havia
+  banco. Quando o login foi implementado, o perfil migrou para o servidor, mas as refeições não.</p>
+  <p style="margin-bottom:0">As consequências são concretas e você deve saber enunciá-las: o usuário
+  perde as refeições ao trocar de navegador ou de computador; limpar os dados do navegador apaga o
+  histórico alimentar; e não é possível acessar do celular o que foi registrado no computador.
+  Reconhecer isso com clareza — e saber exatamente como resolveria — demonstra mais domínio do que
+  tentar justificar a escolha.</p>
+</div>
+
+<h3>6.3 Versionamento de formato e a função migrar()</h3>
+
+<p>Este é um dos pontos mais instrutivos do projeto. Quando o formato dos dados salvos muda, os dados
+que já estão no navegador do usuário continuam no formato antigo. Se o código novo tentar lê-los
+diretamente, ou quebra ou perde tudo.</p>
+
+<p>A solução é <strong>versionar o formato</strong> e escrever uma função de migração. O
+NutriBalance já passou por três versões:</p>
+
+<table>
+  <tr><th style="width:14%">Versão</th><th>Formato</th></tr>
+  <tr><td><strong>v1</strong></td><td>Refeição "plana": os macros ficavam no próprio objeto da refeição, sem lista de itens.</td></tr>
+  <tr><td><strong>v2</strong></td><td>Refeição com lista de itens, mas com as chaves em inglês (<code>profile</code>, <code>meals</code>, <code>items</code>, <code>p100</code>).</td></tr>
+  <tr><td><strong>v3</strong></td><td>Mesma estrutura, chaves em português (<code>perfil</code>, <code>refeicoes</code>, <code>itens</code>, <code>proteina100</code>).</td></tr>
+</table>
+
+<pre><code>const VERSAO_DADOS = 3;
+
+function migrar(dados, perfilDaSessao) {
+  if (dados &amp;&amp; dados.versao === VERSAO_DADOS) return dados;   // ja atual, nada a fazer
+  try {
+    // --- v1 -> v2: cada refeicao plana vira uma refeicao com um item ---
+    let v2 = dados;
+    if (!dados || dados.version !== 2) {
+      v2 = { version: 2, profile: {...}, meals: (dados?.meals ?? []).map(...) };
+    }
+
+    // --- v2 -> v3: traduz as chaves para portugues ---
+    return {
+      versao: VERSAO_DADOS,
+      perfil: { nome: perfilV2.name ?? "Meu Perfil", metaKcal, ...macros },
+      refeicoes: (v2?.meals ?? []).map((m) =&gt; ({
+        id: m.id ?? uid(),
+        tipo: m.tipo ?? "Refeição",
+        data: m.data ?? isoHoje(),
+        itens: (m.items ?? []).map((it) =&gt; ({
+          nome: it.nome ?? "Alimento",
+          gramas: Number(it.gramas) || 0,
+          kcal100: Number(it.kcal100) || 0,
+          proteina100: Number(it.p100) || 0,     // p100  -> proteina100
+          carbo100: Number(it.c100) || 0,        // c100  -> carbo100
+          gordura100: Number(it.g100) || 0,      // g100  -> gordura100
+        })),
+      })),
+    };
+  } catch {
+    return dadosVazios(perfilDaSessao);   // dado irrecuperavel: recomeca limpo
+  }
+}</code></pre>
+
+<p>Três técnicas defensivas aparecem aqui e valem ser nomeadas:</p>
+
+<ul>
+  <li><strong>Migração encadeada.</strong> Um dado em v1 passa por v1→v2 e depois por v2→v3. Não é
+  preciso escrever uma conversão direta para cada par de versões.</li>
+  <li><strong>Valores padrão com <code>??</code>.</strong> O operador de coalescência nula fornece um
+  substituto quando o campo está ausente. Se um dado antigo não tiver <code>tipo</code>, vira
+  "Refeição" em vez de <code>undefined</code>.</li>
+  <li><strong><code>try/catch</code> abrangente.</strong> Se o dado estiver corrompido a ponto de a
+  conversão falhar, o sistema recomeça vazio em vez de travar numa tela em branco.</li>
+</ul>
+
+<div class="nota">
+  <span class="rotulo">Este código foi testado, não apenas escrito</span>
+  <p>A migração v2→v3 foi verificada em execução: um <code>localStorage</code> no formato v2 antigo
+  foi criado com uma refeição de dois itens, o dashboard foi carregado e as refeições apareceram
+  intactas, com os macros corretos. A leitura posterior do <code>localStorage</code> confirmou
+  <code>versao: 3</code> e todas as chaves em português. Poder afirmar isso com segurança vale mais
+  do que supor que funciona.</p>
+</div>
+
+<h3>6.4 Quem manda quando os dois lados discordam</h3>
+
+<p>Se o perfil está no banco e uma cópia está no <code>localStorage</code>, o que acontece quando
+divergem? A regra está em <code>sincronizarComSessao()</code>:</p>
+
+<pre><code>function sincronizarComSessao(dados, perfilDaSessao) {
+  dados.perfil.nome = perfilDaSessao.nome;             // nome: banco sempre vence
+  dados.perfil.foto = perfilDaSessao.foto ?? null;     // foto: banco sempre vence
+  const metasDaSessao = metasDe(perfilDaSessao);
+  if (!metasIguais(dados.ultimasMetasSessao, metasDaSessao)) {
+    Object.assign(dados.perfil, metasDaSessao);        // metas mudaram: adota as novas
+    dados.ultimasMetasSessao = metasDaSessao;
+  }
+  return dados;
+}</code></pre>
+
+<p>Nome e foto são sempre do banco, sem discussão. As metas seguem regra mais sutil: o sistema guarda
+um <em>retrato</em> das metas da última sincronização em <code>ultimasMetasSessao</code>. Se as metas
+que vêm do servidor forem diferentes desse retrato, significa que o usuário refez a personalização —
+e as novas prevalecem. Se forem iguais, o que está no <code>localStorage</code> é preservado, porque
+pode conter um ajuste manual feito no modal de perfil.</p>
+
+<div class="porque">
+  <span class="rotulo">O problema que isso resolve</span>
+  <p>Sem o retrato, haveria duas opções ruins. Sempre adotar o banco apagaria o ajuste manual do
+  usuário a cada carregamento. Nunca adotar o banco faria a personalização refeita não surtir efeito
+  no dashboard. Guardar o valor da última sincronização permite distinguir "o servidor mudou" de "o
+  usuário ajustou localmente" — que é exatamente a informação necessária para decidir.</p>
+</div>
+
+<h2 class="quebra">7. Convenção de código em português</h2>
+
+<p>Todo o código do projeto — variáveis, funções, constantes, nomes de arquivo e pasta, ids de HTML,
+classes de CSS e colunas do banco — é escrito em português.</p>
+
+<table>
+  <tr><th style="width:34%">Camada</th><th style="width:22%">Estilo</th><th>Exemplo</th></tr>
+  <tr><td>Variáveis e funções JS/PHP</td><td><code>camelCase</code></td><td><code>carregarDados</code>, <code>totaisDoDia</code></td></tr>
+  <tr><td>Constantes</td><td><code>MAIUSCULA_SNAKE</code></td><td><code>FATOR_ATIVIDADE</code>, <code>VERSAO_DADOS</code></td></tr>
+  <tr><td>Colunas e tabelas do banco</td><td><code>snake_case</code></td><td><code>meta_kcal</code>, <code>cintura_cm</code></td></tr>
+  <tr><td>ids de HTML e classes de CSS</td><td><code>kebab-case</code></td><td><code>lista-refeicoes</code>, <code>.grafico-card</code></td></tr>
+</table>
+
+<h4>Regra: sem acento e sem cedilha em identificadores</h4>
+
+<p>Escreve-se <code>refeicao</code>, não <code>refeição</code>. O JavaScript até aceita acento em nome
+de variável, mas isso quebra em seletor de CSS, chave de <code>localStorage</code> e coluna de SQL, e
+gera problemas de codificação entre PHP, MySQL e navegador. Acento continua normal em
+<strong>texto exibido na tela e em comentários</strong>.</p>
+
+<h4>O que permanece em inglês</h4>
+
+<p>Jargão consolidado, onde traduzir atrapalharia mais do que ajudaria: <code>id</code>,
+<code>kcal</code>, <code>iso</code>, <code>svg</code>, <code>json</code>, <code>html</code>,
+<code>hash</code>, <code>tdee</code>, <code>uid</code>, <code>modal</code>, <code>link</code>,
+<code>app</code>, além das APIs do navegador e do PHP (<code>getElementById</code>,
+<code>localStorage</code>, <code>fetch</code>, <code>password_hash</code>).</p>
+
+<h4>Glossário canônico</h4>
+
+<p>O maior risco de uma base traduzida é a inconsistência — usar <code>refeicao</code> em um arquivo e
+<code>comida</code> em outro. Por isso a tradução seguiu um glossário fixo:</p>
+
+<table>
+  <tr><th>Inglês</th><th>Português</th><th>Inglês</th><th>Português</th></tr>
+  <tr><td>meal</td><td><code>refeicao</code></td><td>goal</td><td><code>meta</code></td></tr>
+  <tr><td>food</td><td><code>alimento</code></td><td>profile</td><td><code>perfil</code></td></tr>
+  <tr><td>chart</td><td><code>grafico</code></td><td>state</td><td><code>estado</code></td></tr>
+  <tr><td>progress</td><td><code>progresso</code></td><td>data</td><td><code>dados</code></td></tr>
+  <tr><td>add</td><td><code>adicionar</code></td><td>remove</td><td><code>remover</code></td></tr>
+  <tr><td>save / load</td><td><code>salvar</code> / <code>carregar</code></td><td>empty</td><td><code>vazio</code></td></tr>
+  <tr><td>render / draw</td><td><code>mostrar</code> / <code>desenhar</code></td><td>handle</td><td><code>tratar</code></td></tr>
+  <tr><td>show / hide</td><td><code>mostrar</code> / <code>esconder</code></td><td>preview</td><td><code>previa</code></td></tr>
+  <tr><td>bmr</td><td><code>tmb</code></td><td>totals / sum</td><td><code>totais</code> / <code>somar</code></td></tr>
+</table>
+
+<h2 class="quebra">8. Mapa de arquivos e como rodar</h2>
+
+<h3>8.1 Estrutura do projeto</h3>
+
+<pre><code>MazyOS/
+├── banco/
+│   ├── nutribalance_completo.sql Banco inteiro: 4 tabelas + os 597 alimentos
+│   ├── migracao_redefinicoes_senha.sql  So a tabela nova, para banco ja criado
+│   └── importar_taco.php         Regera os alimentos a partir da planilha
+│
+├── dados/
+│   └── Taco-4a-Edicao.xlsx       Planilha original da TACO
+│
+└── site/                         O que vai para o htdocs do Apache
+    ├── index.html                Dashboard
+    ├── login.html                Tela de entrada
+    ├── cadastro.html             Criacao de conta
+    ├── personalizacao.html       Onboarding / edicao de perfil
+    ├── esqueceu-senha.html       Pedido do link de redefinicao
+    ├── redefinir-senha.html      Cadastro da senha nova (abre pelo link do e-mail)
+    ├── img/                      Logos
+    ├── uploads/fotos/            Fotos de perfil enviadas
+    ├── css/                      Uma folha por area da interface
+    │   ├── base.css              Variaveis, reset e componentes comuns
+    │   ├── dashboard.css         Cabecalho, navegacao por data, refeicoes
+    │   ├── perfil.css            Card de perfil e foto
+    │   ├── progresso.css         Historico e grafico
+    │   ├── alimentos.css         Modal de busca de alimento
+    │   ├── modal.css             Modal generico
+    │   └── acesso.css            Login, cadastro e personalizacao
+    ├── js/                       Modulos ES (import/export)
+    │   ├── principal.js          Entry point do dashboard: boot da sessao
+    │   ├── estado.js             Estado compartilhado do dashboard
+    │   ├── dados.js              localStorage e migracao de formato
+    │   ├── utilitarios.js        Datas, texto e ids
+    │   ├── macros.js             Calculo dos macros consumidos
+    │   ├── tela.js               Desenho do dashboard
+    │   ├── refeicoes.js          Refeicoes, navegacao por data
+    │   ├── alimentos.js          Busca na TACO e entrada manual
+    │   ├── perfil.js             Modal de perfil e foto
+    │   ├── calculo.js            Formulas (TMB, TDEE, macros, IMC, previsao)
+    │   ├── auth.js               Login, cadastro, logout, guarda de sessao
+    │   ├── progresso.js          Historico e grafico SVG
+    │   └── personalizacao.js     Previa ao vivo do onboarding
+    └── api/
+        ├── _bootstrap.php        Base comum (sessao, JSON, helpers)
+        ├── conexao.php           Conexao PDO
+        ├── registrar.php         Cadastro
+        ├── login.php             Autenticacao
+        ├── logout.php            Encerrar sessao
+        ├── sessao.php            Estado da sessao / perfil
+        ├── salvar_perfil.php     Onboarding: valida e recalcula metas
+        ├── buscar.php            Busca de alimentos na TACO
+        ├── salvar_medicao.php    Registra peso/cintura (upsert)
+        ├── listar_medicoes.php   Historico para o grafico
+        ├── foto.php              Upload, troca e remocao da foto
+        ├── esqueceu_senha.php    Emite o token e envia o link
+        ├── redefinir_senha.php   Valida o token e grava a senha nova
+        ├── email.php             Envio por SMTP (PHPMailer)
+        ├── email_config.php      Credenciais do SMTP (fora do Git)
+        └── lib/PHPMailer/        Unica biblioteca externa do projeto</code></pre>
+
+<h3>8.2 Como colocar para rodar</h3>
+
+<ol>
+  <li><strong>Ligar o XAMPP.</strong> No Control Panel, iniciar <strong>Apache</strong> e
+  <strong>MySQL</strong>. Os dois precisam estar ativos.</li>
+  <li><strong>Colocar o site no Apache.</strong> Copiar a pasta <code>site</code> para dentro do
+  <code>htdocs</code> do XAMPP, renomeada para <code>nutribalance</code>. No ambiente de
+  desenvolvimento usa-se um <em>junction</em> (atalho de diretório), para editar no projeto e o
+  Apache servir ao vivo.</li>
+  <li><strong>Importar o banco.</strong> Abrir <code>http://localhost/phpmyadmin</code>, aba
+  Importar, escolher <code>nutribalance_completo.sql</code>. Esse arquivo já traz os 597 alimentos,
+  as tabelas e os dados.</li>
+  <li><strong>Conferir a senha do MySQL.</strong> No XAMPP padrão, o usuário <code>root</code> não
+  tem senha. Se o computador tiver, ajustar <code>DB_PASS</code> em
+  <code>site/api/conexao.php</code>.</li>
+  <li><strong>Configurar o envio de e-mail</strong> (só para a recuperação de senha). Criar o
+  arquivo <code>site/api/email_config.php</code> com o conteúdo indicado logo abaixo. Sem esse passo
+  o resto do sistema roda normalmente; apenas o e-mail de redefinição não sai.</li>
+  <li><strong>Abrir</strong> <code>http://localhost/nutribalance/</code>.</li>
+</ol>
+
+<h4>O arquivo email_config.php</h4>
+
+<p>Este arquivo <strong>não está no repositório</strong>: ele guarda uma senha, e por isso está no
+<code>.gitignore</code>. Em uma máquina nova é preciso criá-lo à mão, com esta estrutura:</p>
+
+<pre><code>&lt;?php
+const SMTP_HOST = 'smtp.gmail.com';
+const SMTP_PORTA = 587;                       // 587 = STARTTLS
+const SMTP_USUARIO = 'suaconta@gmail.com';    // conta que ENVIA
+const SMTP_SENHA = 'xxxx xxxx xxxx xxxx';     // senha de app, 16 letras
+const SMTP_REMETENTE_NOME = 'NutriBalance';
+const URL_SITE = 'http://localhost/nutribalance';   // sem barra no fim</code></pre>
+
+<p>A <code>SMTP_SENHA</code> não é a senha da conta Google. É uma <strong>senha de app</strong>,
+gerada em <code>myaccount.google.com/apppasswords</code>, e essa página só aparece se a conta tiver
+<strong>verificação em duas etapas ativa</strong>. O Gmail recusa login SMTP com a senha comum desde
+2022. As 16 letras podem ser coladas com ou sem espaços — o código os remove.</p>
+
+<p>O <code>URL_SITE</code> é a base do link que vai no e-mail e precisa bater com o endereço usado no
+navegador; se for deixado em branco, o sistema monta o endereço a partir da própria requisição.</p>
+
+<div class="aviso">
+  <span class="rotulo">O erro mais comum na hora de apresentar</span>
+  <p>Abrir o <code>index.html</code> com clique duplo. Não funciona: o endereço fica
+  <code>file:///...</code> e o PHP não é executado, então login e busca de alimentos falham. Tem que
+  ser pelo endereço <code>http://localhost/nutribalance/</code>, com Apache e MySQL ligados.</p>
+</div>
+
+<h2 class="quebra">9. Perguntas prováveis da banca</h2>
+
+<p>As respostas abaixo estão resumidas de propósito: são o esqueleto do que dizer, não um texto para
+decorar. O conteúdo completo de cada uma está nas seções anteriores.</p>
+
+<p class="pergunta">Por que o PHP não gera o HTML, como se costuma fazer?</p>
+<p>Porque o dashboard é uma tela que muda o tempo todo sem trocar de página: adicionar um alimento
+move as barras de macros, trocar de dia troca a lista, registrar uma medição redesenha o gráfico. Com
+o PHP imprimindo a tela, cada uma dessas ações recarregaria a página inteira. Separando, o PHP
+responde só os dados e o JavaScript atualiza o pedaço que mudou. Há também o reaproveitamento: o
+<code>sessao.php</code> serve ao dashboard, à personalização e à guarda de todas as páginas — como
+devolve dados e não HTML, cada tela usa o que precisa. As duas arquiteturas são válidas; o que não
+pode é misturar as duas no mesmo projeto, e por isso os onze endpoints seguem o mesmo padrão.</p>
+
+<p class="pergunta">Você usou bibliotecas prontas?</p>
+<p>Uma só, o PHPMailer, para o envio de e-mail — e instalada à mão, três arquivos, sem Composer. O
+resto é PHP e JavaScript puros: nenhum framework, nenhum CDN, nenhuma etapa de build. O que pode
+parecer biblioteca são funções nativas do PHP: <code>password_hash</code>, <code>filter_var</code>,
+<code>random_bytes</code> e o <code>PDO</code> fazem parte da linguagem. Até o gráfico de progresso é
+SVG escrito na mão, sem biblioteca de gráficos.</p>
+
+<p class="pergunta">Por que guardar o hash do token e não o token?</p>
+<p>Porque enquanto está válido o token vale tanto quanto a senha: ele autoriza a troca. Se ficasse em
+texto puro e o banco vazasse, quem lesse a tabela trocaria a senha de qualquer conta com pedido
+pendente. Guardando o SHA-256, o vazamento não serve para nada — do hash não se volta ao token. É o
+mesmo raciocínio do <code>senha_hash</code>.</p>
+
+<p class="pergunta">Por que não enviar uma senha nova pronta por e-mail?</p>
+<p>Por dois motivos. A senha trafegaria em texto puro e ficaria guardada na caixa de entrada por
+tempo indeterminado. E qualquer pessoa poderia trocar a senha de outra só sabendo o e-mail dela,
+mesmo sem acesso à caixa — bastaria pedir a redefinição para trancar a vítima fora da conta. Com
+token, a senha atual continua valendo até o dono do e-mail escolher a nova.</p>
+
+<p class="pergunta">Por que você não usou React ou outro framework?</p>
+<p>Porque o projeto tem seis páginas e não precisa da complexidade que um framework resolve. Além
+disso, escrever a manipulação de DOM na mão me obrigou a entender o que o framework faria por baixo —
+delegação de eventos, renderização, escopo. E, na prática, não há etapa de build nem dependências:
+copio a pasta, ligo o XAMPP e roda em qualquer computador.</p>
+
+<p class="pergunta">Se o cálculo já existe em JavaScript, por que repetir em PHP?</p>
+<p>Porque o JavaScript roda no navegador do usuário, e ele pode alterá-lo. A versão em JavaScript
+serve para mostrar a prévia ao vivo enquanto a pessoa digita, sem ir ao servidor a cada tecla. A
+versão em PHP é a que vale: quando salvo, o servidor recalcula do zero a partir dos dados brutos e
+ignora o valor que o navegador enviou. É a aplicação da regra de nunca confiar no cliente.</p>
+
+<p class="pergunta">Como você protege contra SQL Injection?</p>
+<p>Usando prepared statements em todas as consultas. O SQL vai para o banco com marcadores
+<code>?</code> no lugar dos valores, e os valores são enviados separadamente. Assim o banco nunca
+interpreta a entrada do usuário como comando — se alguém digitar <code>'; DROP TABLE usuarios; --</code>,
+isso vira apenas um texto a ser procurado. Também configurei <code>EMULATE_PREPARES => false</code>
+para garantir que a preparação é feita pelo MySQL, não simulada pelo PHP.</p>
+
+<p class="pergunta">E se o banco de dados vazar? As senhas ficam expostas?</p>
+<p>Não, porque as senhas não são armazenadas. Guardo apenas o hash gerado por
+<code>password_hash()</code>, que é um caminho só de ida — do hash não se recupera a senha. Na
+verificação, aplico a mesma função à senha digitada e comparo. O <code>password_hash</code> ainda
+aplica um salt aleatório, então dois usuários com a mesma senha têm hashes diferentes.</p>
+
+<p class="pergunta">Como o sistema sabe que continuo logado ao mudar de página?</p>
+<p>Por sessão. No login, o PHP cria um arquivo no servidor com o meu id e envia ao navegador apenas
+um identificador aleatório, dentro de um cookie. A cada requisição o navegador reenvia esse cookie e
+o PHP recupera quem eu sou. Os dados ficam no servidor; o navegador carrega só a chave. No login eu
+regenero o identificador, para evitar ataque de fixação de sessão.</p>
+
+<p class="pergunta">De onde vem a fórmula do cálculo de calorias?</p>
+<p>Da equação de Mifflin-St Jeor, de 1990, que calcula a taxa metabólica basal a partir de peso,
+altura, idade e sexo. Multiplico pelo fator de atividade para obter o gasto diário total, e aplico
+um ajuste de 15% para baixo ou para cima conforme o objetivo. Escolhi Mifflin-St Jeor em vez de
+Harris-Benedict porque é mais recente e apresenta melhor precisão para pessoas com sobrepeso, que
+são boa parte do público de um app de contagem de calorias.</p>
+
+<p class="pergunta">Por que déficit de 15% e não mais?</p>
+<p>Porque déficits agressivos aumentam a perda de massa magra, são difíceis de sustentar e podem
+gerar deficiência de nutrientes. A faixa geralmente recomendada é de 10% a 20%, e 15% é o meio dela.
+Usei percentual em vez de valor fixo porque 500 kcal a menos pesa muito mais para quem gasta 1800 do
+que para quem gasta 3500 — o percentual se ajusta ao tamanho da pessoa.</p>
+
+<p class="pergunta">Por que acompanhar a cintura, se já existe o peso?</p>
+<p>Porque o peso sozinho esconde mudanças de composição corporal. É possível manter o peso e reduzir
+a cintura, o que indica troca de gordura por músculo. O resumo da seção Progresso identifica esse
+caso e o descreve de forma neutra, sem prometer resultado.</p>
+
+<p class="pergunta">O que acontece se dois usuários usarem o mesmo computador?</p>
+<p>Os dados do servidor são separados pela sessão. No <code>localStorage</code>, a chave inclui o id
+do usuário — <code>nutribalance_data_3</code>, <code>nutribalance_data_9</code> — então as refeições
+de um não aparecem para o outro.</p>
+
+<p class="pergunta">Qual a maior limitação do seu sistema?</p>
+<p>As refeições ficam no <code>localStorage</code> e não no banco. Isso significa que trocar de
+navegador ou de computador faz perder o histórico alimentar. É consequência da ordem em que
+desenvolvi: o dashboard veio antes do login. Sei exatamente como resolver — criar as tabelas
+<code>refeicoes</code> e <code>itens_refeicao</code> com chave estrangeira para
+<code>usuarios</code>, e migrar o que estiver no navegador na primeira vez que a pessoa entrar.</p>
+
+<p class="pergunta">Como você garantiu que o sistema funciona?</p>
+<p>Testei os endpoints diretamente, verificando o fluxo completo de cadastro, login, salvar perfil,
+registrar medição, listar e sair. Testei a migração dos dados salvos criando um
+<code>localStorage</code> no formato antigo e conferindo que as refeições sobreviveram. E testei o
+banco exportando o dump e reimportando em um banco separado, para confirmar que restaura 597
+alimentos e todos os usuários e medições.</p>
+
+<h2 class="quebra">10. Limitações honestas e próximos passos</h2>
+
+<p>Reconhecer os limites do próprio trabalho é sinal de domínio, não de fraqueza. Estas são as
+limitações reais do NutriBalance hoje.</p>
+
+<table>
+  <tr><th style="width:34%">Limitação</th><th>Situação e como resolver</th></tr>
+  <tr>
+    <td><strong>Refeições no navegador</strong></td>
+    <td>Não sincronizam entre dispositivos. Solução: tabelas <code>refeicoes</code> e
+    <code>itens_refeicao</code> no banco, com migração do que existe no <code>localStorage</code>.</td>
+  </tr>
+  <tr>
+    <td><strong>Fórmula duplicada</strong></td>
+    <td>O cálculo existe em <code>calculo.js</code> e em <code>salvar_perfil.php</code>. É
+    deliberado, mas se a fórmula mudar é preciso alterar nos dois. Há comentário nos dois arquivos
+    alertando sobre isso.</td>
+  </tr>
+  <tr>
+    <td><strong>Previsão linear</strong></td>
+    <td>Não considera que o TDEE cai conforme o peso diminui, então tende a ser otimista em prazos
+    longos. Solução: recalcular o TDEE em intervalos ao longo da simulação.</td>
+  </tr>
+  <tr>
+    <td><strong>Sem edição de medição</strong></td>
+    <td>Registrar de novo no mesmo dia substitui o valor, mas não há interface para apagar uma
+    medição de outra data.</td>
+  </tr>
+  <tr>
+    <td><strong>Porções caseiras aproximadas</strong></td>
+    <td>A TACO não traz peso de porção; os valores de "1 fatia", "1 concha" seguem tabelas de
+    medidas caseiras e servem como atalho. O usuário sempre pode digitar os gramas.</td>
+  </tr>
+  <tr>
+    <td><strong>Envio de e-mail depende de SMTP externo</strong></td>
+    <td>A recuperação de senha existe e funciona, mas é o único ponto do sistema que depende de um
+    serviço de fora: precisa de uma conta SMTP configurada em <code>email_config.php</code>. Sem
+    ela, o pedido é registrado no banco mas o e-mail não sai. Em rede que bloqueie a porta 587, o
+    envio falha.</td>
+  </tr>
+  <tr>
+    <td><strong>HTTP sem TLS</strong></td>
+    <td>Em ambiente local não é problema. Em produção, seria obrigatório HTTPS e cookie de sessão com
+    as marcações <code>Secure</code> e <code>HttpOnly</code>.</td>
+  </tr>
+</table>
+
+<h2 class="quebra">11. Glossário</h2>
+
+<table>
+  <tr><th style="width:26%">Termo</th><th>Significado</th></tr>
+  <tr><td><strong>API</strong></td><td>Conjunto de endereços que um sistema oferece para outro consumir. Aqui, a pasta <code>api/</code>.</td></tr>
+  <tr><td><strong>Back-end</strong></td><td>A parte que roda no servidor: PHP e banco de dados.</td></tr>
+  <tr><td><strong>Closure</strong></td><td>Função que mantém acesso às variáveis do escopo onde foi criada, mesmo depois que ele terminou.</td></tr>
+  <tr><td><strong>Cookie</strong></td><td>Pequeno texto que o servidor pede ao navegador para guardar e reenviar a cada requisição.</td></tr>
+  <tr><td><strong>Debounce</strong></td><td>Técnica de adiar uma ação até que os disparos parem, para evitar execuções repetidas.</td></tr>
+  <tr><td><strong>Delegação de eventos</strong></td><td>Registrar um ouvinte no elemento pai em vez de um em cada filho.</td></tr>
+  <tr><td><strong>DOM</strong></td><td><em>Document Object Model</em>: a representação da página em memória, que o JavaScript manipula.</td></tr>
+  <tr><td><strong>Endpoint</strong></td><td>Cada endereço do servidor que aceita requisições.</td></tr>
+  <tr><td><strong>Front-end</strong></td><td>A parte que roda no navegador: HTML, CSS e JavaScript.</td></tr>
+  <tr><td><strong>Hash</strong></td><td>Resultado de uma função só de ida, usada para guardar senhas sem guardar a senha.</td></tr>
+  <tr><td><strong>HTTP</strong></td><td>Protocolo de comunicação entre navegador e servidor. Não guarda estado entre requisições.</td></tr>
+  <tr><td><strong>IIFE</strong></td><td>Função criada e executada imediatamente, usada para criar escopo privado.</td></tr>
+  <tr><td><strong>IMC</strong></td><td>Índice de Massa Corporal: peso dividido pela altura ao quadrado.</td></tr>
+  <tr><td><strong>JSON</strong></td><td>Formato de texto para troca de dados estruturados entre sistemas.</td></tr>
+  <tr><td><strong>localStorage</strong></td><td>Armazenamento de texto no navegador, que persiste entre visitas e não vai ao servidor.</td></tr>
+  <tr><td><strong>Macronutriente</strong></td><td>Carboidrato, proteína ou gordura — os nutrientes que fornecem energia.</td></tr>
+  <tr><td><strong>Migration</strong></td><td>Arquivo que descreve uma alteração no formato do banco, aplicada em ordem.</td></tr>
+  <tr><td><strong>PDO</strong></td><td><em>PHP Data Objects</em>: a interface do PHP para acessar bancos de dados.</td></tr>
+  <tr><td><strong>Prepared statement</strong></td><td>Consulta enviada ao banco com marcadores, e valores enviados à parte. Defesa contra SQL Injection.</td></tr>
+  <tr><td><strong>Salt</strong></td><td>Valor aleatório somado à senha antes do hash, para que senhas iguais gerem hashes diferentes.</td></tr>
+  <tr><td><strong>Sessão</strong></td><td>Mecanismo pelo qual o servidor reconhece o usuário entre requisições.</td></tr>
+  <tr><td><strong>SQL Injection</strong></td><td>Ataque em que a entrada do usuário é interpretada como comando SQL.</td></tr>
+  <tr><td><strong>SVG</strong></td><td>Formato de imagem vetorial descrito em texto, que não perde qualidade ao ser ampliado.</td></tr>
+  <tr><td><strong>TACO</strong></td><td>Tabela Brasileira de Composição de Alimentos, publicada pela UNICAMP.</td></tr>
+  <tr><td><strong>TDEE</strong></td><td>Gasto energético diário total: TMB multiplicada pelo fator de atividade.</td></tr>
+  <tr><td><strong>Template string</strong></td><td>Texto entre crases em JavaScript, que permite inserir valores com <code>${}</code>.</td></tr>
+  <tr><td><strong>TMB</strong></td><td>Taxa metabólica basal: energia gasta em repouso absoluto.</td></tr>
+  <tr><td><strong>Upsert</strong></td><td>Operação que insere se não existe e atualiza se existe.</td></tr>
+  <tr><td><strong>XSS</strong></td><td><em>Cross-Site Scripting</em>: ataque em que código do atacante é executado no navegador da vítima.</td></tr>
+</table>
+
+<div style="margin-top:24pt;padding-top:10pt;border-top:1px solid #d8ded8;font-size:9pt;color:#555;text-align:center">
+  NutriBalance — Documentação Técnica · Ryan da Silva Augusto · Julho de 2026
+</div>
+
+</body>
+</html>

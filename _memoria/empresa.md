@@ -9,9 +9,17 @@
 **Perfil:** Solopreneur / criador solo (projeto tocado por Ryan na prática)
 **Atende clientes:** Pessoas interessadas em cuidar da saúde e melhorar fisicamente — seja ganhando, perdendo ou mantendo peso
 **Equipe:** Sozinho na prática. Há mais dois amigos oficialmente no projeto, mas não se manifestaram até agora, então Ryan seguiu sozinho
-**Ferramentas:** —
+**Ferramentas:** XAMPP (Apache + MySQL + PHP 8.2, instalado em D:\Xampp), HeidiSQL, VS Code, GitHub (Ryan-Augusto08/NutriBalance)
 **Principais entregas:** Site NutriBalance — dashboard com meta diária de kcal, resumo de macros (proteína, carboidrato, gordura) e lista de refeições do dia
 
 ## Contexto adicional
 
 - Projeto acadêmico (TCC), não uma empresa comercial — isso pesa na seriedade exigida do tom de escrita.
+
+## Pilha técnica
+
+- **Arquitetura:** API JSON em PHP + front-end em HTML/CSS/JS puro (módulos ES), sem framework e sem etapa de build. O PHP nunca imprime HTML; quem monta a tela é o JavaScript.
+- **Banco:** MySQL, 4 tabelas (`alimentos`, `usuarios`, `medicoes`, `redefinicoes_senha`). Acesso por PDO com prepared statements.
+- **Única biblioteca externa:** PHPMailer, em `site/api/lib/PHPMailer/`, instalado à mão (sem Composer), para o e-mail de recuperação de senha.
+- **Envio de e-mail:** SMTP do Gmail com senha de app. Credenciais em `site/api/email_config.php`, que está no `.gitignore` — nunca versionar nem copiar para pendrive.
+- **Ambiente local:** `D:\Xampp\htdocs\nutribalance` é um symlink para `MazyOS/site`, então o site roda em `http://localhost/nutribalance`.

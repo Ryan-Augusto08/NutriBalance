@@ -35,7 +35,21 @@ try {
         responder(['erro' => 'Esse e-mail já está cadastrado.'], 409);
     }
 
+    // A senha digitada NUNCA é gravada. password_hash a transforma num
+    // texto de mão única — do hash não se volta à senha. É por isso que o
+    // sistema não consegue "lembrar" a senha de ninguém, só permitir
+    // cadastrar outra (ver esqueceu_senha.php).
+    //
+    // PASSWORD_DEFAULT deixa o PHP escolher o algoritmo atual em vez de
+    // fixar um: quando surgir um mais forte, novas contas já o usam sem
+    // mudar esta linha. A função também embute um salt aleatório, então
+    // duas pessoas com a mesma senha ficam com hashes diferentes — o que
+    // inutiliza tabelas de hash pré-calculadas.
     $hash = password_hash($senha, PASSWORD_DEFAULT);
+
+    // Consulta preparada: o SQL vai com `?` e os valores viajam separados.
+    // O banco nunca interpreta o que o usuário digitou como comando, então
+    // um nome como  '); DROP TABLE usuarios; --  é gravado como texto.
     $stmt = $pdo->prepare('INSERT INTO usuarios (nome, email, senha_hash) VALUES (?, ?, ?)');
     $stmt->execute([$nome, $email, $hash]);
 

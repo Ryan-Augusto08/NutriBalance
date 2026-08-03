@@ -1,8 +1,18 @@
 /**
  * Onboarding — lê os campos, mostra a prévia ao vivo da meta (via calcularMeta
  * de calculo.js) e salva em api/salvar_perfil.php (que recalcula como autoridade).
- * Depende de calculo.js e auth.js carregados antes.
+ *
+ * Módulo ES: é o script que personalizacao.html carrega.
  */
+
+import { enviarApi, exigirSessao } from "./auth.js";
+import {
+  calcularIMC,
+  calcularMeta,
+  faixaPesoIdeal,
+  prazoRelativo,
+  preverResultado,
+} from "./calculo.js";
 
 const campos = {
   sexo: document.getElementById("p-sexo"),

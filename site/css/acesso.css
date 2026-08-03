@@ -1,0 +1,315 @@
+/* =====================================================================
+   acesso.css — telas de card centralizado
+   Usada por login.html, cadastro.html e personalizacao.html.
+   Inclui o painel de IMC, a previa da meta calculada e a previsao de
+   prazo ate o objetivo (todos exclusivos da personalizacao).
+   Depende das variaveis de base.css.
+   ===================================================================== */
+
+.acesso-pagina {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.acesso-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  padding: 28px 22px;
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* A personalização tem mais campos e usa o card mais largo. */
+.acesso-card-largo {
+  max-width: 440px;
+}
+
+.acesso-logo {
+  height: 160px;
+  width: auto;
+  max-width: 100%;
+  align-self: center;
+  margin-bottom: 8px;
+}
+
+.acesso-titulo {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin: 0;
+  text-align: center;
+}
+
+.acesso-subtitulo {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+/* ---------- formulário ---------- */
+
+.acesso-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.acesso-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.acesso-form input,
+.acesso-form select {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  color: var(--text-main);
+}
+
+.acesso-form .btn-primario {
+  margin-top: 4px;
+}
+
+/* ---------- campo de senha com o botão "olhinho" ---------- */
+/* O botão fica sobreposto ao canto direito do input; o padding-right abre o
+   espaço para o texto digitado não passar por baixo dele. Esta regra vem
+   DEPOIS de `.acesso-form input` de propósito: as duas têm a mesma
+   especificidade, e quem vem por último vence. */
+
+.campo-senha {
+  position: relative;
+  display: flex;
+}
+
+.campo-senha input {
+  flex: 1;
+  min-width: 0;
+  padding-right: 42px;
+}
+
+.olho-btn {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.olho-btn:hover {
+  background: var(--track-bg);
+  color: var(--green-dark);
+}
+
+.olho-btn svg {
+  width: 19px;
+  height: 19px;
+  display: block;
+}
+
+/* Troca do ícone conforme o estado do botão: com a senha oculta mostra o olho
+   aberto (ação: revelar); com a senha à vista mostra o olho cortado. */
+.olho-btn .olho-ocultar {
+  display: none;
+}
+
+.olho-btn[aria-pressed="true"] .olho-mostrar {
+  display: none;
+}
+
+.olho-btn[aria-pressed="true"] .olho-ocultar {
+  display: block;
+}
+
+.acesso-dica {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: -6px 0 0;
+}
+
+.acesso-troca {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 14px 0 0;
+}
+
+.acesso-troca a {
+  color: var(--green-btn);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.acesso-troca a:hover {
+  text-decoration: underline;
+}
+
+/* Segundo .acesso-troca seguido (login: "Esqueceu a senha?" + "Criar conta").
+   Sem isso, os 14px de margem de cada um somam com o gap do card e as duas
+   linhas ficam distantes demais. */
+.acesso-troca-junto {
+  margin-top: 2px;
+}
+
+/* Aviso que fica fora do .acesso-form (redefinir-senha.html): não herda o
+   gap do formulário, então precisa do próprio respiro em cima. */
+.acesso-aviso-solto {
+  margin-top: 10px;
+}
+
+/* grade de 2 colunas para sexo/idade/altura/peso na personalização */
+.form-grade {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+/* ---------- painel de IMC + faixa de peso ideal ---------- */
+/* (reusa o visual da prévia da meta) */
+
+.imc-previa {
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.imc-valor {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.imc-valor small {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.imc-faixa,
+.imc-alvo {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.imc-faixa b {
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
+}
+
+.imc-alvo {
+  font-weight: 700;
+  color: var(--green-dark);
+}
+
+/* ---------- prévia ao vivo da meta calculada ---------- */
+
+.meta-previa {
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meta-previa-rotulo {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.meta-previa-kcal {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--kcal-fg);
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.meta-previa-kcal small {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* ---------- previsão de resultado (prazo até o objetivo) ---------- */
+
+.prev-resultado {
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prev-destaque {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--green-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.prev-linha {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-main);
+}
+
+.prev-linha b {
+  font-variant-numeric: tabular-nums;
+}
+
+.prev-nota {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.prev-alerta {
+  margin: 2px 0 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--kcal-fg);
+}
+
+.prev-ressalva {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}

@@ -1,0 +1,160 @@
+/* =====================================================================
+   alimentos.css — modal de busca de alimento (index.html)
+   Campo de busca na TACO, lista de resultados, previa com a quantidade,
+   chips de medida caseira e o formulario de cadastro manual.
+
+   ATENCAO a ordem no HTML: este arquivo entra ANTES de modal.css. As
+   regras `.modal input` (modal.css) e `.qtd-rotulo input` (aqui) tem a
+   mesma especificidade, e quem vem depois vence — o padding de 10px do
+   modal e o comportamento correto.
+   Depende das variaveis de base.css.
+   ===================================================================== */
+
+.alimento-busca-barra {
+  margin-bottom: 12px;
+}
+
+.alimento-busca-barra input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  color: var(--text-main);
+}
+
+/* ---------- resultados da busca ---------- */
+
+.alimento-resultados {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+.alimento-resultado {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 9px 11px;
+  cursor: pointer;
+}
+
+.alimento-resultado:hover {
+  border-color: var(--green-btn);
+  background: #eaf4e7;
+}
+
+.alimento-nome {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.alimento-info {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.alimento-dica,
+.alimento-erro {
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 8px 2px;
+  margin: 0;
+}
+
+.alimento-erro {
+  color: var(--passou-fg);
+}
+
+/* ---------- prévia do alimento escolhido ---------- */
+
+.alimento-previa {
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alimento-previa-nome {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.qtd-rotulo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.qtd-rotulo input {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 9px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  color: var(--text-main);
+  max-width: 140px;
+}
+
+/* ---------- chips de medida caseira (1 fatia, 1 colher, ...) ---------- */
+
+.qtd-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.qtd-chip {
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  color: var(--text-main);
+  cursor: pointer;
+}
+
+.qtd-chip:hover {
+  border-color: var(--green-btn);
+}
+
+.qtd-chip.ativo {
+  background: var(--green-btn);
+  border-color: var(--green-btn);
+  color: #fff;
+}
+
+/* ---------- cadastro manual (alimento fora da TACO) ---------- */
+
+.manual-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
+.manual-dica {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 2px 0;
+}

@@ -1,0 +1,175 @@
+/* =====================================================================
+   perfil.css — card de perfil do dashboard e edicao da foto (index.html)
+   A foto aparece em dois tamanhos: 48px no card e 64px dentro do modal
+   de perfil (.foto-editar). Depende das variaveis de base.css.
+   ===================================================================== */
+
+.perfil-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow);
+}
+
+.perfil-foto {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--green-dark);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+  overflow: hidden;
+  padding: 0;
+  border: none;
+}
+
+/* Variante clicável (a foto do card é um <button>): selo de câmera. */
+button.perfil-foto {
+  cursor: pointer;
+}
+
+button.perfil-foto::after {
+  content: "📷";
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.foto-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+/* A foto cobre o círculo — dispensa o fundo verde das iniciais. */
+.perfil-foto.com-foto {
+  background: transparent;
+}
+
+/* Bloco de edição de foto no modal de perfil. */
+.foto-editar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.foto-editar .perfil-foto {
+  width: 64px;
+  height: 64px;
+  font-size: 20px;
+}
+
+.foto-editar-acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.foto-editar-acoes .btn-secundario {
+  padding: 8px 14px;
+  font-size: 13px;
+}
+
+.foto-erro {
+  margin: 0 0 12px;
+  color: var(--kcal-fg);
+  font-size: 13px;
+}
+
+.perfil-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.perfil-nome {
+  margin: 0;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.perfil-meta {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.icone-btn {
+  border: none;
+  background: var(--border-soft);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.icone-btn:hover {
+  background: #d8e8d2;
+}
+
+/* Botão "Mudar meta" no card de perfil: compacto, não estica como no modal. */
+#mudar-meta-btn {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* ---------- selo compacto de previsão (prazo até o objetivo) ---------- */
+
+.perfil-previsao {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 4px 10px;
+  background: var(--bg);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--green-dark);
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
+}
+
+.perfil-previsao::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green-btn);
+  flex-shrink: 0;
+}
+
+/* display:inline-flex acima venceria o atributo hidden — reforça o none. */
+.perfil-previsao[hidden] {
+  display: none;
+}

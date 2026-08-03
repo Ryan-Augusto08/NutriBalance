@@ -1,0 +1,415 @@
+/* =====================================================================
+   dashboard.css — estrutura da tela principal (index.html)
+   Cabecalho e marca, navegacao por data, resumo do dia e a lista de
+   refeicoes. Depende das variaveis de base.css.
+   ===================================================================== */
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+/* ---------- cabeçalho e marca ---------- */
+
+.app-cabecalho {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px 8px;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-img {
+  height: 88px;
+  width: auto;
+}
+
+.marca-nome {
+  font-weight: 800;
+  font-size: 32px;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.marca-nutri {
+  color: var(--green-dark);
+}
+
+.marca-balance {
+  color: var(--green-btn);
+}
+
+.cabecalho-espaco {
+  flex: 1;
+}
+
+.sair-btn {
+  border: 1px solid var(--border-soft);
+  background: var(--card-bg);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.sair-btn:hover {
+  background: var(--border-soft);
+  color: var(--text-main);
+}
+
+.banner-topo {
+  height: 140px;
+  margin: 0 20px 20px;
+  border-radius: 16px;
+  background-image: linear-gradient(135deg, rgba(47, 109, 63, 0.55), rgba(226, 87, 44, 0.35)),
+    url("../img/banner.jpg");
+  background-size: cover;
+  background-position: center;
+  background-color: #d8e8d2;
+}
+
+.conteudo {
+  padding: 0 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ---------- barra de navegação por data ---------- */
+
+.dia-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
+}
+
+.dia-seta {
+  border: none;
+  background: var(--border-soft);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--green-dark);
+  flex: 0 0 auto;
+}
+
+.dia-seta:hover {
+  background: #d8e8d2;
+}
+
+.dia-rotulo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.dia-rotulo-topo {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dia-rotulo-valor {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.copiar-dia-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: var(--border-soft);
+  color: var(--green-dark);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.copiar-dia-btn:hover {
+  background: #d8e8d2;
+}
+
+/* ---------- títulos de seção ---------- */
+
+.secao-titulo {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--green-dark);
+  margin: 0 0 12px;
+}
+
+.secao-cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.secao-cabecalho .secao-titulo {
+  margin: 0;
+}
+
+.adicionar-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: var(--green-btn);
+  color: #fff;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.adicionar-btn:hover {
+  background: var(--green-dark);
+}
+
+/* ---------- resumo do dia: barras "pista de corrida até a meta" ---------- */
+
+.progresso-diario {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 16px 16px 6px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.progresso-linha {
+  --fill: var(--green-btn);
+}
+
+.progresso-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.progresso-rotulo {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.progresso-numeros {
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.progresso-trilha {
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--track-bg);
+  overflow: visible;
+}
+
+.progresso-barra {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--fill);
+  transition: width 0.35s ease;
+}
+
+.progresso-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.progresso-linha.kcal {
+  --fill: var(--kcal-fg);
+}
+.progresso-linha.carbo {
+  --fill: var(--pie-carbo);
+}
+.progresso-linha.proteina {
+  --fill: var(--pie-proteina);
+}
+.progresso-linha.gordura {
+  --fill: var(--pie-gordura);
+}
+
+.progresso-linha.passou .progresso-barra {
+  background: var(--passou-fg);
+}
+.progresso-linha.passou .progresso-sub {
+  color: var(--passou-fg);
+  font-weight: 700;
+}
+
+/* ---------- lista de refeições ---------- */
+
+.lista-refeicoes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.refeicao-card {
+  background: var(--card-bg);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.refeicao-card-topo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.refeicao-titulo {
+  font-weight: 700;
+  font-size: 14px;
+  margin: 0;
+}
+
+.refeicao-dia {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: 2px 0 0;
+}
+
+.refeicao-remover {
+  border: none;
+  background: none;
+  color: #c9756a;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.refeicao-remover:hover {
+  text-decoration: underline;
+}
+
+.refeicao-itens {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-linha {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.item-principal {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.item-nome {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.item-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.item-remover {
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 2px 4px;
+  flex-shrink: 0;
+}
+
+.item-remover:hover {
+  color: var(--passou-fg);
+}
+
+.refeicao-vazia {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 4px 0;
+}
+
+.adicionar-alimento-btn {
+  align-self: flex-start;
+  border: 1px dashed var(--green-btn);
+  background: none;
+  color: var(--green-btn);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.adicionar-alimento-btn:hover {
+  background: #eaf4e7;
+}
+
+.refeicao-resumo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-top: 1px solid var(--border-soft);
+  padding-top: 12px;
+}
+
+.refeicao-kcal {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--kcal-fg);
+  white-space: nowrap;
+}
+
+.refeicao-kcal span {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Nenhuma refeição cadastrada no dia. */
+.estado-vazio {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 24px 0;
+}

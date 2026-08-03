@@ -1,8 +1,9 @@
 /**
- * Cálculo de metas nutricionais — compartilhado entre app.js (dashboard),
- * personalizacao.js (onboarding) e replicado em PHP (salvar_perfil.php, que é
- * a autoridade no salvamento). Carregado como <script> antes desses arquivos,
- * então expõe funções globais (o site não usa módulos ES).
+ * Cálculo de metas nutricionais — compartilhado entre o dashboard (dados.js,
+ * tela.js, perfil.js), a personalização (personalizacao.js) e replicado em PHP
+ * (salvar_perfil.php, que é a autoridade no salvamento).
+ *
+ * Módulo ES sem dependências: só contas, nada de DOM nem de estado.
  */
 
 /* ---------- metas de macro ---------- */
@@ -12,7 +13,7 @@ const DIVISAO_PADRAO = { carbo: 0.5, proteina: 0.2, gordura: 0.3 };
 const DIVISAO_DEFINICAO = { carbo: 0.4, proteina: 0.35, gordura: 0.25 };
 
 // `objetivo` é opcional: só "definir" (meta manter) troca a divisão; o resto usa o padrão.
-function derivarMetasMacro(metaKcal, objetivo) {
+export function derivarMetasMacro(metaKcal, objetivo) {
   const k = Number(metaKcal) || 0;
   const d = objetivo === "definir" ? DIVISAO_DEFINICAO : DIVISAO_PADRAO;
   return {
@@ -26,7 +27,7 @@ function derivarMetasMacro(metaKcal, objetivo) {
 // atual (percentual de cada macro no total). Preserva a divisão do usuário
 // (padrão, definição ou ajuste manual). Sem base válida, cai na divisão padrão.
 // kcal/g: carbo 4, proteína 4, gordura 9.
-function ajustarMacrosParaKcal(novaKcal, macros) {
+export function ajustarMacrosParaKcal(novaKcal, macros) {
   const k = Number(novaKcal) || 0;
   const kcalCarbo = (Number(macros.metaCarbo) || 0) * 4;
   const kcalProteina = (Number(macros.metaProteina) || 0) * 4;
@@ -69,7 +70,7 @@ const AJUSTE_META = {
  * de atividade. Retorna `null` se faltar algum dado obrigatório.
  * @returns {number|null}
  */
-function calcularTDEE(d) {
+export function calcularTDEE(d) {
   const sexo = d.sexo;
   const idade = Number(d.idade);
   const altura = Number(d.altura_cm);
@@ -89,7 +90,7 @@ function calcularTDEE(d) {
   return tmb * fator;
 }
 
-function calcularMeta(d) {
+export function calcularMeta(d) {
   const tdee = calcularTDEE(d);
   const ajuste = AJUSTE_META[d.meta];
   if (tdee === null || ajuste === undefined) return null;
@@ -108,7 +109,7 @@ const KCAL_POR_KG = 7700;
  * até ~6 semanas usa semanas ("daqui a 5 semanas"); acima disso, meses
  * ("daqui a 3 meses"). Sempre pelo menos "daqui a 1 semana".
  */
-function prazoRelativo(dias) {
+export function prazoRelativo(dias) {
   const d = Number(dias) || 0;
   // Até ~8 semanas fala em semanas; a partir daí, meses (mais fácil de captar
   // em prazos longos, ex.: 24 semanas → "daqui a 6 meses").
@@ -130,7 +131,7 @@ function prazoRelativo(dias) {
  *  - definir: { tipo:'definir', metaKcal, peso }
  *  - dados insuficientes / sem kg a percorrer: null
  */
-function preverResultado(d) {
+export function preverResultado(d) {
   const tdee = calcularTDEE(d);
   const meta = d.meta;
   const ajuste = AJUSTE_META[meta];
@@ -180,7 +181,7 @@ const IMC_MIN_SAUDAVEL = 18.5;
 const IMC_MAX_SAUDAVEL = 24.9;
 
 // Classifica o IMC nas faixas da OMS.
-function classificarIMC(imc) {
+export function classificarIMC(imc) {
   if (imc < 18.5) return "Abaixo do peso";
   if (imc < 25) return "Peso normal";
   if (imc < 30) return "Sobrepeso";
@@ -191,7 +192,7 @@ function classificarIMC(imc) {
  * IMC = peso / altura(m)^2. Retorna `null` se faltar peso ou altura validos.
  * @returns {{imc:number, classe:string}|null}
  */
-function calcularIMC(peso_kg, altura_cm) {
+export function calcularIMC(peso_kg, altura_cm) {
   const peso = Number(peso_kg);
   const alturaM = Number(altura_cm) / 100;
   if (!(peso > 0) || !(alturaM > 0)) return null;
@@ -203,7 +204,7 @@ function calcularIMC(peso_kg, altura_cm) {
  * Faixa de peso saudavel (kg) para a altura, pela faixa de IMC 18.5–24.9.
  * @returns {{min:number, max:number}|null}
  */
-function faixaPesoIdeal(altura_cm) {
+export function faixaPesoIdeal(altura_cm) {
   const alturaM = Number(altura_cm) / 100;
   if (!(alturaM > 0)) return null;
   const area = alturaM * alturaM;

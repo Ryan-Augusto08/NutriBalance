@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Esqueceu a senha — NutriBalance</title>
+  <link rel="icon" type="image/png" href="img/logo2.png" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/acesso.css" />
+</head>
+<body>
+  <div class="acesso-pagina">
+    <div class="acesso-card">
+      <img class="acesso-logo" src="img/logo2.png" alt="NutriBalance" />
+      <h1 class="acesso-titulo">Esqueceu a senha?</h1>
+      <p class="acesso-subtitulo">
+        Informe o e-mail da sua conta. Enviaremos um link para você cadastrar uma senha nova.
+      </p>
+
+      <form id="esqueceu-form" class="acesso-form">
+        <label>
+          E-mail
+          <input type="email" id="esqueceu-email" autocomplete="email" required />
+        </label>
+        <p class="acesso-erro" id="esqueceu-erro" hidden></p>
+        <p class="acesso-ok" id="esqueceu-ok" hidden></p>
+        <button type="submit" class="btn-primario" id="esqueceu-enviar">Enviar link</button>
+      </form>
+
+      <p class="acesso-troca">
+        Lembrou a senha? <a href="login.html">Entrar</a>
+      </p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { tratarEsqueceuSenha } from "./js/auth.js";
+    document.getElementById("esqueceu-form").addEventListener("submit", tratarEsqueceuSenha);
+  </script>
+</body>
+</html>

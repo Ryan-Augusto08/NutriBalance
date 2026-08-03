@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Entrar — NutriBalance</title>
   <link rel="icon" type="image/png" href="img/logo2.png" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/acesso.css" />
 </head>
 <body>
   <div class="acesso-pagina">
@@ -21,21 +22,42 @@
         </label>
         <label>
           Senha
-          <input type="password" id="login-senha" autocomplete="current-password" required />
+          <div class="campo-senha">
+            <input type="password" id="login-senha" autocomplete="current-password" required />
+            <button type="button" class="olho-btn" data-olho="login-senha"
+                    aria-pressed="false" aria-label="Mostrar senha" title="Mostrar senha">
+              <svg class="olho-mostrar" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M1.5 12S5 5.5 12 5.5 22.5 12 22.5 12 19 18.5 12 18.5 1.5 12 1.5 12Z" />
+                <circle cx="12" cy="12" r="3.2" />
+              </svg>
+              <svg class="olho-ocultar" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                   stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 3 21 21" />
+                <path d="M10.6 6.1A10 10 0 0 1 12 6c7 0 10.5 6 10.5 6a17 17 0 0 1-3.6 4.2" />
+                <path d="M6.2 7.9A17 17 0 0 0 1.5 12S5 18 12 18a10 10 0 0 0 3.5-.6" />
+              </svg>
+            </button>
+          </div>
         </label>
         <p class="acesso-erro" id="login-erro" hidden></p>
         <button type="submit" class="btn-primario" id="login-enviar">Entrar</button>
       </form>
 
       <p class="acesso-troca">
+        <a href="esqueceu-senha.html">Esqueceu a senha?</a>
+      </p>
+      <p class="acesso-troca acesso-troca-junto">
         Ainda não tem conta? <a href="cadastro.html">Criar conta</a>
       </p>
     </div>
   </div>
 
-  <script src="js/auth.js"></script>
-  <script>
+  <script type="module">
+    import { redirecionarSeLogado, tratarLogin } from "./js/auth.js";
+    import { ligarOlhosDeSenha } from "./js/senha.js";
     redirecionarSeLogado();
+    ligarOlhosDeSenha();
     document.getElementById("login-form").addEventListener("submit", tratarLogin);
   </script>
 </body>

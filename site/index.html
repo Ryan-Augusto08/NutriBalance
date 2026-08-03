@@ -5,7 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NutriBalance</title>
   <link rel="icon" type="image/png" href="img/logo2.png" />
-  <link rel="stylesheet" href="css/style.css" />
+  <!-- base.css primeiro (variaveis e componentes); alimentos.css antes de
+       modal.css, que a ordem decide o estilo dos campos do modal. -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/perfil.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/progresso.css" />
+  <link rel="stylesheet" href="css/alimentos.css" />
+  <link rel="stylesheet" href="css/modal.css" />
 </head>
 <body>
   <div class="app">
@@ -221,9 +228,7 @@
     </div>
   </div>
 
-  <script src="js/calculo.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/progresso.js"></script>
-  <script src="js/app.js"></script>
+  <!-- Entry point do dashboard: os demais modulos entram por import. -->
+  <script type="module" src="js/principal.js"></script>
 </body>
 </html>

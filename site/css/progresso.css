@@ -1,0 +1,170 @@
+/* =====================================================================
+   progresso.css — historico de peso/cintura e grafico (index.html)
+   O grafico e SVG desenhado a mao em js/progresso.js; as classes
+   .grafico-linha / .grafico-ponto / .grafico-eixo estilizam esse SVG.
+   Depende das variaveis de base.css.
+   ===================================================================== */
+
+.progresso-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ---------- resumo em texto ---------- */
+
+.progresso-resumo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.resumo-linha {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
+}
+
+.resumo-linha b {
+  color: var(--green-dark);
+}
+
+.resumo-variacao {
+  color: var(--text-muted);
+}
+
+.resumo-nota {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--green-dark);
+  background: var(--track-bg);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.resumo-vazio {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ---------- filtros de período (1m / 3m / 1a / tudo) ---------- */
+
+.progresso-filtros {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.filtro-btn {
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.filtro-btn:hover:not(.ativo) {
+  background: var(--track-bg);
+}
+
+.filtro-btn.ativo {
+  background: var(--green-btn);
+  border-color: var(--green-btn);
+  color: #fff;
+}
+
+/* ---------- gráfico SVG de linha ---------- */
+
+.progresso-graficos {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.grafico-card {
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  padding: 10px 12px 6px;
+}
+
+.grafico-topo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.grafico-titulo {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.grafico-atual {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
+}
+
+.grafico-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.grafico-linha {
+  fill: none;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+/* Uma medição só: linha de nível tracejada e mais discreta. */
+.grafico-linha.unico {
+  stroke-dasharray: 5 5;
+  opacity: 0.55;
+}
+
+.grafico-linha.peso {
+  stroke: var(--green-btn);
+}
+.grafico-linha.cintura {
+  stroke: var(--pie-proteina);
+}
+
+.grafico-ponto.peso {
+  fill: var(--green-btn);
+}
+.grafico-ponto.cintura {
+  fill: var(--pie-proteina);
+}
+
+.grafico-eixo {
+  font-size: 9px;
+  fill: var(--text-muted);
+  font-family: inherit;
+}
+
+.grafico-dica {
+  margin: 2px 0 4px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* Dica dentro do modal de registrar medição. */
+.medicao-dica {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin: -4px 0 0;
+}

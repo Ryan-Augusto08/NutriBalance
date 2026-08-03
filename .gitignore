@@ -29,3 +29,7 @@ dados/*
 # A pasta continua versionada pelo .gitkeep.
 site/uploads/fotos/*
 !site/uploads/fotos/.gitkeep
+
+# Credenciais do SMTP (senha de app do Gmail). O modelo sem senha,
+# email_config.exemplo.php, é que vai versionado.
+site/api/email_config.php

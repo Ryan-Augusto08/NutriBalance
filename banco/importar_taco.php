@@ -2,22 +2,26 @@
 /**
  * NutriBalance — importador da TACO para o MySQL.
  *
- * Le a planilha oficial da TACO (.xlsx) e popula a tabela `alimentos`.
+ * ATENCAO: este script NAO faz parte da instalacao. Para instalar o banco,
+ * importe o `nutribalance_completo.sql`, que ja traz os alimentos prontos.
+ *
+ * Este arquivo existe para REGERAR a tabela `alimentos` a partir da planilha
+ * oficial da TACO — util se a planilha for atualizada ou se o mapeamento de
+ * colunas precisar de ajuste. Depois de rodar, gere de novo os INSERT do
+ * nutribalance_completo.sql seguindo o passo a passo do README.md.
+ *
  * A planilha e um arquivo .xlsx (zip de XMLs); lemos sem biblioteca externa,
  * apenas com ZipArchive + SimpleXML.
  *
  * Como rodar (a partir da pasta banco/):
- *   D:\Xampp\php\php.exe -d extension=php_zip.dll 02_importar.php
+ *   D:\Xampp\php\php.exe -d extension=php_zip.dll importar_taco.php
  *
  * O -d extension=php_zip.dll liga o modulo zip so nessa execucao (nao mexe no php.ini).
  */
 
 /* ----------------- configuracao ----------------- */
-$DB_HOST = '127.0.0.1';
-$DB_PORT = 3306;
-$DB_USER = 'root';
-$DB_PASS = '';
-$DB_NAME = 'nutribalance';
+// As credenciais do banco vivem em um lugar so: site/api/conexao.php.
+require __DIR__ . '/../site/api/conexao.php';
 
 $XLSX = __DIR__ . '/../dados/Taco-4a-Edicao.xlsx';
 $SHEET = 'xl/worksheets/sheet1.xml'; // "CMVCol taco3" — composicao centesimal + minerais + vitaminas
@@ -117,14 +121,12 @@ function num($v) {
 }
 
 /* ----------------- conectar no MySQL ----------------- */
-$dsn = "mysql:host=$DB_HOST;port=$DB_PORT;dbname=$DB_NAME;charset=utf8mb4";
 try {
-    $pdo = new PDO($dsn, $DB_USER, $DB_PASS, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    ]);
+    $pdo = conectar();
 } catch (PDOException $e) {
     fwrite(STDERR, "ERRO ao conectar no MySQL: " . $e->getMessage() . "\n" .
-        "Verifique se o MySQL do XAMPP esta rodando e se o banco '$DB_NAME' existe (rode 01_schema.sql).\n");
+        "Verifique se o MySQL do XAMPP esta rodando e se o banco '" . DB_NAME .
+        "' existe (importe o nutribalance_completo.sql).\n");
     exit(1);
 }
 

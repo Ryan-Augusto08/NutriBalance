@@ -1,8 +1,11 @@
 /**
  * Autenticação compartilhada entre login/cadastro/onboarding/dashboard.
  *
- * Módulo ES: mostrarErro(), definirCarregando() e irAposAutenticar() são
- * internas; o resto é exportado para as páginas e para o dashboard.
+ * Módulo ES: irAposAutenticar() é interna; o resto é exportado para as
+ * páginas e para o dashboard. mostrarErro() e definirCarregando() eram
+ * internas até o onboarding precisar delas — as duas mexem em elementos de
+ * formulário e não têm nada de específico de autenticação, então servem
+ * qualquer tela com botão de enviar.
  *
  * Endpoints em api/ (sessão PHP via cookie): registrar, login, logout,
  * sessao, esqueceu_senha, redefinir_senha.
@@ -39,13 +42,13 @@ export async function enviarApi(url, corpo) {
   return { status: res.status, dados };
 }
 
-function mostrarErro(el, msg) {
+export function mostrarErro(el, msg) {
   if (!el) return;
   el.textContent = msg;
   el.hidden = false;
 }
 
-function definirCarregando(btn, carregando, textoNormal) {
+export function definirCarregando(btn, carregando, textoNormal) {
   if (!btn) return;
   btn.disabled = carregando;
   btn.textContent = carregando ? "Aguarde…" : textoNormal;

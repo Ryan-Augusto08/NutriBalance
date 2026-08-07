@@ -6,7 +6,7 @@
  */
 
 import "./travas.js";
-import { enviarApi, exigirSessao } from "./auth.js";
+import { definirCarregando, enviarApi, exigirSessao, mostrarErro } from "./auth.js";
 import {
   calcularIMC,
   calcularMeta,

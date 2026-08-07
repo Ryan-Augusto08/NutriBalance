@@ -60,6 +60,13 @@ try {
 
     echo json_encode($resultado, JSON_UNESCAPED_UNICODE);
 } catch (Throwable $e) {
+    // A mensagem tecnica vai para o log do servidor, nunca para o navegador:
+    // ela carrega nome de banco, de tabela e caminho de arquivo, que so
+    // ajudariam quem estivesse procurando uma brecha. Mas sem registrar em
+    // algum lugar, uma falha em producao vira adivinhacao — o usuario ve
+    // "Falha ao consultar" e ninguem descobre o motivo.
+    error_log('NutriBalance buscar.php: ' . $e->getMessage());
+
     http_response_code(500);
     echo json_encode(['erro' => 'Falha ao consultar o banco de alimentos.']);
 }

@@ -27,7 +27,10 @@ header('Content-Type: application/json; charset=utf-8');
 // perfil de quem usou o computador antes.
 header('Cache-Control: no-store');
 
-require __DIR__ . '/conexao.php';
+// require_once, e nao require: o buscar.php inclui o conexao.php direto, sem
+// passar por aqui. Como aquele arquivo declara uma funcao, incluir duas vezes
+// no mesmo request seria erro fatal de redeclaracao.
+require_once __DIR__ . '/conexao.php';
 
 /**
  * Envia um JSON e encerra.

@@ -1,0 +1,31 @@
+# O que NAO entra na imagem do backend.
+#
+# O contexto de build e a pasta projetos/NutriBalance/, entao tudo daqui seria
+# enviado ao servidor de build por padrao. Estas regras cortam o que nao tem
+# uso no container — e, mais importante, o que nao pode sair da maquina.
+
+# Credencial do SMTP. Ja esta no .gitignore, mas o build do Docker le a pasta
+# do disco, nao o Git: sem esta linha ela entraria na imagem mesmo nunca tendo
+# sido commitada. Em producao esses valores chegam por variavel de ambiente.
+site/api/email_config.php
+
+# Fotos de perfil de usuario (dado pessoal). A pasta precisa existir na
+# imagem, entao o .gitkeep fica de fora da exclusao.
+site/uploads/fotos/*
+!site/uploads/fotos/.gitkeep
+
+# O front e servido pelo Netlify; no container ele so ocuparia espaco.
+site/css/
+site/js/
+site/img/
+site/*.html
+
+# Contexto do projeto e material do TCC — nada disso roda no servidor.
+_memoria/
+identidade/
+marketing/
+dados/
+banco/
+briefing.md
+CLAUDE.md
+DEPLOY.md

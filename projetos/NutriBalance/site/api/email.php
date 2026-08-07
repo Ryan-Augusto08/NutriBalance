@@ -24,6 +24,35 @@ if (is_file($caminhoConfigEmail)) {
     require_once $caminhoConfigEmail;
 }
 
+// No servidor esse arquivo nao existe: ele esta no .gitignore justamente para
+// a senha de app nunca virar commit, entao nunca chega la. Em producao as
+// mesmas chaves chegam por variavel de ambiente, definidas no painel da
+// hospedagem.
+//
+// O `defined` antes de cada uma da a ultima palavra ao email_config.php: se o
+// arquivo existe (maquina de desenvolvimento), ele ja definiu a constante e a
+// variavel de ambiente e ignorada.
+if (!defined('SMTP_HOST')) {
+    define('SMTP_HOST', getenv('SMTP_HOST') ?: 'smtp.gmail.com');
+}
+if (!defined('SMTP_PORTA')) {
+    define('SMTP_PORTA', (int) (getenv('SMTP_PORTA') ?: 587));
+}
+if (!defined('SMTP_USUARIO')) {
+    define('SMTP_USUARIO', getenv('SMTP_USUARIO') ?: '');
+}
+if (!defined('SMTP_SENHA')) {
+    define('SMTP_SENHA', getenv('SMTP_SENHA') ?: '');
+}
+if (!defined('SMTP_REMETENTE_NOME')) {
+    define('SMTP_REMETENTE_NOME', getenv('SMTP_REMETENTE_NOME') ?: 'NutriBalance');
+}
+// Sem valor padrao: vazio faz o url_site() montar o endereco a partir da
+// propria requisicao, que e o comportamento certo no XAMPP local.
+if (!defined('URL_SITE')) {
+    define('URL_SITE', getenv('URL_SITE') ?: '');
+}
+
 /**
  * true se o email_config.php existe e está preenchido de verdade.
  * Rejeita também os valores de exemplo, para que quem esqueceu de trocá-los

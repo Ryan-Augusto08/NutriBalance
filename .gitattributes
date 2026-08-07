@@ -1,0 +1,19 @@
+# Normalizacao de fim de linha.
+#
+# Esta maquina tem core.autocrlf=true, entao o Git entrega os arquivos de
+# texto com CRLF no checkout. Isso e o certo para Windows, mas quebra scripts
+# que vao rodar dentro de container Linux: com CRLF, o `#!/bin/sh` da primeira
+# linha vira `#!/bin/sh\r`, e o Linux responde "not found" — apontando para um
+# arquivo que esta claramente ali. Um dos erros mais dificeis de diagnosticar
+# em deploy, porque o script parece perfeito no editor.
+
+* text=auto
+
+# Sempre LF, em qualquer sistema.
+*.sh           text eol=lf
+Dockerfile     text eol=lf
+*.ini          text eol=lf
+# O parser do .dockerignore trata o \r como parte do padrao: uma linha
+# "site/css/" com CRLF vira o caminho "site/css/\r", que nao casa com nada e
+# faz a regra ser ignorada em silencio.
+.dockerignore  text eol=lf

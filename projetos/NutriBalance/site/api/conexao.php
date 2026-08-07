@@ -3,15 +3,43 @@
  * Conexao com o banco MySQL do NutriBalance.
  * Retorna uma instancia PDO ja configurada em UTF-8.
  *
- * Credenciais padrao do XAMPP: usuario root, sem senha.
- * Se voce definir uma senha para o root, ajuste $DB_PASS.
+ * As credenciais vem de variavel de ambiente. Quando nenhuma esta definida,
+ * o codigo cai nos valores padrao do XAMPP (root, sem senha, banco local) —
+ * entao o site continua abrindo em http://localhost/nutribalance sem precisar
+ * configurar nada na maquina de desenvolvimento.
+ *
+ * No servidor e o painel da hospedagem que preenche essas variaveis. E o que
+ * permite a senha do banco de producao nunca existir dentro de um arquivo
+ * versionado: ela mora so la, e o Git nunca ve.
  */
 
-const DB_HOST = '127.0.0.1';
-const DB_PORT = 3306;
-const DB_NAME = 'nutribalance';
-const DB_USER = 'root';
-const DB_PASS = '';
+/**
+ * Devolve a primeira variavel de ambiente preenchida da lista, ou o padrao.
+ *
+ * Aceita mais de um nome porque cada hospedagem batiza as suas do seu jeito.
+ * O Railway, ao provisionar o MySQL, cria sozinho MYSQLHOST, MYSQLUSER e
+ * companhia; aceitando os dois conjuntos, o deploy funciona tanto com essas
+ * variaveis automaticas quanto com as DB_* definidas a mao.
+ */
+function env_primeira(array $nomes, string $padrao): string
+{
+    foreach ($nomes as $nome) {
+        $valor = getenv($nome);
+        // Variavel existente porem vazia conta como ausente: e o que acontece
+        // quando o campo e criado no painel e deixado em branco.
+        if ($valor !== false && $valor !== '') {
+            return $valor;
+        }
+    }
+
+    return $padrao;
+}
+
+define('DB_HOST', env_primeira(['DB_HOST', 'MYSQLHOST'], '127.0.0.1'));
+define('DB_PORT', (int) env_primeira(['DB_PORT', 'MYSQLPORT'], '3306'));
+define('DB_NAME', env_primeira(['DB_NAME', 'MYSQLDATABASE'], 'nutribalance'));
+define('DB_USER', env_primeira(['DB_USER', 'MYSQLUSER'], 'root'));
+define('DB_PASS', env_primeira(['DB_PASS', 'MYSQLPASSWORD'], ''));
 
 function conectar(): PDO
 {

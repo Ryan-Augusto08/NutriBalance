@@ -1,0 +1,64 @@
+# Publicacao do front do NutriBalance no Netlify.
+#
+# O Netlify serve os arquivos estaticos (HTML, CSS, JS, imagens). Toda chamada
+# a /api/ e toda foto de perfil em /uploads/ sao repassadas ao backend PHP no
+# Railway pelas regras de redirect no fim deste arquivo.
+
+[build]
+  publish = "projetos/NutriBalance/site"
+
+  # POR QUE APAGAR api/ ANTES DE PUBLICAR
+  # O publish sobe a pasta site/ inteira, e dentro dela ha site/api/*.php. O
+  # Netlify nao executa PHP: ele entregaria esses arquivos como texto, e o
+  # codigo-fonte do backend ficaria publico na internet — incluindo a logica
+  # de login e a forma como o banco e consultado.
+  #
+  # O redirect com force = true la embaixo ja intercepta /api/* antes de olhar
+  # para o disco, entao sao duas travas para o mesmo risco. Vale ter as duas:
+  # esta aqui garante que, mesmo se o redirect for removido por engano um dia,
+  # nao existe fonte nenhuma para vazar.
+  #
+  # Isso roda na copia do repositorio dentro do build do Netlify. O teu
+  # repositorio local e o do GitHub nao sao tocados.
+  command = "rm -rf projetos/NutriBalance/site/api projetos/NutriBalance/site/uploads"
+
+# ---------------------------------------------------------------------------
+# Proxy para o backend
+# ---------------------------------------------------------------------------
+# status = 200 e o que faz disto um proxy em vez de um redirecionamento: o
+# navegador continua vendo o dominio do Netlify e nunca aprende que existe um
+# segundo servidor. E o que mantem o cookie de sessao do PHP funcionando sem
+# CORS e sem SameSite=None — para o navegador, tudo veio da mesma origem.
+#
+# force = true faz a regra valer mesmo que exista arquivo com o mesmo caminho.
+
+# >>> TROCAR pelo dominio que o Railway gerar (aparece em Settings > Networking)
+[[redirects]]
+  from = "/api/*"
+  to = "https://SUBSTITUA-PELO-DOMINIO.up.railway.app/api/:splat"
+  status = 200
+  force = true
+
+# As fotos de perfil sao gravadas pelo api/foto.php e ficam no disco do
+# Railway, nao aqui. O banco guarda o caminho relativo (uploads/fotos/foto_9_
+# ab12.png) e o front usa direto como src — sem este proxy, toda foto de
+# perfil vira imagem quebrada.
+[[redirects]]
+  from = "/uploads/*"
+  to = "https://SUBSTITUA-PELO-DOMINIO.up.railway.app/uploads/:splat"
+  status = 200
+  force = true
+
+# ---------------------------------------------------------------------------
+# Cabecalhos de seguranca
+# ---------------------------------------------------------------------------
+[[headers]]
+  for = "/*"
+
+  [headers.values]
+    # Impede que o site seja carregado dentro de um iframe de outro dominio,
+    # o que abriria espaco para clickjacking sobre a tela de login.
+    X-Frame-Options = "DENY"
+    # Barra o navegador de "adivinhar" o tipo de um arquivo pelo conteudo.
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "same-origin"

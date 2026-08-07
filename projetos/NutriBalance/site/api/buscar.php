@@ -12,7 +12,7 @@
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 
-require __DIR__ . '/conexao.php';
+require_once __DIR__ . '/conexao.php';
 
 $q = trim($_GET['q'] ?? '');
 

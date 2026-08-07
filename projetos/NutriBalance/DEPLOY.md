@@ -1,5 +1,19 @@
 # Colocar o NutriBalance no ar
 
+> **No ar desde 07/08/2026.**
+>
+> | | Endereço |
+> |---|---|
+> | Site (é este que se divulga) | https://nutribalancee.netlify.app |
+> | Backend, acesso direto | https://nutribalance-production.up.railway.app |
+> | Projeto no Railway | `acceptable-compassion` |
+> | Projeto no Netlify | `nutribalancee` |
+>
+> O endereço do Railway existe para diagnóstico. Abrir a raiz dele devolve
+> `Forbidden`, e está certo: o container tem só `api/` e `uploads/`, sem
+> página inicial. Para testá-lo direto, use um caminho de verdade, como
+> `/api/buscar.php?q=arroz`.
+
 Passo a passo da publicação. O site fica dividido em duas hospedagens porque
 nenhuma das duas faz o trabalho da outra: o Netlify serve arquivo estático e
 não executa PHP; o Railway executa PHP e roda o MySQL.
@@ -148,7 +162,11 @@ conversando.
    define o `publish` e o comando. Deixe o **base directory** em branco.
 3. **Deploy site**
 4. Em **Site configuration** → **Change site name**, troque o nome sorteado por
-   `nutribalance` (fica `nutribalance.netlify.app`)
+   um endereço legível (ficou `nutribalancee.netlify.app`)
+5. **Site configuration** → **Access & security** → **Project visibility** →
+   **Public**. Projeto novo nasce privado: enquanto estiver assim, tudo
+   responde 401 com uma tela de login do Netlify, inclusive as chamadas de
+   API — o que parece erro do proxy e não é
 
 Nesse ponto o site abre, mas login e busca ainda falham — o proxy ainda aponta
 para um domínio que não existe. É a Parte 3.
@@ -162,7 +180,7 @@ para um domínio que não existe. É a Parte 3.
 
 **3.2** Commit e push. O Netlify republica sozinho em cerca de um minuto.
 
-**3.3** No Railway, defina `URL_SITE` = `https://nutribalance.netlify.app`
+**3.3** No Railway, defina `URL_SITE` = `https://nutribalancee.netlify.app`
 (sem barra no fim).
 
 Essa variável merece atenção. Ela é a base do link que vai no e-mail de

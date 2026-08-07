@@ -37,20 +37,46 @@ if (!is_file($arquivo)) {
 
 echo "Importador do NutriBalance\n";
 echo "Arquivo: " . basename($arquivo) . ' (' . number_format(filesize($arquivo) / 1024, 0) . " KB)\n\n";
-echo "Cole a MYSQL_PUBLIC_URL do Railway e tecle Enter:\n> ";
+/**
+ * Esconde a senha de uma URL para poder mostra-la na tela com seguranca.
+ * Serve para o diagnostico: da para conferir se a URL chegou inteira sem
+ * expor a credencial em print de tela ou em conversa.
+ */
+function mascarar(string $url): string
+{
+    return preg_replace('#^(\w+://[^:]+:)[^@]*(@.*)$#', '$1<senha>$2', $url) ?? '(vazio)';
+}
 
-$url = trim((string) fgets(STDIN));
+// Ate tres tentativas: colar errado no terminal e comum, e obrigar a rodar o
+// script de novo a cada engano so aumenta a chance de desistir no meio.
+$partes = false;
 
-// parse_url separa a URL nos pedacos certos sozinho — mais confiavel do que
-// montar uma expressao regular a mao, principalmente porque a senha pode
-// conter caracteres que confundiriam o padrao.
-$partes = parse_url($url);
+for ($tentativa = 1; $tentativa <= 3; $tentativa++) {
+    echo "Cole a MYSQL_PUBLIC_URL do Railway e tecle Enter:\n> ";
 
-if ($partes === false || !isset($partes['host'], $partes['user'], $partes['pass'])) {
-    fwrite(STDERR, "\nURL nao reconhecida. Ela deve ter o formato:\n");
-    fwrite(STDERR, "  mysql://usuario:senha@servidor.proxy.rlwy.net:12345/railway\n");
-    fwrite(STDERR, "Confira se copiou a MYSQL_PUBLIC_URL inteira (nao a MYSQL_URL).\n");
-    exit(1);
+    $url = trim((string) fgets(STDIN));
+
+    // parse_url separa a URL nos pedacos certos sozinho — mais confiavel do
+    // que montar uma expressao regular a mao, principalmente porque a senha
+    // pode conter caracteres que confundiriam o padrao.
+    $partes = parse_url($url);
+
+    if ($partes !== false && isset($partes['host'], $partes['user'], $partes['pass'])) {
+        break;
+    }
+
+    echo "\nNao reconheci essa URL.\n";
+    echo "  Recebi:   " . ($url === '' ? '(nada — o Enter veio antes da colagem?)' : mascarar($url)) . "\n";
+    echo "  Tamanho:  " . strlen($url) . " caracteres\n";
+    echo "  Esperado: mysql://usuario:senha@servidor.proxy.rlwy.net:12345/railway\n";
+    echo "  Confira que copiou a MYSQL_PUBLIC_URL, e nao a MYSQL_URL.\n\n";
+
+    $partes = false;
+
+    if ($tentativa === 3) {
+        fwrite(STDERR, "Tres tentativas sem sucesso. Nada foi alterado no banco.\n");
+        exit(1);
+    }
 }
 
 $servidor = $partes['host'];

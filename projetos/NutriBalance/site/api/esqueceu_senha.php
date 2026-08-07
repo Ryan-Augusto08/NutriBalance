@@ -118,5 +118,5 @@ try {
     responder($respostaGenerica);
 } catch (Throwable $e) {
     error_log('NutriBalance: erro em esqueceu_senha.php — ' . $e->getMessage());
-    responder(['erro' => 'Falha ao processar o pedido.'], 500);
+    falhar($e, 'Falha ao processar o pedido.');
 }

@@ -30,5 +30,5 @@ try {
 
     responder(['ok' => true, 'medicoes' => $linhas]);
 } catch (Throwable $e) {
-    responder(['erro' => 'Falha ao carregar as medicoes.'], 500);
+    falhar($e, 'Falha ao carregar as medicoes.');
 }

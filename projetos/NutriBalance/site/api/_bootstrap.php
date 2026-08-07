@@ -71,6 +71,31 @@ function corpo(): array
     return $_POST;
 }
 
+/**
+ * Registra a causa técnica no log e responde com a mensagem neutra.
+ *
+ * POR QUE OS DOIS TEXTOS SÃO DIFERENTES
+ * A mensagem do navegador é curta e sem detalhe de propósito: a exceção real
+ * carrega nome de banco, de tabela, caminho de arquivo e às vezes trecho da
+ * consulta — material que só ajuda quem estiver procurando uma brecha.
+ *
+ * Mas descartar a exceção, que era o que estes endpoints faziam, deixa a
+ * aplicação muda quando algo quebra em produção: o usuário vê "Falha ao
+ * salvar" e não há onde descobrir se foi a conexão, uma coluna que não existe
+ * ou permissão negada. O log do servidor é o lugar certo — ele é privado.
+ *
+ * No servidor, o docker/php.ini manda o log para a saída de erro do
+ * container, e ele aparece no painel da hospedagem. No XAMPP, vai para
+ * D:\Xampp\apache\logs\error.log.
+ */
+function falhar(Throwable $e, string $mensagem): void
+{
+    $endpoint = basename($_SERVER['SCRIPT_NAME'] ?? 'api');
+    error_log("NutriBalance {$endpoint}: " . $e->getMessage());
+
+    responder(['erro' => $mensagem], 500);
+}
+
 /** Exige método HTTP; encerra com 405 se não bater. */
 function exigir_metodo(string $metodo): void
 {

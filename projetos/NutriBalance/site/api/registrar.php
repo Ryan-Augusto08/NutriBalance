@@ -59,5 +59,5 @@ try {
 
     responder(['ok' => true, 'perfil_completo' => false]);
 } catch (Throwable $e) {
-    responder(['erro' => 'Falha ao criar a conta.'], 500);
+    falhar($e, 'Falha ao criar a conta.');
 }

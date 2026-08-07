@@ -102,5 +102,5 @@ try {
 
     responder(['ok' => true, 'foto' => $relativo]);
 } catch (Throwable $e) {
-    responder(['erro' => 'Falha ao atualizar a foto.'], 500);
+    falhar($e, 'Falha ao atualizar a foto.');
 }

@@ -45,5 +45,5 @@ try {
 
     responder(['ok' => true, 'perfil_completo' => $u['meta_kcal'] !== null]);
 } catch (Throwable $e) {
-    responder(['erro' => 'Falha ao entrar.'], 500);
+    falhar($e, 'Falha ao entrar.');
 }

@@ -56,5 +56,5 @@ try {
         ],
     ]);
 } catch (Throwable $e) {
-    responder(['erro' => 'Falha ao carregar a sessão.'], 500);
+    falhar($e, 'Falha ao carregar a sessão.');
 }

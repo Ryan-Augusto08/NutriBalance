@@ -135,5 +135,5 @@ try {
         'metas'     => $metas,
     ]);
 } catch (Throwable $e) {
-    responder(['erro' => 'Falha ao salvar a medicao.'], 500);
+    falhar($e, 'Falha ao salvar a medicao.');
 }

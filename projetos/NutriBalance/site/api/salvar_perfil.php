@@ -141,5 +141,5 @@ try {
         'metaGordura'  => $metaGordura,
     ]);
 } catch (Throwable $e) {
-    responder(['erro' => 'Falha ao salvar o perfil.'], 500);
+    falhar($e, 'Falha ao salvar o perfil.');
 }

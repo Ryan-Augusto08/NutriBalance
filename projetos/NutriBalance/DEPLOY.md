@@ -124,17 +124,42 @@ container é descartado e recriado a cada build.
 
 ### 1.6 Variáveis do e-mail
 
-Ainda no serviço PHP, aba **Variables**:
+**O Railway bloqueia SMTP.** As portas 25, 465 e 587 estão fechadas para todo
+container nos planos Free, Trial e Hobby — é proteção contra spam, e vale para
+qualquer aplicação. A conexão não é recusada: ela espera até estourar o tempo,
+e o log mostra `SMTP Error: Could not connect to SMTP host ... Connection timed
+out`. Nenhum ajuste de senha resolve.
 
-| Variável        | Valor                                  |
-|-----------------|----------------------------------------|
-| `SMTP_HOST`     | `smtp.gmail.com`                       |
-| `SMTP_PORTA`    | `587`                                  |
-| `SMTP_USUARIO`  | o seu Gmail                            |
-| `SMTP_SENHA`    | a senha de app **nova**                |
-| `URL_SITE`      | preencher na Parte 3                   |
+Por isso o `api/email.php` tem dois caminhos de envio, escolhidos pela presença
+da chave `BREVO_API_KEY`:
 
-Sem elas a recuperação de senha não envia nada — mas o resto do site funciona
+| Ambiente | Caminho | Por quê |
+|---|---|---|
+| XAMPP local | SMTP do Gmail, via PHPMailer | Funciona, e não exige conta em serviço nenhum para desenvolver |
+| Railway | API HTTP do Brevo | Trafega na porta 443, que não é bloqueada |
+
+**Criar a conta no Brevo** (https://www.brevo.com — 300 e-mails por dia no
+plano gratuito, sem exigir domínio próprio):
+
+1. Cadastre-se e confirme o e-mail
+2. **Senders, Domains & Dedicated IPs** → **Senders** → **Add a sender** →
+   cadastre o seu Gmail e confirme pelo link que chega nele
+3. **SMTP & API** → aba **API Keys** → **Generate a new API key**
+
+Depois, no serviço PHP do Railway, aba **Variables**:
+
+| Variável             | Valor                                  |
+|----------------------|----------------------------------------|
+| `BREVO_API_KEY`      | a chave gerada (começa com `xkeysib-`) |
+| `SMTP_USUARIO`       | o remetente verificado no Brevo        |
+| `SMTP_REMETENTE_NOME`| `NutriBalance`                         |
+| `URL_SITE`           | preencher na Parte 3                   |
+
+Com a `BREVO_API_KEY` presente, as variáveis `SMTP_HOST`, `SMTP_PORTA` e
+`SMTP_SENHA` deixam de ser usadas no servidor — podem ser removidas. O
+`SMTP_USUARIO` continua valendo: é o endereço que aparece como remetente.
+
+Sem nada disso a recuperação de senha não envia — mas o resto do site funciona
 normalmente, e o motivo fica registrado no log. É o `email_configurado()` do
 `api/email.php` cuidando disso.
 
@@ -234,7 +259,8 @@ variáveis de ambiente.
 | API responde 502 e o log não mostra erro | Apache subiu na porta errada. Confirme que o `docker/iniciar.sh` está com fim de linha LF |
 | Login entra e cai logo em seguida | Sessão sem persistência. Confira se o proxy do `netlify.toml` está com `status = 200`, e não `301` |
 | Foto some depois de um deploy | Falta o volume do passo 1.5 |
-| E-mail não chega | `SMTP_SENHA` com a senha normal da conta em vez da senha de app |
+| E-mail não chega, log diz `Connection timed out` | O Railway bloqueia SMTP. Configure a `BREVO_API_KEY` (passo 1.6) |
+| E-mail não chega, log diz `Brevo recusou o envio` | Remetente não verificado no Brevo, ou chave inválida. A resposta no log diz qual |
 | Link do e-mail leva para o domínio errado | `URL_SITE` não definida no Railway (passo 3.3) |
 | Busca de alimento volta vazia | O `nutribalance_completo.sql` não foi importado (passo 1.3) |
 

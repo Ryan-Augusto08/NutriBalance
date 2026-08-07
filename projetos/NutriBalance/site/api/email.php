@@ -53,19 +53,34 @@ if (!defined('URL_SITE')) {
     define('URL_SITE', getenv('URL_SITE') ?: '');
 }
 
+// Chave da API do Brevo. Presente = envio por HTTP; ausente = envio por SMTP.
+// Ver o comentario de enviar_email() para o motivo de existirem dois caminhos.
+if (!defined('BREVO_API_KEY')) {
+    define('BREVO_API_KEY', getenv('BREVO_API_KEY') ?: '');
+}
+
 /**
- * true se o email_config.php existe e está preenchido de verdade.
- * Rejeita também os valores de exemplo, para que quem esqueceu de trocá-los
- * veja no log o motivo certo em vez de um erro de autenticação do Gmail.
+ * true se algum dos dois caminhos de envio está utilizável.
+ * Rejeita também os valores de exemplo do email_config.php, para que quem
+ * esqueceu de trocá-los veja no log o motivo certo em vez de um erro de
+ * autenticação do Gmail.
  */
 function email_configurado(): bool
 {
-    if (!defined('SMTP_HOST') || !defined('SMTP_USUARIO') || !defined('SMTP_SENHA')) {
-        return false;
-    }
+    // O remetente é exigido pelos dois caminhos: é o endereço que aparece
+    // como "De:" na caixa de entrada de quem recebe.
     $naoPreenchidos = ['', 'seuemail@gmail.com', 'xxxx xxxx xxxx xxxx', 'COLE_AQUI_A_SENHA_DE_APP'];
 
-    return !in_array(SMTP_USUARIO, $naoPreenchidos, true)
+    if (!defined('SMTP_USUARIO') || in_array(SMTP_USUARIO, $naoPreenchidos, true)) {
+        return false;
+    }
+
+    if (BREVO_API_KEY !== '') {
+        return true;
+    }
+
+    return defined('SMTP_HOST')
+        && defined('SMTP_SENHA')
         && !in_array(SMTP_SENHA, $naoPreenchidos, true);
 }
 
@@ -94,17 +109,98 @@ function url_site(): string
 }
 
 /**
- * Envia uma mensagem. Devolve true se o servidor SMTP aceitou.
+ * Envia uma mensagem. Devolve true se o servidor aceitou.
+ *
+ * POR QUE EXISTEM DOIS CAMINHOS DE ENVIO
+ * O envio por SMTP é o jeito clássico e funciona perfeitamente na máquina de
+ * desenvolvimento. Mas a hospedagem gratuita do Railway bloqueia as portas de
+ * SMTP (25, 465 e 587) para todo container — é uma proteção contra spam, e
+ * vale para qualquer aplicação, não só esta. A tentativa não é recusada: ela
+ * fica esperando até estourar o tempo, e o log registra "Connection timed
+ * out". Nenhum ajuste de senha ou de configuração contorna isso.
+ *
+ * A saída é enviar por API HTTP, que trafega na porta 443 como qualquer
+ * requisição web e por isso não esbarra no bloqueio. Aqui o serviço é o
+ * Brevo, escolhido por dispensar domínio próprio: basta verificar um
+ * endereço de remetente.
+ *
+ * A escolha é automática, pela presença da chave: com BREVO_API_KEY definida
+ * (o servidor), vai por HTTP; sem ela (o XAMPP), vai por SMTP. Assim o
+ * ambiente local continua funcionando exatamente como antes, sem precisar de
+ * conta em serviço nenhum para desenvolver.
+ *
  * O erro real nunca vai pro navegador (vazaria a configuração do servidor);
- * ele é gravado no log do PHP — no XAMPP, D:\Xampp\apache\logs\error.log.
+ * ele é gravado no log — no XAMPP, D:\Xampp\apache\logs\error.log; no
+ * servidor, no painel da hospedagem.
  */
 function enviar_email(string $para, string $assunto, string $corpoHtml, string $corpoTexto): bool
 {
     if (!email_configurado()) {
-        error_log('NutriBalance: email_config.php ausente ou não preenchido — e-mail não enviado.');
+        error_log('NutriBalance: envio de e-mail não configurado — nem BREVO_API_KEY nem SMTP preenchidos.');
         return false;
     }
 
+    if (BREVO_API_KEY !== '') {
+        return enviar_por_api($para, $assunto, $corpoHtml, $corpoTexto);
+    }
+
+    return enviar_por_smtp($para, $assunto, $corpoHtml, $corpoTexto);
+}
+
+/**
+ * Envio pela API HTTP do Brevo. Usado no servidor.
+ *
+ * A API responde 201 quando aceita a mensagem para entrega. Qualquer outro
+ * código é falha, e o corpo da resposta explica — daí ele ir para o log.
+ */
+function enviar_por_api(string $para, string $assunto, string $corpoHtml, string $corpoTexto): bool
+{
+    $carga = [
+        'sender'      => ['name' => SMTP_REMETENTE_NOME, 'email' => SMTP_USUARIO],
+        'to'          => [['email' => $para]],
+        'subject'     => $assunto,
+        'htmlContent' => $corpoHtml,
+        'textContent' => $corpoTexto,
+    ];
+
+    $ch = curl_init('https://api.brevo.com/v3/smtp/email');
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 15,
+        CURLOPT_HTTPHEADER     => [
+            'api-key: ' . BREVO_API_KEY,
+            'Content-Type: application/json',
+            'Accept: application/json',
+        ],
+        CURLOPT_POSTFIELDS     => json_encode($carga, JSON_UNESCAPED_UNICODE),
+    ]);
+
+    $resposta  = curl_exec($ch);
+    $status    = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $erroDeRede = curl_error($ch);
+    curl_close($ch);
+
+    if ($status === 201) {
+        return true;
+    }
+
+    if ($erroDeRede !== '') {
+        error_log('NutriBalance: falha de rede ao chamar o Brevo — ' . $erroDeRede);
+    } else {
+        // A resposta do Brevo nomeia o problema: remetente não verificado,
+        // chave inválida, cota do dia estourada.
+        error_log("NutriBalance: Brevo recusou o envio (HTTP {$status}) — " . (string) $resposta);
+    }
+
+    return false;
+}
+
+/**
+ * Envio por SMTP com o PHPMailer. Usado na máquina de desenvolvimento.
+ */
+function enviar_por_smtp(string $para, string $assunto, string $corpoHtml, string $corpoTexto): bool
+{
     $mensagem = new PHPMailer(true);
 
     try {

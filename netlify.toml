@@ -32,10 +32,10 @@
 #
 # force = true faz a regra valer mesmo que exista arquivo com o mesmo caminho.
 
-# >>> TROCAR pelo dominio que o Railway gerar (aparece em Settings > Networking)
+# Dominio do backend no Railway. Se ele mudar, e aqui que se troca.
 [[redirects]]
   from = "/api/*"
-  to = "https://SUBSTITUA-PELO-DOMINIO.up.railway.app/api/:splat"
+  to = "https://nutribalance-production.up.railway.app/api/:splat"
   status = 200
   force = true
 
@@ -45,7 +45,7 @@
 # perfil vira imagem quebrada.
 [[redirects]]
   from = "/uploads/*"
-  to = "https://SUBSTITUA-PELO-DOMINIO.up.railway.app/uploads/:splat"
+  to = "https://nutribalance-production.up.railway.app/uploads/:splat"
   status = 200
   force = true
 

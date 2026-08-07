@@ -8,7 +8,8 @@
 
 Desenvolvimento avançado. O sistema já está funcional ponta a ponta:
 dashboard, cadastro/login, onboarding com cálculo de metas, busca na TACO,
-seção Progresso (peso/cintura + gráfico) e recuperação de senha por e-mail.
+seção Progresso (peso/cintura + gráfico), recuperação de senha por e-mail e
+travas de zoom e seleção de texto (06/08/2026).
 Foco migrando de "construir" para "conseguir defender na banca".
 
 ## Prioridade principal
@@ -26,8 +27,13 @@ Chegar à defesa do TCC seguro. Duas frentes:
 
 ## O que pode esperar
 
-Nenhum gargalo ou tarefa repetitiva identificada ainda — não há candidata
-a virar skill via `/mapear-rotinas` no momento.
+**Candidata a skill identificada em 06/08/2026:** sincronizar a pasta
+`Desktop\NutriBalance-pendrive\` com o projeto. É sequência fixa, repetida
+a cada mudança no site, e com duas exclusões que não podem falhar — a
+credencial `email_config.php` e as fotos de usuário. Automatizar tira o
+risco de esquecer justamente essas duas.
+
+Rodar `/mapear-rotinas` quando quiser transformar em comando.
 
 ## Contexto com prazo
 

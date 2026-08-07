@@ -10,7 +10,7 @@
 **Atende clientes:** Pessoas interessadas em cuidar da saúde e melhorar fisicamente — seja ganhando, perdendo ou mantendo peso
 **Equipe:** Sozinho na prática. Há mais dois amigos oficialmente no projeto, mas não se manifestaram até agora, então Ryan seguiu sozinho
 **Ferramentas:** XAMPP (Apache + MySQL + PHP 8.2, instalado em D:\Xampp), HeidiSQL, VS Code, GitHub (Ryan-Augusto08/NutriBalance)
-**Principais entregas:** Site NutriBalance — dashboard com meta diária de kcal, resumo de macros (proteína, carboidrato, gordura) e lista de refeições do dia; cadastro/login com recuperação de senha por e-mail; onboarding com cálculo de metas (TDEE, IMC, previsão de prazo); busca de alimentos na TACO; seção Progresso (histórico de peso/cintura + gráfico em SVG). Fora do site: documentação técnica do TCC em `marketing/NutriBalance-Documentacao-Tecnica.html` (com PDF)
+**Principais entregas:** Site NutriBalance — dashboard com meta diária de kcal, resumo de macros (proteína, carboidrato, gordura) e lista de refeições do dia; cadastro/login com recuperação de senha por e-mail; onboarding com cálculo de metas (TDEE, IMC, previsão de prazo); busca de alimentos na TACO; seção Progresso (histórico de peso/cintura + gráfico em SVG); travas de zoom e de seleção de texto em todas as páginas. Fora do site: documentação técnica do TCC em `marketing/NutriBalance-Documentacao-Tecnica.html` (com PDF)
 
 ## Contexto adicional
 
@@ -22,4 +22,5 @@
 - **Banco:** MySQL, 4 tabelas (`alimentos`, `usuarios`, `medicoes`, `redefinicoes_senha`). Acesso por PDO com prepared statements.
 - **Única biblioteca externa:** PHPMailer, em `site/api/lib/PHPMailer/`, instalado à mão (sem Composer), para o e-mail de recuperação de senha.
 - **Envio de e-mail:** SMTP do Gmail com senha de app. Credenciais em `site/api/email_config.php`, que está no `.gitignore` — nunca versionar nem copiar para pendrive.
-- **Ambiente local:** `D:\Xampp\htdocs\nutribalance` é um symlink para `MazyOS/site`, então o site roda em `http://localhost/nutribalance`.
+- **Ambiente local:** `D:\Xampp\htdocs\nutribalance` é uma **junction** (não um symlink) apontando para `MazyOS/projetos/NutriBalance/site`, então o site roda em `http://localhost/nutribalance`. O caminho fica gravado como texto fixo: se a pasta do projeto mudar de lugar, o site para de abrir sem erro aparente de código — foi o que aconteceu em 06/08/2026. Procedimento de conserto no `CLAUDE.md` do projeto.
+- **Cópia para a escola:** `Desktop\NutriBalance-pendrive\` guarda site, banco e o PDF da documentação para rodar em outra máquina. Fica **fora do repositório** e não se atualiza sozinha — a cada mudança no site precisa ser sincronizada à mão, sempre sem `email_config.php` e sem as fotos de usuário.

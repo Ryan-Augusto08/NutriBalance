@@ -132,11 +132,12 @@ Cada trabalho vive em `projetos/<Nome>/`, autocontido — com o próprio
 `CLAUDE.md`, `briefing.md`, `_memoria/` e `identidade/`. As regras do
 `CLAUDE.md` do projeto sobrescrevem as daqui quando houver conflito.
 
-**Projetos ativos:**
+**Projetos:**
 
 | Projeto | O que é | Pasta |
 |---|---|---|
 | NutriBalance | Site de acompanhamento nutricional — TCC do Ryan | `projetos/NutriBalance/` |
+| Valéria Augusto | **Pausado em 06/08/2026.** Site de captação de leads para uma familiar. Depende de informações que só ela tem — o `briefing.md` guarda o que perguntar | `projetos/Valéria-Augusto/` |
 
 O que fica na raiz é só infraestrutura do MazyOS: as regras desse arquivo,
 as skills em `.claude/skills/`, os templates em `templates/`, e as drop

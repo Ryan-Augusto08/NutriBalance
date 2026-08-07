@@ -48,7 +48,18 @@ ES do JavaScript só carregam por `http://`. Foi criado um *junction* em
 serve ao vivo):
 
 ```
-mklink /J "D:\Xampp\htdocs\nutribalance" "C:\Users\ryand\OneDrive\Desktop\TCC\MazyOS\site"
+mklink /J "D:\Xampp\htdocs\nutribalance" "C:\Users\ryand\OneDrive\Desktop\MazyOS\projetos\NutriBalance\site"
+```
+
+O caminho fica gravado como texto fixo dentro do link: se a pasta do projeto
+for movida ou renomeada, o site para de abrir no localhost sem apontar
+nenhum erro de código. Para consertar, apague o link e recrie apontando pro
+caminho novo (`rmdir` num junction remove só o atalho, nunca a pasta de
+destino):
+
+```
+rmdir "D:\Xampp\htdocs\nutribalance"
+mklink /J "D:\Xampp\htdocs\nutribalance" "<novo caminho>\site"
 ```
 
 Com **Apache** e **MySQL** ligados no XAMPP, acesse:

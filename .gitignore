@@ -7,6 +7,7 @@ Thumbs.db
 .idea/
 
 # Claude Code (sessões locais, não devem ir pro repo)
+.claude/settings.local.json
 .claude/projects/
 .claude/sessions/
 .claude/shell-snapshots/
@@ -22,14 +23,16 @@ node_modules/
 *.tmp
 
 # Drop zone do usuário (só o README vai versionado)
-dados/*
-!dados/README.md
+projetos/*/dados/*
+!projetos/*/dados/README.md
 
 # Fotos de perfil enviadas pelos usuários (dado pessoal — não vai pro repo).
 # A pasta continua versionada pelo .gitkeep.
-site/uploads/fotos/*
-!site/uploads/fotos/.gitkeep
+projetos/*/site/uploads/fotos/*
+!projetos/*/site/uploads/fotos/.gitkeep
 
 # Credenciais do SMTP (senha de app do Gmail). O modelo sem senha,
 # email_config.exemplo.php, é que vai versionado.
-site/api/email_config.php
+# Sem barra no começo: casa em qualquer profundidade, então continua
+# valendo se o projeto mudar de pasta de novo.
+email_config.php

@@ -55,10 +55,23 @@ coloridos por categoria de macro (kcal, proteína, carboidrato, gordura).
 
 ## Logo
 
-- **Arquivo:** `identidade/logo.png` (copiado também pra `site/img/logo.png`)
+Duas variantes. **Atenção ao nome dos arquivos:** `logo.png` significa coisas
+diferentes em `identidade/` e em `site/img/` — conferir a pasta antes de usar.
+
+**Variante completa** (símbolo + texto + tagline)
+
+- **Arquivo:** `identidade/logo.png`, duplicado como `identidade/logo2.png` e `site/img/logo2.png` (os três são o mesmo arquivo, byte a byte)
 - **Descrição:** ícone circular com pessoa de braços abertos entre folhas verdes e uma tigela de salada laranja/verde; abaixo, texto "NutriBalance" ("Nutri" em verde escuro, "Balance" em preto) com tagline "equilíbrio que transforma saúde em vida"
+- **Onde usar:** telas de acesso do site (login, cadastro, esqueceu-senha, redefinir-senha, personalização), favicon de todas as páginas, slide final do carrossel (CTA), header de propostas, slides de apresentação
+
+**Variante símbolo** (só o ícone circular, sem texto)
+
+- **Arquivo:** `site/img/logo.png` — existe apenas dentro do site, sem cópia em `identidade/`
+- **Onde usar:** header do dashboard, onde o nome "NutriBalance" já aparece como texto ao lado
+
+**Comuns às duas**
+
 - **Versão pra fundo escuro:** não definida
-- **Onde usar:** slide final do carrossel (CTA), header de propostas, slides de apresentação
 - **Tamanho sugerido:** largura entre 120-200px nos HTMLs
 
 ---
@@ -66,3 +79,7 @@ coloridos por categoria de macro (kcal, proteína, carboidrato, gordura).
 ## Observações adicionais
 
 Logo salva em 2026-07-20.
+
+A tela de cadastro está fora do padrão: [`site/cadastro.html`](../site/cadastro.html)
+usa a variante símbolo, enquanto as outras telas de acesso usam a completa.
+Pendente decidir qual das duas vira o padrão e alinhar.

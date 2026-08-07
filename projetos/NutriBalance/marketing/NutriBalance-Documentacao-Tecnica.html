@@ -1415,6 +1415,8 @@ import { blocoMacros, totaisDoDia } from "./macros.js";</code></pre>
   <tr><td><code>auth.js</code></td><td>Login, cadastro, logout e a guarda de sessão. Usado por todas as páginas.</td></tr>
   <tr><td><code>progresso.js</code></td><td>Histórico de peso e cintura, e o gráfico SVG.</td></tr>
   <tr><td><code>personalizacao.js</code></td><td>Só na tela de onboarding: lê os campos e mostra a prévia ao vivo.</td></tr>
+  <tr><td><code>senha.js</code></td><td>O botão de olho que mostra e oculta os campos de senha.</td></tr>
+  <tr><td><code>travas.js</code></td><td>Bloqueia os atalhos de zoom (teclado, <code>Ctrl</code> + roda, pinça no trackpad). A trava de seleção de texto e a de pinça no toque ficam no <code>base.css</code>, que resolve as duas sem JavaScript.</td></tr>
 </table>
 
 <div class="porque">
@@ -1876,7 +1878,7 @@ gera problemas de codificação entre PHP, MySQL e navegador. Acento continua no
 
 <h3>8.1 Estrutura do projeto</h3>
 
-<pre><code>MazyOS/
+<pre><code>MazyOS/projetos/NutriBalance/
 ├── banco/
 │   ├── nutribalance_completo.sql Banco inteiro: 4 tabelas + os 597 alimentos
 │   ├── migracao_redefinicoes_senha.sql  So a tabela nova, para banco ja criado
@@ -1915,7 +1917,9 @@ gera problemas de codificação entre PHP, MySQL e navegador. Acento continua no
     │   ├── calculo.js            Formulas (TMB, TDEE, macros, IMC, previsao)
     │   ├── auth.js               Login, cadastro, logout, guarda de sessao
     │   ├── progresso.js          Historico e grafico SVG
-    │   └── personalizacao.js     Previa ao vivo do onboarding
+    │   ├── personalizacao.js     Previa ao vivo do onboarding
+    │   ├── senha.js              Botao olho: mostra/oculta campo de senha
+    │   └── travas.js             Bloqueia os atalhos de zoom do navegador
     └── api/
         ├── _bootstrap.php        Base comum (sessao, JSON, helpers)
         ├── conexao.php           Conexao PDO

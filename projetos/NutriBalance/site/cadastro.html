@@ -2,8 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Entrar — NutriBalance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Criar conta — NutriBalance</title>
   <link rel="icon" type="image/png" href="img/logo2.png" />
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/acesso.css" />
@@ -11,20 +11,25 @@
 <body>
   <div class="acesso-pagina">
     <div class="acesso-card">
-      <img class="acesso-logo" src="img/logo2.png" alt="NutriBalance" />
-      <h1 class="acesso-titulo">Entrar</h1>
-      <p class="acesso-subtitulo">Acompanhe sua alimentação e suas metas.</p>
+      <img class="acesso-logo" src="img/logo.png" alt="NutriBalance" />
+      <h1 class="acesso-titulo">Criar conta</h1>
+      <p class="acesso-subtitulo">Leva menos de um minuto.</p>
 
-      <form id="login-form" class="acesso-form">
+      <form id="cadastro-form" class="acesso-form">
+        <label>
+          Nome
+          <input type="text" id="cadastro-nome" autocomplete="name" required />
+        </label>
         <label>
           E-mail
-          <input type="email" id="login-email" autocomplete="email" required />
+          <input type="email" id="cadastro-email" autocomplete="email" required />
         </label>
         <label>
           Senha
           <div class="campo-senha">
-            <input type="password" id="login-senha" autocomplete="current-password" required />
-            <button type="button" class="olho-btn" data-olho="login-senha"
+            <input type="password" id="cadastro-senha" autocomplete="new-password"
+                   minlength="6" required />
+            <button type="button" class="olho-btn" data-olho="cadastro-senha"
                     aria-pressed="false" aria-label="Mostrar senha" title="Mostrar senha">
               <svg class="olho-mostrar" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -40,25 +45,24 @@
             </button>
           </div>
         </label>
-        <p class="acesso-erro" id="login-erro" hidden></p>
-        <button type="submit" class="btn-primario" id="login-enviar">Entrar</button>
+        <p class="acesso-dica">Mínimo de 6 caracteres.</p>
+        <p class="acesso-erro" id="cadastro-erro" hidden></p>
+        <button type="submit" class="btn-primario" id="cadastro-enviar">Criar conta</button>
       </form>
 
       <p class="acesso-troca">
-        <a href="esqueceu-senha.html">Esqueceu a senha?</a>
-      </p>
-      <p class="acesso-troca acesso-troca-junto">
-        Ainda não tem conta? <a href="cadastro.html">Criar conta</a>
+        Já tem conta? <a href="login.html">Entrar</a>
       </p>
     </div>
   </div>
 
   <script type="module">
-    import { redirecionarSeLogado, tratarLogin } from "./js/auth.js";
+    import "./js/travas.js";
+    import { redirecionarSeLogado, tratarCadastro } from "./js/auth.js";
     import { ligarOlhosDeSenha } from "./js/senha.js";
     redirecionarSeLogado();
     ligarOlhosDeSenha();
-    document.getElementById("login-form").addEventListener("submit", tratarLogin);
+    document.getElementById("cadastro-form").addEventListener("submit", tratarCadastro);
   </script>
 </body>
 </html>

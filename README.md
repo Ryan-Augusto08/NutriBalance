@@ -103,6 +103,11 @@ carrossel, slide, peça que o sistema gera respeita isso.
 `marketing/`, `saidas/` e `scripts/` são o resultado. O sistema produz,
 versiona no GitHub, fica tudo seu.
 
+> **Nessa instalação**, cada projeto é autocontido: leva o próprio
+> `_memoria/` e a própria `identidade/` dentro de `projetos/<Nome>/`, em
+> vez de tudo ficar na raiz. A raiz guarda só as regras, as skills e os
+> templates. Ver a seção *Projetos* do `CLAUDE.md`.
+
 ---
 
 ## Quando precisar

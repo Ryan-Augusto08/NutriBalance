@@ -5,6 +5,7 @@
  * Módulo ES: é o script que personalizacao.html carrega.
  */
 
+import "./travas.js";
 import { enviarApi, exigirSessao } from "./auth.js";
 import {
   calcularIMC,

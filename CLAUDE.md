@@ -11,8 +11,12 @@ final dessa página com as regras específicas do seu negócio.
 
 ## Contexto do negócio
 
-No início de toda conversa, ler os seguintes arquivos (quando existirem
-e estiverem preenchidos):
+**A memória mora dentro de cada projeto, não aqui na raiz.** Cada pasta em
+`projetos/` é autocontida: leva o próprio `_memoria/` e a própria
+`identidade/`. A raiz guarda só as regras de operação (esse arquivo), as
+skills e os templates.
+
+No início de toda conversa sobre um projeto, ler os arquivos dele:
 
 1. `_memoria/empresa.md` — quem é o usuário, o que faz, como funciona o negócio
 2. `_memoria/preferencias.md` — tom de voz, estilo de escrita, o que evitar
@@ -24,6 +28,12 @@ descrito em `estrategia.md`.
 
 Pra qualquer tarefa visual (carrossel, post, landing page), consultar
 `identidade/design-guide.md` como referência de estilo.
+
+Esses caminhos são relativos à pasta do projeto. **Trabalhe com o terminal
+aberto dentro dela** (ex: `projetos/NutriBalance/`) — assim as skills
+encontram o contexto certo e o `CLAUDE.md` do projeto carrega junto com
+esse. Se a conversa começar na raiz e o assunto for um projeto específico,
+ler `projetos/<nome>/_memoria/` explicitamente.
 
 Não é necessário listar o que foi lido nem confirmar a leitura. Apenas
 usar o contexto naturalmente.
@@ -116,111 +126,40 @@ Quando o usuário pedir skill nova:
 
 ---
 
-# NutriBalance — regras específicas do projeto
+## Projetos
 
-> Perfil: solopreneur / criador solo. Preenchido pelo `/instalar`.
+Cada trabalho vive em `projetos/<Nome>/`, autocontido — com o próprio
+`CLAUDE.md`, `briefing.md`, `_memoria/` e `identidade/`. As regras do
+`CLAUDE.md` do projeto sobrescrevem as daqui quando houver conflito.
 
-## O que é esse workspace
+**Projetos ativos:**
 
-Operação do TCC (Trabalho de Conclusão de Curso) de Ryan — desenvolvimento
-do site NutriBalance, um app de acompanhamento nutricional parecido com o
-MyFitnessPal (sem leitura/registro de alimento por código de barras).
+| Projeto | O que é | Pasta |
+|---|---|---|
+| NutriBalance | Site de acompanhamento nutricional — TCC do Ryan | `projetos/NutriBalance/` |
 
-**Estrutura de pastas:**
-- `_memoria/` — quem é o projeto, como ele fala, o que tá em foco
-- `identidade/` — cores, fontes, logo, padrão visual do NutriBalance
-- `marketing/` — conteúdo, documentação, material de apresentação (saída das skills)
-- `saidas/` — análises, emails, documentos pontuais
-- `dados/` — arquivos a analisar (CSV, PDF, planilha)
-- `scripts/` — utilitários
+O que fica na raiz é só infraestrutura do MazyOS: as regras desse arquivo,
+as skills em `.claude/skills/`, os templates em `templates/`, e as drop
+zones genéricas `saidas/` e `scripts/`.
 
-## Quem sou
+### Ao criar projeto novo
 
-Sou Ryan, aluno do 3º ano do Ensino Médio integrado ao curso de
-Desenvolvimento de Sistemas. O NutriBalance é meu TCC — um site que facilita
-a vida de quem quer ter hábitos saudáveis.
+Usar o `/novo-projeto`. Dois pontos que já morderam antes e valem conferir
+em qualquer projeto que envolva código:
 
-## O que produzo
-
-- Site NutriBalance (dashboard de kcal, macros e refeições diárias)
-- Documentação e material de apresentação do TCC
-
-## Minha audiência
-
-Pessoas interessadas em cuidar da saúde e melhorar fisicamente — seja
-ganhando, perdendo ou mantendo peso. Nesse momento, também a banca
-avaliadora do TCC.
-
-## Tom de voz
-
-Direto, formal e sério — sem emoji, sem gírias, sem tom jovial. Qualquer
-coisa que soe "escrita por IA" (emoji, informalidade excessiva) compromete
-a seriedade esperada de um trabalho acadêmico.
-
-Evitar: emoji em contexto formal, linguagem casual demais.
-
-## Posicionamento
-
-NutriBalance entrega o essencial do MyFitnessPal para hábitos saudáveis,
-sem a funcionalidade de leitura/registro por código de barras.
-
-## Regras do sistema
-
-- Projeto ainda sem equipe ativa — dois colegas estão nominalmente no
-  projeto mas não participaram até agora
-- Sem gargalo ou rotina repetitiva identificada ainda (fase inicial)
-- Logo do NutriBalance existe apenas como imagem de referência — ainda
-  sem arquivo salvo em `identidade/`
+1. **Caminhos fixos fora do repositório.** Symlinks e junctions (ex: o
+   `htdocs` do XAMPP) guardam o caminho como texto e não acompanham
+   pasta movida — o serviço quebra sem erro aparente de código.
+2. **Regras do `.gitignore` ancoradas em caminho.** Ao mover uma pasta,
+   conferir se o que era protegido continua protegido, com
+   `git check-ignore -v <arquivo>`. Vale principalmente pra credencial e
+   dado pessoal.
 
 ## Ferramentas conectadas
 
 - [ ] Notion
-- [ ] Canva
+- [ ] Canva — servidor MCP configurado, mas ainda pendente de autorização
+      (fazer pelas configurações de conectores do claude.ai)
 - [ ] Google Calendar
 
 *(Marcar conforme for instalando os MCPs)*
-
----
-
-## Convenção de código — português
-
-Todo o código do NutriBalance é escrito em **português**: variáveis, funções,
-constantes, nomes de arquivo e pasta, ids de HTML, classes de CSS e colunas do
-banco. É como o Ryan programa na escola, e a banca do TCC lê o código — misturar
-os dois idiomas passa impressão de descuido.
-
-**Estilo por camada:**
-
-| Camada | Estilo | Exemplo |
-|---|---|---|
-| Variáveis e funções JS/PHP | `camelCase` | `carregarDados`, `totaisDoDia`, `$metaKcal` |
-| Constantes | `MAIUSCULA_SNAKE` | `FATOR_ATIVIDADE`, `VERSAO_DADOS` |
-| Colunas e tabelas do banco | `snake_case` | `meta_kcal`, `cintura_cm` |
-| ids de HTML e classes de CSS | `kebab-case` | `lista-refeicoes`, `.grafico-card` |
-
-**Sem acento e sem cedilha em identificadores.** Escrever `refeicao`, não
-`refeição`. O JS aceita acento em nome de variável, mas quebra em seletor de
-CSS, chave de `localStorage` e coluna de SQL, e vira problema de encoding entre
-PHP/MySQL/navegador. Acento continua normal em **texto exibido na tela e em
-comentários** — isso não muda.
-
-**Fica em inglês só o jargão consolidado** (traduzir só piora): `id`, `kcal`,
-`iso`, `svg`, `json`, `html`, `hash`, `tdee`, `uid`, `modal`, `link`, `app`, e
-as APIs do navegador/PHP (`getElementById`, `addEventListener`, `localStorage`,
-`fetch`, `password_hash`).
-
-**Glossário canônico** — usar sempre o mesmo termo. O maior risco numa base
-traduzida é sair `refeicao` num arquivo e `comida` no outro:
-
-| Inglês | Português | | Inglês | Português |
-|---|---|---|---|---|
-| meal | `refeicao` | | goal | `meta` |
-| food | `alimento` | | profile | `perfil` |
-| chart | `grafico` | | state | `estado` |
-| progress | `progresso` | | data (dados) | `dados` |
-| add | `adicionar` | | remove / del | `remover` |
-| save | `salvar` | | load | `carregar` |
-| empty | `vazio` | | totals / sum | `totais` / `somar` |
-| render / draw | `mostrar` / `desenhar` | | handle | `tratar` |
-| show / hide | `mostrar` / `esconder` | | preview | `previa` |
-| bmr | `tmb` | | escapeHtml | `escaparHtml` |

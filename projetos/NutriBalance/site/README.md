@@ -27,7 +27,7 @@ Páginas: `index.html` (dashboard), `login.html`, `cadastro.html` e
 **CSS** — uma folha por área, todas dependentes de `base.css`:
 
 - `css/base.css` — variáveis de cor, reset e componentes compartilhados (botões,
-  legenda de macros). Cores e tipografia seguem `identidade/design-guide.md`
+  legenda de macros). Cores e tipografia seguem [`../identidade/design-guide.md`](../identidade/design-guide.md)
 - `css/dashboard.css` — cabeçalho, navegação por data, resumo do dia, refeições
 - `css/perfil.css` — card de perfil e foto
 - `css/progresso.css` — histórico de peso/cintura e gráfico
@@ -47,6 +47,7 @@ resto entra por `import`:
 - `js/calculo.js` — metas, TDEE, IMC e previsão de prazo (usado também no onboarding)
 - `js/auth.js` — login, cadastro, logout e guarda de sessão
 - `js/senha.js` — botão "olhinho" que mostra/oculta os campos de senha
+- `js/travas.js` — bloqueia os atalhos de zoom (teclado, Ctrl+roda, pinça no trackpad); importado por todas as páginas
 
 **Backend** (`api/`):
 

@@ -44,6 +44,36 @@ body {
   color: var(--text-main);
 }
 
+/* ---------- travas de selecao e zoom ----------
+   A interface nao deve permitir selecionar texto nem aplicar zoom.
+   Aqui fica a parte que o CSS resolve; os atalhos de teclado e a roda do
+   mouse ficam em js/travas.js, que o CSS nao alcanca.
+
+   touch-action: pan-x pan-y libera a rolagem e barra so o gesto de pinca.
+   Vale mais que o user-scalable=no do viewport, que o Safari do iOS ignora
+   desde a versao 10 por decisao de acessibilidade. */
+
+html {
+  touch-action: pan-x pan-y;
+}
+
+body {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none; /* balao de copiar no toque longo do iOS */
+}
+
+/* Excecao obrigatoria: campo de formulario precisa de selecao.
+   Sem isso o usuario nao consegue arrastar sobre o que digitou nem dar
+   Ctrl+A pra corrigir, e as telas de login e cadastro parecem quebradas. */
+input,
+textarea,
+select,
+[contenteditable="true"] {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
 /* ---------- botões (dashboard, modais e telas de acesso) ---------- */
 
 .btn-primario,

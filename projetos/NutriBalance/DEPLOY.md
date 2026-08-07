@@ -205,6 +205,7 @@ variáveis de ambiente.
 | Sintoma | Causa provável |
 |---|---|
 | Build do Railway não acha o Dockerfile | Root Directory não está em `projetos/NutriBalance` (passo 1.1) |
+| `AH00534: More than one MPM loaded`, container reiniciando em loop | O ambiente do Railway habilita um MPM a mais por cima do que a imagem traz. O `a2dismod mpm_event mpm_worker` do Dockerfile existe para isso — se voltar, confirme que essa linha continua lá |
 | `could not find driver` no log | A linha `docker-php-ext-install pdo_mysql` não rodou — build antiga em cache |
 | API responde 502 e o log não mostra erro | Apache subiu na porta errada. Confirme que o `docker/iniciar.sh` está com fim de linha LF |
 | Login entra e cai logo em seguida | Sessão sem persistência. Confira se o proxy do `netlify.toml` está com `status = 200`, e não `301` |

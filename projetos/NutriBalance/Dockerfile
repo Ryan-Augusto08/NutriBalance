@@ -11,6 +11,18 @@ FROM php:8.2-apache
 # `new PDO('mysql:...')` do conexao.php falha com "could not find driver".
 RUN docker-php-ext-install pdo_mysql
 
+# MPM e o modulo que decide como o Apache atende varias requisicoes ao mesmo
+# tempo. Ele aceita um so: encontrando dois, aborta com
+# "AH00534: Configuration error: More than one MPM loaded" e o container entra
+# em loop de reinicio sem nunca responder.
+#
+# A imagem ja vem com o mpm_prefork ligado, que e o exigido pelo mod_php. O
+# problema e que o ambiente do Railway acaba habilitando o mpm_event por cima.
+# Desligar os concorrentes explicitamente aqui deixa o container imune a isso,
+# independente do que a plataforma faca.
+RUN a2dismod mpm_event mpm_worker 2>/dev/null || true; \
+    a2enmod mpm_prefork
+
 # Ajustes de php.ini proprios do projeto — ver comentarios no arquivo.
 COPY docker/php.ini /usr/local/etc/php/conf.d/nutribalance.ini
 

@@ -84,7 +84,7 @@ No serviço **PHP** (não no do MySQL), aba **Variables**, adicione:
 |-----------|------------------------------|
 | `DB_HOST` | `${{MySQL.MYSQLHOST}}`       |
 | `DB_PORT` | `${{MySQL.MYSQLPORT}}`       |
-| `DB_NAME` | `${{MySQL.MYSQLDATABASE}}`   |
+| `DB_NAME` | `nutribalance`               |
 | `DB_USER` | `${{MySQL.MYSQLUSER}}`       |
 | `DB_PASS` | `${{MySQL.MYSQLPASSWORD}}`   |
 
@@ -93,6 +93,12 @@ variável do outro serviço em vez de copiar o valor. Se a senha do banco mudar,
 a API acompanha sozinha.
 
 > Se o nome do serviço de banco não for exatamente `MySQL`, ajuste o prefixo.
+
+O `DB_NAME` é a exceção, e de propósito. O banco que o Railway cria sozinho se
+chama `railway`, mas o `nutribalance_completo.sql` traz `CREATE DATABASE
+nutribalance` e `USE nutribalance` dentro dele. Fixando o nome aqui, o banco
+tem o mesmo nome na sua máquina e no servidor, e o arquivo `.sql` importa nos
+dois lugares sem precisar ser editado.
 
 ### 1.5 Disco para as fotos de perfil
 

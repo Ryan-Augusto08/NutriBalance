@@ -31,6 +31,20 @@ projetos/*/dados/*
 projetos/*/site/uploads/fotos/*
 !projetos/*/site/uploads/fotos/.gitkeep
 
+# A Valéria tem repositório próprio (privado) desde 09/08/2026. A pasta
+# continua morando aqui para as skills e o CLAUDE.md acharem o contexto, mas
+# quem versiona é o git de dentro dela — o MazyOS não duplica.
+projetos/Valéria-Augusto/
+
+# Fotos de rosto de cliente (dado pessoal) em qualquer projeto futuro.
+# Prefixo `**/` porque a barra no meio do padrão ancoraria na raiz do repo —
+# assim casa em qualquer profundidade e continua valendo se a pasta do projeto
+# mudar de lugar. Conferir com `git check-ignore -v <arquivo>` depois de mover.
+# (A Valéria não depende mais disso: repositório próprio, e as fotos dela já
+# eram públicas no Instagram.)
+**/fotos-clientes/*
+!**/fotos-clientes/.gitkeep
+
 # Credenciais do SMTP (senha de app do Gmail). O modelo sem senha,
 # email_config.exemplo.php, é que vai versionado.
 # Sem barra no começo: casa em qualquer profundidade, então continua

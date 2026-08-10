@@ -137,7 +137,7 @@ Cada trabalho vive em `projetos/<Nome>/`, autocontido — com o próprio
 | Projeto | O que é | Pasta |
 |---|---|---|
 | NutriBalance | Site de acompanhamento nutricional — TCC do Ryan | `projetos/NutriBalance/` |
-| Valéria Augusto | **Pausado em 06/08/2026.** Site de captação de leads para uma familiar. Depende de informações que só ela tem — o `briefing.md` guarda o que perguntar | `projetos/Valéria-Augusto/` |
+| Valéria Augusto | **Retomado em 08/08/2026.** Site de captação de leads para uma familiar, designer de sobrancelhas. Conversão única: WhatsApp. O que ainda falta perguntar a ela está no `briefing.md`. **Tem repositório git próprio, privado, desde 09/08/2026** — a pasta segue aqui, mas o MazyOS a ignora e não versiona nada dela | `projetos/Valéria-Augusto/` |
 
 O que fica na raiz é só infraestrutura do MazyOS: as regras desse arquivo,
 as skills em `.claude/skills/`, os templates em `templates/`, e as drop

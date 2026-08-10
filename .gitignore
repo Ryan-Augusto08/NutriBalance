@@ -22,6 +22,12 @@ node_modules/
 *.log
 *.tmp
 
+# Compactados. Costumam ser cópia de algo que já está versionado — subir
+# duplica o peso, e o histórico do git não esquece o que entrou uma vez.
+*.zip
+*.rar
+*.7z
+
 # Drop zone do usuário (só o README vai versionado)
 projetos/*/dados/*
 !projetos/*/dados/README.md

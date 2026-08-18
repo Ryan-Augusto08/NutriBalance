@@ -137,11 +137,17 @@ Cada trabalho vive em `projetos/<Nome>/`, autocontido — com o próprio
 | Projeto | O que é | Pasta |
 |---|---|---|
 | NutriBalance | Site de acompanhamento nutricional — TCC do Ryan | `projetos/NutriBalance/` |
-| Valéria Augusto | **Retomado em 08/08/2026.** Site de captação de leads para uma familiar, designer de sobrancelhas. Conversão única: WhatsApp. O que ainda falta perguntar a ela está no `briefing.md`. **Tem repositório git próprio, privado, desde 09/08/2026** — a pasta segue aqui, mas o MazyOS a ignora e não versiona nada dela | `projetos/Valéria-Augusto/` |
+| Valéria Augusto | **Retomado em 08/08/2026.** Site de captação de leads para uma familiar, designer de sobrancelhas. Conversão única: WhatsApp. O que ainda falta perguntar a ela está no `briefing.md`. **Tem repositório git próprio desde 09/08/2026, mas só local** — sem remote configurado, nada nunca subiu pro GitHub (verificado em 16/08/2026). A pasta segue aqui, mas o MazyOS a ignora e não versiona nada dela: se o disco se perder, o projeto se perde junto | `projetos/Valéria-Augusto/` |
 
 O que fica na raiz é só infraestrutura do MazyOS: as regras desse arquivo,
-as skills em `.claude/skills/`, os templates em `templates/`, e as drop
-zones genéricas `saidas/` e `scripts/`.
+o `README.md`, as skills em `.claude/skills/`, os templates em `templates/`,
+e as drop zones genéricas `saidas/` e `scripts/`.
+
+**Uma exceção que contraria a regra do projeto autocontido:** o
+`netlify.toml` da raiz é **do NutriBalance**, não genérico — publica
+`projetos/NutriBalance/site` e faz proxy de `/api/` e `/uploads/` pro
+backend no Railway. Está na raiz porque o Netlify só lê o arquivo dali.
+Ao mexer em deploy, é nesse arquivo, e ele afeta um projeto só.
 
 ### Ao criar projeto novo
 

@@ -17,7 +17,10 @@ Skill central de criação de conteúdo visual. Pega um tema → entrega HTMLs e
 - **Identidade visual:** `identidade/design-guide.md` — LER ANTES de criar qualquer visual
 - **Contexto do negócio:** `_memoria/empresa.md`
 - **Tom de voz:** `_memoria/preferencias.md`
-- **Playwright:** pra renderizar HTML em PNG (`npx playwright screenshot` ou via `render.js`)
+- **Renderizador de HTML pra PNG.** Preferência por Playwright (`render.js`),
+  **mas a máquina do Ryan não tem Node instalado** *(verificado em 17/08/2026:
+  `node` e `npx` não existem no PATH)*. O caminho que funciona aqui é o **Edge
+  headless**, que já vem no Windows — ver "Render sem Node" no Passo 4
 - **OpenAI API (opcional):** pra gerar fotos realistas — só se o cliente tiver chave configurada
 - **Outputs vão em:** `marketing/conteudo/<tipo>-<tema>-<YYYY-MM-DD>/`
 
@@ -205,7 +208,34 @@ Se não tiver o script ainda, instruir o usuário a configurar `OPENAI_API_KEY` 
    </div>
    ```
 
-2. Criar `render.js` na mesma pasta — script Node com Playwright que abre o HTML e tira screenshot de cada `.slide` em 1080x1350. Pode reutilizar `node_modules` de uma pasta anterior (não precisa rodar `npm install` toda vez):
+2. Criar o renderizador na mesma pasta — abre o HTML e tira screenshot de cada `.slide` em 1080x1350.
+
+   **Render sem Node (é o caso desta máquina).** Não há Node nem Playwright
+   aqui, e o Edge do Windows resolve igual. Fazer um `render.ps1` que chama:
+
+```
+C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+  --headless=new --disable-gpu --hide-scrollbars
+  --disable-lcd-text --force-color-profile=srgb
+  --force-device-scale-factor=1 --window-size=1080,1350
+  --virtual-time-budget=10000 --user-data-dir=<pasta temporaria>
+  --screenshot=<saida.png>  "file:///<caminho>/carrossel.html?slide=N"
+```
+
+   Três detalhes que já custaram tempo:
+
+   - **`--disable-lcd-text` não é opcional.** Sem ele o Chromium usa
+     antialiasing de subpixel e o texto sai com franja colorida no PNG.
+     O `-webkit-font-smoothing` do CSS sozinho não resolve no headless.
+   - **Não redirecionar stderr** (`2>$null`) na chamada: o Edge escreve
+     avisos inofensivos ali e o PowerShell 5.1 os transforma em erro
+     terminante. Deixar `$ErrorActionPreference = "Continue"`.
+   - O HTML precisa aceitar `?slide=N` e esconder os outros slides — um
+     `<script>` de três linhas no fim do arquivo resolve.
+
+   **Se um dia o Node for instalado**, o `render.js` com Playwright volta a
+   ser o caminho preferido, reutilizando `node_modules` de uma pasta anterior:
+
 ```bash
 NODE_PATH="<pasta-com-node_modules>/node_modules" node render.js
 ```
@@ -219,7 +249,7 @@ marketing/conteudo/<tipo>-<tema>-<YYYY-MM-DD>/
   texto.md              ← texto aprovado + legenda
   foto-<nome>.png       ← fotos geradas por IA (se houver)
   carrossel.html
-  render.js
+  render.ps1            ← ou render.js, onde houver Node
   instagram/
     slide-01.png → slide-NN.png
   tiktok/ (se pedido — formato 9:16)
@@ -248,6 +278,6 @@ Se sim, chamar `/publicar-tema` com o mesmo tema.
 - Fotos IA: sempre pedir aprovação antes de usar no carrossel
 - Fotos IA: prompts em inglês
 - Fotos IA: nunca gerar fotos de pessoas/rostos identificáveis
-- HTMLs: um único arquivo `carrossel.html` com todos os slides + `render.js` na mesma pasta. Inline CSS
-- Render: reutilizar `node_modules` quando possível (não rodar `npm install` em cada pasta)
+- HTMLs: um único arquivo `carrossel.html` com todos os slides + o renderizador (`render.ps1` aqui, `render.js` onde houver Node) na mesma pasta. Inline CSS
+- Render: sem Node nesta máquina — usar Edge headless. Onde houver Node, reutilizar `node_modules` (não rodar `npm install` em cada pasta)
 - Não repetir layout entre slides — usar variação visual

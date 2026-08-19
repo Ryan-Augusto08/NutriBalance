@@ -42,6 +42,16 @@ projetos/*/site/uploads/fotos/*
 # quem versiona é o git de dentro dela — o MazyOS não duplica.
 projetos/Valéria-Augusto/
 
+# O Rafael Gimenez segue a mesma regra, e aqui o motivo é mais forte
+# (18/08/2026). Este repositório da raiz é PÚBLICO, e a pasta dele contém:
+#   - 40 fotos de antes/depois de pacientes, duas com rosto identificável,
+#     sem consentimento levantado (a Resolução CFO-196/2019 exige);
+#   - o NOME de um paciente conhecido, nos arquivos de texto, que os próprios
+#     arquivos marcam como "não publicar sem autorização explícita".
+# Sigilo de paciente não se desfaz: histórico de git é permanente.
+# Quem versiona é o git de dentro da pasta dele.
+projetos/Rafael-Gimenez/
+
 # Fotos de rosto de cliente (dado pessoal) em qualquer projeto futuro.
 # Prefixo `**/` porque a barra no meio do padrão ancoraria na raiz do repo —
 # assim casa em qualquer profundidade e continua valendo se a pasta do projeto
@@ -56,3 +66,9 @@ projetos/Valéria-Augusto/
 # Sem barra no começo: casa em qualquer profundidade, então continua
 # valendo se o projeto mudar de pasta de novo.
 email_config.php
+
+# Escritório contábil do pai do Ryan. A pasta carrega carteira de clientes,
+# honorários, CNPJ e às vezes CPF — dado de terceiro, sob sigilo profissional
+# do contador. O repositório da raiz é público, então nada daqui é versionado
+# até o repo virar privado ou o projeto ganhar repositório próprio.
+projetos/Escritorio-Contabil/

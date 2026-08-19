@@ -138,6 +138,8 @@ Cada trabalho vive em `projetos/<Nome>/`, autocontido — com o próprio
 |---|---|---|
 | NutriBalance | Site de acompanhamento nutricional — TCC do Ryan | `projetos/NutriBalance/` |
 | Valéria Augusto | **Retomado em 08/08/2026.** Site de captação de leads para uma familiar, designer de sobrancelhas. Conversão única: WhatsApp. O que ainda falta perguntar a ela está no `briefing.md`. **Tem repositório git próprio desde 09/08/2026, mas só local** — sem remote configurado, nada nunca subiu pro GitHub (verificado em 16/08/2026). A pasta segue aqui, mas o MazyOS a ignora e não versiona nada dela: se o disco se perder, o projeto se perde junto | `projetos/Valéria-Augusto/` |
+| Rafael Gimenez | **Criado em 18/08/2026.** Cliente novo — dentista (implantodontia e estética) em São José do Rio Preto. Site em produção avançada, conteúdo previsto. ⚠️ A pasta **não está no `.gitignore`** e guarda 20 fotos de paciente, duas com rosto identificável, num repositório público — risco aberto registrado em `produto/TAREFAS.md`, ainda sem decisão | `projetos/Rafael-Gimenez/` |
+| Escritório Contábil | **Criado em 18/08/2026.** Pai do Ryan, contador que trabalha sozinho. **Problema de capacidade, não de demanda** — captação funciona, a entrega é que não vaza. Marketing está fora de escopo. Em fase de diagnóstico: aplicar `diagnostico/roteiro-entrevista.md` antes de propor qualquer coisa. Pasta ignorada pelo git desde o primeiro dia (carteira de clientes é dado sob sigilo). Nome da pasta é provisório | `projetos/Escritorio-Contabil/` |
 
 O que fica na raiz é só infraestrutura do MazyOS: as regras desse arquivo,
 o `README.md`, as skills em `.claude/skills/`, os templates em `templates/`,

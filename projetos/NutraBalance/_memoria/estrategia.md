@@ -12,6 +12,13 @@ seção Progresso (peso/cintura + gráfico), recuperação de senha por e-mail e
 travas de zoom e seleção de texto (06/08/2026).
 Foco migrando de "construir" para "conseguir defender na banca".
 
+Em 22/08/2026 o projeto foi **renomeado de NutriBalance para NutraBalance** —
+pasta, banco MySQL, junction do XAMPP, chave do localStorage, logo e o PDF da
+documentação. Os nomes externos (GitHub, Netlify, Railway) continuam antigos.
+No mesmo dia a aba Progresso foi reformulada: passou a ter um seletor de
+métrica (peso ou cintura) e cinco períodos, o gráfico ganhou grade e escala em
+números redondos, e o resumo em texto saiu.
+
 ## Prioridade principal
 
 Chegar à defesa do TCC seguro. Duas frentes:
@@ -28,7 +35,7 @@ Chegar à defesa do TCC seguro. Duas frentes:
 ## O que pode esperar
 
 **Candidata a skill identificada em 06/08/2026:** sincronizar a pasta
-`Desktop\NutraBalance-pendrive\` com o projeto. É sequência fixa, repetida
+`Desktop\NutriBalance-pendrive\` com o projeto. É sequência fixa, repetida
 a cada mudança no site, e com duas exclusões que não podem falhar — a
 credencial `email_config.php` e as fotos de usuário. Automatizar tira o
 risco de esquecer justamente essas duas.

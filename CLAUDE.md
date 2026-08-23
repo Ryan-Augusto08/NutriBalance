@@ -143,7 +143,8 @@ Cada trabalho vive em `projetos/<Nome>/`, autocontido — com o próprio
 
 O que fica na raiz é só infraestrutura do MazyOS: as regras desse arquivo,
 o `README.md`, as skills em `.claude/skills/`, os templates em `templates/`,
-e as drop zones genéricas `saidas/` e `scripts/`.
+as drop zones genéricas `saidas/` e `scripts/`, e o `produto/`, que guarda o
+plano do MazyOS (`PRODUTO.md`) e a lista de pendências (`TAREFAS.md`).
 
 **Uma exceção que contraria a regra do projeto autocontido:** o
 `netlify.toml` da raiz é **do NutraBalance**, não genérico — publica

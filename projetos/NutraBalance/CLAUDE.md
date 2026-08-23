@@ -44,6 +44,8 @@ Não é necessário listar o que foi lido nem confirmar a leitura.
 - `marketing/` — documentação técnica e material de apresentação do TCC
 - `_memoria/` — contexto do projeto (empresa, preferências, estratégia)
 - `identidade/` — cores, tipografia, logo e padrão visual
+- `docker/`, `Dockerfile`, `.dockerignore` — imagem do backend usada no deploy do Railway
+- `DEPLOY.md` — passo a passo da publicação (Netlify na frente, Railway atrás) e os endereços de produção
 
 ## Ambiente local
 

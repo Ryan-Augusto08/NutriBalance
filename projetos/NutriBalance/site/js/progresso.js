@@ -13,27 +13,22 @@ import { enviarApi } from "./auth.js";
 
 let medicoes = []; // [{ data:'YYYY-MM-DD', peso_kg:Number, cintura_cm:Number|null }]
 let sessao = null; // sessão validada (usuário + perfil), usada quando não há histórico
-let periodo = "tudo"; // janela do gráfico: '1m' | '3m' | '1a' | 'tudo'
+let periodo = "tudo"; // janela do gráfico: '7d' | '1m' | '3m' | '1a' | 'tudo'
+let metricaAtual = "peso"; // série no gráfico, escolhida no select: 'peso' | 'cintura'
 
 /* ---------- utilidades ---------- */
 
-// Data curta pro eixo/resumo: "24/07".
+// Data curta pro eixo horizontal: "24/07".
 function dataCurta(iso) {
   const [, m, d] = iso.split("-");
   return `${d}/${m}`;
-}
-
-function diasEntre(isoA, isoB) {
-  const a = new Date(isoA + "T00:00:00");
-  const b = new Date(isoB + "T00:00:00");
-  return Math.round((b - a) / 86400000);
 }
 
 // Filtra as medições pela janela selecionada (comparação lexical de ISO =
 // cronológica). "tudo" devolve o histórico inteiro (do começo até hoje).
 function filtrarPorPeriodo(lista) {
   if (periodo === "tudo") return lista;
-  const dias = periodo === "1m" ? 30 : periodo === "3m" ? 90 : 365;
+  const dias = periodo === "7d" ? 7 : periodo === "1m" ? 30 : periodo === "3m" ? 90 : 365;
   const corte = somarDiasISO(isoHoje(), -dias);
   return lista.filter((m) => m.data >= corte);
 }
@@ -42,75 +37,151 @@ const nf1 = new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 1, maximumFr
 const fmtKg = (n) => nf1.format(Number(n)) + " kg";
 const fmtCm = (n) => nf1.format(Number(n)) + " cm";
 
+/* ---------- métricas ---------- */
+
+// As duas séries que o select oferece. `classe` casa com as regras de cor do
+// progresso.css (.grafico-linha.peso / .grafico-linha.cintura).
+const METRICAS = {
+  peso: { rotulo: "Peso", unidade: "kg", classe: "peso", fmt: fmtKg },
+  cintura: { rotulo: "Cintura", unidade: "cm", classe: "cintura", fmt: fmtCm },
+};
+
+/* ---------- escala vertical ---------- */
+
+// Passo "redondo" para as marcas do eixo: 1, 2, 2,5, 5 ou 10 vezes uma potência
+// de 10. Sem arredondar, o limite do eixo sai quebrado (78,6 kg) e o usuário lê
+// como se fosse uma medição de verdade.
+function passoAgradavel(amplitude, divisoes) {
+  const bruto = amplitude / divisoes;
+  const potencia = Math.pow(10, Math.floor(Math.log10(bruto)));
+  const normalizado = bruto / potencia;
+  const escolhido =
+    normalizado <= 1 ? 1 : normalizado <= 2 ? 2 : normalizado <= 2.5 ? 2.5 : normalizado <= 5 ? 5 : 10;
+  return escolhido * potencia;
+}
+
+// Limites arredondados do eixo vertical e as marcas que viram linha de grade.
+function escalaVertical(valores) {
+  let min = Math.min(...valores);
+  let max = Math.max(...valores);
+
+  // Janela mínima de 2 unidades. Cobre a série de valor único e também a
+  // variação de poucos décimos, que geraria marcas repetidas na tela: o rótulo
+  // mostra 1 casa decimal, então passo menor que 0,5 sairia como
+  // "79,5 / 79,5 / 79,6".
+  const MINIMA = 2;
+  if (max - min < MINIMA) {
+    const centro = (min + max) / 2;
+    min = centro - MINIMA / 2;
+    max = centro + MINIMA / 2;
+  }
+
+  const passo = passoAgradavel(max - min, 4);
+  min = Math.floor(min / passo) * passo;
+  max = Math.ceil(max / passo) * passo;
+
+  // Contar as marcas em vez de ir somando o passo: somar acumula erro de ponto
+  // flutuante e faria aparecer 96,00000000001 no rótulo.
+  const total = Math.round((max - min) / passo);
+  const marcas = [];
+  for (let i = 0; i <= total; i++) marcas.push(min + i * passo);
+  return { min, max, marcas };
+}
+
 /* ---------- gráfico SVG de linha ---------- */
 
-// Constrói um mini-gráfico de linha para uma série de pontos {iso, v}.
-// `classe` é a cor (peso|cintura); `fmt` formata o valor exibido nos rótulos.
-function svgLinha(pontos, classe, fmt) {
-  const LARGURA = 300;
-  const ALTURA = 132;
-  const margemEsq = 10;
-  const margemDir = 12;
-  const margemTopo = 14;
-  const margemBase = 22;
+// Quais datas ganham rótulo no eixo horizontal. A escolha é por POSIÇÃO, não
+// por índice: com as medições concentradas numa semana e um vão de meses
+// depois, escolher por índice empilharia vários rótulos no mesmo canto.
+function indicesComRotulo(coordenadas) {
+  const ESPACO = 34; // largura aproximada de "23/08" em 9px, com respiro
+  const ultimo = coordenadas.length - 1;
+  if (ultimo <= 0) return [0];
 
-  const valores = pontos.map((p) => p.v);
-  let vmin = Math.min(...valores);
-  let vmax = Math.max(...valores);
-  // Folga vertical: 15% da amplitude (ou 1 unidade quando todos iguais).
-  const folga = vmax - vmin > 0 ? (vmax - vmin) * 0.15 : 1;
-  vmin -= folga;
-  vmax += folga;
+  const escolhidos = [0];
+  for (let i = 1; i < ultimo; i++) {
+    if (coordenadas[i].px - coordenadas[escolhidos[escolhidos.length - 1]].px >= ESPACO) escolhidos.push(i);
+  }
+  // A última data é obrigatória: descarta as anteriores que fossem encostar nela.
+  while (escolhidos.length && coordenadas[ultimo].px - coordenadas[escolhidos[escolhidos.length - 1]].px < ESPACO) {
+    escolhidos.pop();
+  }
+  escolhidos.push(ultimo);
+  return escolhidos;
+}
+
+// Monta o SVG da série. `pontos` é [{ iso, v }] já filtrado pelo período e
+// `metrica` é uma entrada de METRICAS (dá cor, rótulo, unidade e formato).
+function svgGrafico(pontos, metrica) {
+  const LARGURA = 300;
+  const ALTURA = 162;
+  const margemEsq = 46; // título do eixo (deitado) + rótulos de valor
+  const margemDir = 10;
+  const margemTopo = 10;
+  const margemBase = 32; // rótulos de data
+
+  const esquerda = margemEsq;
+  const direita = LARGURA - margemDir;
+  const topo = margemTopo;
+  const base = ALTURA - margemBase;
+
+  const escala = escalaVertical(pontos.map((p) => p.v));
+  const y = (v) => base - ((v - escala.min) / (escala.max - escala.min)) * (base - topo);
 
   const t0 = new Date(pontos[0].iso + "T00:00:00").getTime();
   const t1 = new Date(pontos[pontos.length - 1].iso + "T00:00:00").getTime();
-
   const x = (iso) => {
-    if (t1 === t0) return (margemEsq + (LARGURA - margemDir)) / 2; // ponto único → centro
+    if (t1 === t0) return (esquerda + direita) / 2; // data única → centro
     const t = new Date(iso + "T00:00:00").getTime();
-    return margemEsq + ((t - t0) / (t1 - t0)) * (LARGURA - margemEsq - margemDir);
-  };
-  const y = (v) => {
-    if (vmax === vmin) return (margemTopo + (ALTURA - margemBase)) / 2;
-    return margemTopo + (1 - (v - vmin) / (vmax - vmin)) * (ALTURA - margemTopo - margemBase);
+    return esquerda + ((t - t0) / (t1 - t0)) * (direita - esquerda);
   };
 
   const coordenadas = pontos.map((p) => ({ px: x(p.iso), py: y(p.v), ...p }));
 
+  // Grade horizontal com o valor de cada marca à esquerda.
+  const grade = escala.marcas
+    .map((v) => {
+      const py = y(v).toFixed(1);
+      return `<line class="grafico-grade" x1="${esquerda}" y1="${py}" x2="${direita}" y2="${py}" />
+        <text class="grafico-eixo" x="${esquerda - 6}" y="${py}" text-anchor="end" dominant-baseline="middle">${nf1.format(v)}</text>`;
+    })
+    .join("");
+
+  // Nome da métrica deitado na lateral. É ele que carrega a unidade, para as
+  // marcas da grade ficarem só com o número.
+  const tituloEixo = `<text class="grafico-eixo-titulo" transform="translate(11 ${((topo + base) / 2).toFixed(1)}) rotate(-90)" text-anchor="middle">${metrica.rotulo} (${metrica.unidade})</text>`;
+
+  const rotulosData = indicesComRotulo(coordenadas)
+    .map((i) => {
+      const c = coordenadas[i];
+      // As pontas ancoram para dentro, senão o texto vaza da área do SVG.
+      const ancora =
+        coordenadas.length === 1 ? "middle" : i === 0 ? "start" : i === coordenadas.length - 1 ? "end" : "middle";
+      return `<text class="grafico-eixo" x="${c.px.toFixed(1)}" y="${base + 14}" text-anchor="${ancora}">${dataCurta(c.iso)}</text>`;
+    })
+    .join("");
+
   let linha;
   if (coordenadas.length > 1) {
     // Linha de evolução ligando as medições.
-    linha = `<polyline class="grafico-linha ${classe}" points="${coordenadas.map((c) => `${c.px.toFixed(1)},${c.py.toFixed(1)}`).join(" ")}" />`;
+    linha = `<polyline class="grafico-linha ${metrica.classe}" points="${coordenadas.map((c) => `${c.px.toFixed(1)},${c.py.toFixed(1)}`).join(" ")}" />`;
   } else {
     // Uma medição só: linha horizontal tracejada no nível atual (ainda não há
     // evolução para traçar). Já dá a leitura de gráfico, sem inventar tendência.
     const yy = coordenadas[0].py.toFixed(1);
-    linha = `<line class="grafico-linha ${classe} unico" x1="${margemEsq}" y1="${yy}" x2="${LARGURA - margemDir}" y2="${yy}" />`;
+    linha = `<line class="grafico-linha ${metrica.classe} unico" x1="${esquerda}" y1="${yy}" x2="${direita}" y2="${yy}" />`;
   }
   const bolinhas = coordenadas
-    .map((c) => `<circle class="grafico-ponto ${classe}" cx="${c.px.toFixed(1)}" cy="${c.py.toFixed(1)}" r="3.5" />`)
+    .map((c) => `<circle class="grafico-ponto ${metrica.classe}" cx="${c.px.toFixed(1)}" cy="${c.py.toFixed(1)}" r="3.5" />`)
     .join("");
 
-  // Rótulos de valor (máx no topo, mín na base) e datas (primeira e última).
-  const primeiro = pontos[0];
-  const ultimo = pontos[pontos.length - 1];
-  const rotulosV = `
-    <text class="grafico-eixo" x="${margemEsq}" y="${margemTopo - 4}">${fmt(vmax)}</text>
-    <text class="grafico-eixo" x="${margemEsq}" y="${ALTURA - margemBase + 12}">${fmt(vmin)}</text>`;
-  const rotulosData =
-    pontos.length > 1
-      ? `<text class="grafico-eixo grafico-eixo-fim" x="${margemEsq}" y="${ALTURA - 5}">${dataCurta(primeiro.iso)}</text>
-         <text class="grafico-eixo grafico-eixo-fim" x="${LARGURA - margemDir}" y="${ALTURA - 5}" text-anchor="end">${dataCurta(ultimo.iso)}</text>`
-      : `<text class="grafico-eixo" x="${x(primeiro.iso).toFixed(1)}" y="${ALTURA - 5}" text-anchor="middle">${dataCurta(primeiro.iso)}</text>`;
-
-  return `<svg class="grafico-svg" viewBox="0 0 ${LARGURA} ${ALTURA}" role="img" aria-label="Gráfico de evolução">
-    ${rotulosV}${rotulosData}${linha}${bolinhas}
+  return `<svg class="grafico-svg" viewBox="0 0 ${LARGURA} ${ALTURA}" role="img" aria-label="Evolução de ${metrica.rotulo.toLowerCase()} em ${metrica.unidade}">
+    ${grade}${tituloEixo}${rotulosData}${linha}${bolinhas}
   </svg>`;
 }
 
-// Bloco de um gráfico (título + valor atual + svg). `pontos` já filtrados.
-function blocoGrafico(titulo, pontos, classe, fmt) {
-  const atual = pontos.length ? fmt(pontos[pontos.length - 1].v) : "—";
+// Bloco do gráfico: cabeçalho (nome da métrica + valor atual) e o SVG.
+function blocoGrafico(pontos, metrica) {
   const dica =
     pontos.length === 1
       ? `<p class="grafico-dica">Registre em outro dia para ver a linha de evolução.</p>`
@@ -118,88 +189,32 @@ function blocoGrafico(titulo, pontos, classe, fmt) {
   return `
     <div class="grafico-card">
       <div class="grafico-topo">
-        <span class="grafico-titulo">${titulo}</span>
-        <span class="grafico-atual">${atual}</span>
+        <span class="grafico-titulo">${metrica.rotulo}</span>
+        <span class="grafico-atual">${metrica.fmt(pontos[pontos.length - 1].v)}</span>
       </div>
-      ${svgLinha(pontos, classe, fmt)}
+      ${svgGrafico(pontos, metrica)}
       ${dica}
     </div>`;
-}
-
-/* ---------- resumo textual (neutro) ---------- */
-
-// Sentido neutro de uma variação, dado um limiar de "estável".
-function sentidoDaVariacao(variacao, limiar) {
-  if (Math.abs(variacao) < limiar) return "estável";
-  return variacao < 0 ? "queda" : "alta";
-}
-
-function linhaResumo(rotulo, pontos, fmt, unidade, limiar) {
-  if (pontos.length < 2) return "";
-  const ini = pontos[0];
-  const fim = pontos[pontos.length - 1];
-  const variacao = fim.v - ini.v;
-  const sentido = sentidoDaVariacao(variacao, limiar);
-  const dias = diasEntre(ini.iso, fim.iso);
-  const sinal = variacao > 0 ? "+" : variacao < 0 ? "−" : "";
-  const variacaoFmt = `${sinal}${nf1.format(Math.abs(variacao))} ${unidade}`;
-  const periodoTexto = dias > 0 ? ` em ${dias} ${dias === 1 ? "dia" : "dias"}` : "";
-  return `<p class="resumo-linha"><b>${rotulo}:</b> ${fmt(ini.v)} → ${fmt(fim.v)}
-    <span class="resumo-variacao">(${variacaoFmt}${periodoTexto} · ${sentido})</span></p>`;
-}
-
-function mostrarResumo(pesos, cinturas) {
-  const el = document.getElementById("progresso-resumo");
-  if (!el) return;
-
-  if (pesos.length === 0) {
-    el.innerHTML = `<p class="resumo-vazio">Nenhuma medição ainda. Toque em <b>Registrar medição</b> para começar a acompanhar sua evolução.</p>`;
-    return;
-  }
-
-  let html = "";
-  html += linhaResumo("Peso", pesos, fmtKg, "kg", 0.5);
-  html += linhaResumo("Cintura", cinturas, fmtCm, "cm", 0.5);
-
-  // Nota factual de composição corporal (só com histórico suficiente dos dois).
-  if (pesos.length >= 2 && cinturas.length >= 2) {
-    const varPeso = pesos[pesos.length - 1].v - pesos[0].v;
-    const varCintura = cinturas[cinturas.length - 1].v - cinturas[0].v;
-    if (Math.abs(varPeso) < 0.5 && varCintura <= -0.5) {
-      html += `<p class="resumo-nota">Peso estável com cintura em queda — indicativo de mudança de composição corporal.</p>`;
-    } else if (varPeso >= 0.5 && varCintura <= -0.5) {
-      html += `<p class="resumo-nota">Peso em alta com cintura em queda — indicativo de ganho de massa magra.</p>`;
-    }
-  }
-
-  if (!html) {
-    html = `<p class="resumo-linha">Uma medição registrada. Registre em outro dia para ver a variação.</p>`;
-  }
-  el.innerHTML = html;
 }
 
 /* ---------- desenho geral ---------- */
 
 function desenharProgresso() {
   const dados = filtrarPorPeriodo(medicoes);
-  const pesos = dados.map((m) => ({ iso: m.data, v: m.peso_kg }));
+  const pesos = dados.map((m) => ({ iso: m.data, v: Number(m.peso_kg) }));
   const cinturas = dados
     .filter((m) => m.cintura_cm !== null && m.cintura_cm !== undefined)
-    .map((m) => ({ iso: m.data, v: m.cintura_cm }));
-
-  mostrarResumo(pesos, cinturas);
+    .map((m) => ({ iso: m.data, v: Number(m.cintura_cm) }));
 
   const elGraficos = document.getElementById("progresso-graficos");
   if (!elGraficos) return;
-  if (pesos.length === 0) {
-    elGraficos.innerHTML = "";
-    return;
-  }
-  let html = blocoGrafico("Peso", pesos, "peso", fmtKg);
-  if (cinturas.length > 0) {
-    html += blocoGrafico("Cintura", cinturas, "cintura", fmtCm);
-  }
-  elGraficos.innerHTML = html;
+
+  // Um gráfico por vez: quem decide a série é o select.
+  const metrica = METRICAS[metricaAtual];
+  const pontos = metricaAtual === "cintura" ? cinturas : pesos;
+  elGraficos.innerHTML = pontos.length
+    ? blocoGrafico(pontos, metrica)
+    : `<p class="grafico-vazio">Nenhuma medição de ${metrica.rotulo.toLowerCase()} nesse período.</p>`;
 }
 
 /* ---------- dados ---------- */
@@ -282,7 +297,17 @@ function ligarModal() {
   });
 }
 
-/* ---------- filtros de período ---------- */
+/* ---------- controles: métrica e período ---------- */
+
+function ligarSeletorMetrica() {
+  const select = document.getElementById("progresso-metrica");
+  if (!select) return;
+  select.value = metricaAtual;
+  select.addEventListener("change", () => {
+    metricaAtual = select.value;
+    desenharProgresso();
+  });
+}
 
 function ligarFiltros() {
   const barra = document.getElementById("progresso-filtros");
@@ -299,11 +324,12 @@ function ligarFiltros() {
 /* ---------- ponto de entrada ---------- */
 
 // Chamada por iniciar() (principal.js) após a sessão validada. Liga o modal e os
-// filtros uma vez, carrega o histórico e desenha. `sessaoAtual` alimenta o
+// controles uma vez, carrega o histórico e desenha. `sessaoAtual` alimenta o
 // ponto de reserva vindo do perfil.
 export async function iniciarProgresso(sessaoAtual) {
   sessao = sessaoAtual || null;
   ligarModal();
+  ligarSeletorMetrica();
   ligarFiltros();
   await carregar();
   desenharProgresso();

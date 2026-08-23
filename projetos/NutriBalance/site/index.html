@@ -64,12 +64,24 @@
           <button class="adicionar-btn" id="nova-medicao-btn" title="Registrar medição" aria-label="Registrar medição">+</button>
         </div>
         <div class="progresso-card">
-          <div class="progresso-resumo" id="progresso-resumo"></div>
-          <div class="progresso-filtros" id="progresso-filtros" role="group" aria-label="Período do gráfico">
-            <button type="button" class="filtro-btn" data-periodo="1m">1 mês</button>
-            <button type="button" class="filtro-btn" data-periodo="3m">3 meses</button>
-            <button type="button" class="filtro-btn" data-periodo="1a">1 ano</button>
-            <button type="button" class="filtro-btn ativo" data-periodo="tudo">Tudo</button>
+          <div class="relatorio-controles">
+            <label class="relatorio-campo" for="progresso-metrica">
+              <span class="relatorio-rotulo">Escolha um relatório:</span>
+              <select class="relatorio-select" id="progresso-metrica">
+                <option value="peso">Peso</option>
+                <option value="cintura">Cintura</option>
+              </select>
+            </label>
+            <div class="relatorio-campo">
+              <span class="relatorio-rotulo">Período de relatório:</span>
+              <div class="progresso-filtros" id="progresso-filtros" role="group" aria-label="Período do gráfico">
+                <button type="button" class="filtro-btn" data-periodo="7d">7 dias</button>
+                <button type="button" class="filtro-btn" data-periodo="1m">1 mês</button>
+                <button type="button" class="filtro-btn" data-periodo="3m">3 meses</button>
+                <button type="button" class="filtro-btn" data-periodo="1a">1 ano</button>
+                <button type="button" class="filtro-btn ativo" data-periodo="tudo">Tudo</button>
+              </div>
+            </div>
           </div>
           <div class="progresso-graficos" id="progresso-graficos"></div>
         </div>

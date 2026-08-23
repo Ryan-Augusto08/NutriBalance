@@ -15,45 +15,39 @@
   gap: 14px;
 }
 
-/* ---------- resumo em texto ---------- */
+/* ---------- controles do relatorio (metrica + periodo) ---------- */
 
-.progresso-resumo {
+.relatorio-controles {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.relatorio-campo {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.resumo-linha {
-  margin: 0;
-  font-size: 13px;
-  color: var(--text-main);
-  font-variant-numeric: tabular-nums;
-}
-
-.resumo-linha b {
-  color: var(--green-dark);
-}
-
-.resumo-variacao {
-  color: var(--text-muted);
-}
-
-.resumo-nota {
-  margin: 2px 0 0;
+.relatorio-rotulo {
   font-size: 12px;
+  font-weight: 700;
   color: var(--green-dark);
-  background: var(--track-bg);
-  border-radius: 8px;
-  padding: 8px 10px;
 }
 
-.resumo-vazio {
-  margin: 0;
-  font-size: 13px;
-  color: var(--text-muted);
+/* Mesmo desenho de campo dos selects do modal, para o formulario nao destoar. */
+.relatorio-select {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: var(--bg);
+  color: var(--text-main);
+  cursor: pointer;
 }
 
-/* ---------- filtros de período (1m / 3m / 1a / tudo) ---------- */
+/* ---------- filtros de período (7d / 1m / 3m / 1a / tudo) ---------- */
 
 .progresso-filtros {
   display: flex;
@@ -96,17 +90,19 @@
   padding: 10px 12px 6px;
 }
 
+/* Cabecalho do grafico: nome da metrica e valor atual, centralizados. */
 .grafico-topo {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 4px;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-bottom: 6px;
 }
 
 .grafico-titulo {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
-  color: var(--text-muted);
+  color: var(--green-dark);
 }
 
 .grafico-atual {
@@ -154,6 +150,30 @@
   font-size: 9px;
   fill: var(--text-muted);
   font-family: inherit;
+}
+
+/* Linhas da escala vertical. Ficam atras da serie, so como referencia. */
+.grafico-grade {
+  stroke: var(--border-soft);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Nome da metrica deitado na lateral; carrega a unidade do eixo. */
+.grafico-eixo-titulo {
+  font-size: 10px;
+  font-weight: 700;
+  fill: var(--green-dark);
+  font-family: inherit;
+}
+
+/* Periodo selecionado sem nenhuma medicao da metrica escolhida. */
+.grafico-vazio {
+  margin: 0;
+  padding: 18px 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
 }
 
 .grafico-dica {

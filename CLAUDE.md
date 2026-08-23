@@ -30,7 +30,7 @@ Pra qualquer tarefa visual (carrossel, post, landing page), consultar
 `identidade/design-guide.md` como referência de estilo.
 
 Esses caminhos são relativos à pasta do projeto. **Trabalhe com o terminal
-aberto dentro dela** (ex: `projetos/NutriBalance/`) — assim as skills
+aberto dentro dela** (ex: `projetos/NutraBalance/`) — assim as skills
 encontram o contexto certo e o `CLAUDE.md` do projeto carrega junto com
 esse. Se a conversa começar na raiz e o assunto for um projeto específico,
 ler `projetos/<nome>/_memoria/` explicitamente.
@@ -136,7 +136,7 @@ Cada trabalho vive em `projetos/<Nome>/`, autocontido — com o próprio
 
 | Projeto | O que é | Pasta |
 |---|---|---|
-| NutriBalance | Site de acompanhamento nutricional — TCC do Ryan | `projetos/NutriBalance/` |
+| NutraBalance | Site de acompanhamento nutricional — TCC do Ryan. **Chamava-se NutriBalance até 22/08/2026**, quando foi renomeado: pasta, banco MySQL, junction do XAMPP, chave do localStorage e logo. Os nomes externos **não** acompanharam — repositório no GitHub, projeto no Netlify e serviço no Railway seguem com o nome antigo | `projetos/NutraBalance/` |
 | Valéria Augusto | **Retomado em 08/08/2026.** Site de captação de leads para uma familiar, designer de sobrancelhas. Conversão única: WhatsApp. O que ainda falta perguntar a ela está no `briefing.md`. **Tem repositório git próprio desde 09/08/2026, mas só local** — sem remote configurado, nada nunca subiu pro GitHub (verificado em 16/08/2026). A pasta segue aqui, mas o MazyOS a ignora e não versiona nada dela: se o disco se perder, o projeto se perde junto | `projetos/Valéria-Augusto/` |
 | Rafael Gimenez | **Criado em 18/08/2026.** Cliente novo — dentista (implantodontia e estética) em São José do Rio Preto. Site em produção avançada, conteúdo previsto. ⚠️ A pasta **não está no `.gitignore`** e guarda 20 fotos de paciente, duas com rosto identificável, num repositório público — risco aberto registrado em `produto/TAREFAS.md`, ainda sem decisão | `projetos/Rafael-Gimenez/` |
 | Escritório Contábil | **Criado em 18/08/2026.** Pai do Ryan, contador que trabalha sozinho. **Problema de capacidade, não de demanda** — captação funciona, a entrega é que não vaza. Marketing está fora de escopo. Em fase de diagnóstico: aplicar `diagnostico/roteiro-entrevista.md` antes de propor qualquer coisa. Pasta ignorada pelo git desde o primeiro dia (carteira de clientes é dado sob sigilo). Nome da pasta é provisório | `projetos/Escritorio-Contabil/` |
@@ -146,8 +146,8 @@ o `README.md`, as skills em `.claude/skills/`, os templates em `templates/`,
 e as drop zones genéricas `saidas/` e `scripts/`.
 
 **Uma exceção que contraria a regra do projeto autocontido:** o
-`netlify.toml` da raiz é **do NutriBalance**, não genérico — publica
-`projetos/NutriBalance/site` e faz proxy de `/api/` e `/uploads/` pro
+`netlify.toml` da raiz é **do NutraBalance**, não genérico — publica
+`projetos/NutraBalance/site` e faz proxy de `/api/` e `/uploads/` pro
 backend no Railway. Está na raiz porque o Netlify só lê o arquivo dali.
 Ao mexer em deploy, é nesse arquivo, e ele afeta um projeto só.
 

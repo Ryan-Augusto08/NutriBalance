@@ -1,11 +1,11 @@
-# Publicacao do front do NutriBalance no Netlify.
+# Publicacao do front do NutraBalance no Netlify.
 #
 # O Netlify serve os arquivos estaticos (HTML, CSS, JS, imagens). Toda chamada
 # a /api/ e toda foto de perfil em /uploads/ sao repassadas ao backend PHP no
 # Railway pelas regras de redirect no fim deste arquivo.
 
 [build]
-  publish = "projetos/NutriBalance/site"
+  publish = "projetos/NutraBalance/site"
 
   # POR QUE APAGAR api/ ANTES DE PUBLICAR
   # O publish sobe a pasta site/ inteira, e dentro dela ha site/api/*.php. O
@@ -20,7 +20,7 @@
   #
   # Isso roda na copia do repositorio dentro do build do Netlify. O teu
   # repositorio local e o do GitHub nao sao tocados.
-  command = "rm -rf projetos/NutriBalance/site/api projetos/NutriBalance/site/uploads"
+  command = "rm -rf projetos/NutraBalance/site/api projetos/NutraBalance/site/uploads"
 
 # ---------------------------------------------------------------------------
 # Proxy para o backend

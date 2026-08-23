@@ -1,0 +1,28 @@
+# Empresa
+
+> Memória central do negócio. O Claude lê esse arquivo antes de cada resposta.
+> Preenchido pelo `/instalar` — você pode editar a qualquer momento.
+
+**Nome:** Ryan — projeto NutraBalance
+**Negócio:** TCC (Trabalho de Conclusão de Curso) do Ensino Médio integrado ao curso de Desenvolvimento de Sistemas
+**O que faz:** NutraBalance facilita a vida de quem quer ter hábitos saudáveis — site de acompanhamento nutricional parecido com o MyFitnessPal, sem a funcionalidade de leitura/registro por código de barras
+**Perfil:** Solopreneur / criador solo (projeto tocado por Ryan na prática)
+**Atende clientes:** Pessoas interessadas em cuidar da saúde e melhorar fisicamente — seja ganhando, perdendo ou mantendo peso
+**Equipe:** Sozinho na prática. Há mais dois amigos oficialmente no projeto, mas não se manifestaram até agora, então Ryan seguiu sozinho
+**Ferramentas:** XAMPP (Apache + MySQL + PHP 8.2, instalado em D:\Xampp), HeidiSQL, VS Code, GitHub (Ryan-Augusto08/NutriBalance)
+**Principais entregas:** Site NutraBalance — dashboard com meta diária de kcal, resumo de macros (proteína, carboidrato, gordura) e lista de refeições do dia; cadastro/login com recuperação de senha por e-mail; onboarding com cálculo de metas (TDEE, IMC, previsão de prazo); busca de alimentos na TACO; seção Progresso (histórico de peso/cintura + gráfico em SVG); travas de zoom e de seleção de texto em todas as páginas. Fora do site: documentação técnica do TCC em `marketing/NutraBalance-Documentacao-Tecnica.html` (com PDF)
+
+## Contexto adicional
+
+- **Renomeado de NutriBalance para NutraBalance em 22/08/2026.** Mudaram: a pasta do projeto, o banco MySQL (`nutrabalance`), a junction do XAMPP (`http://localhost/nutrabalance/`), a chave do localStorage, a classe `marca-nutra` e as duas logos. **Não** mudaram os nomes externos: o repositório `Ryan-Augusto08/NutriBalance`, o projeto `nutribalancee` no Netlify e o serviço `nutribalance-production` no Railway continuam com o nome antigo — renomear cada um é ação no painel do próprio serviço.
+
+- Projeto acadêmico (TCC), não uma empresa comercial — isso pesa na seriedade exigida do tom de escrita.
+
+## Pilha técnica
+
+- **Arquitetura:** API JSON em PHP + front-end em HTML/CSS/JS puro (módulos ES), sem framework e sem etapa de build. O PHP nunca imprime HTML; quem monta a tela é o JavaScript.
+- **Banco:** MySQL, 4 tabelas (`alimentos`, `usuarios`, `medicoes`, `redefinicoes_senha`). Acesso por PDO com prepared statements.
+- **Única biblioteca externa:** PHPMailer, em `site/api/lib/PHPMailer/`, instalado à mão (sem Composer), para o e-mail de recuperação de senha.
+- **Envio de e-mail:** SMTP do Gmail com senha de app. Credenciais em `site/api/email_config.php`, que está no `.gitignore` — nunca versionar nem copiar para pendrive.
+- **Ambiente local:** `D:\Xampp\htdocs\nutrabalance` é uma **junction** (não um symlink) apontando para `MazyOS/projetos/NutraBalance/site`, então o site roda em `http://localhost/nutrabalance`. O caminho fica gravado como texto fixo: se a pasta do projeto mudar de lugar, o site para de abrir sem erro aparente de código — foi o que aconteceu em 06/08/2026. Procedimento de conserto no `CLAUDE.md` do projeto.
+- **Cópia para a escola:** `Desktop\NutraBalance-pendrive\` guarda site, banco e o PDF da documentação para rodar em outra máquina. Fica **fora do repositório** e não se atualiza sozinha — a cada mudança no site precisa ser sincronizada à mão, sempre sem `email_config.php` e sem as fotos de usuário.

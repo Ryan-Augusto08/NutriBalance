@@ -109,12 +109,20 @@ cada uma termina com algo que já dá para mostrar.
 
 ## Riscos abertos (não são tarefa, são vigilância)
 
-- ⚠️ **O repositório da raiz do MazyOS é público**
-  (`github.com/Ryan-Augusto08/NutriBalance`, verificado em 18/08/2026) e a
-  pasta `projetos/Rafael-Gimenez/` **não está no `.gitignore`**. São 40 fotos
-  de paciente, duas com rosto identificável. **Não commitar essa pasta** até
-  decidir entre ignorá-la, dar repositório próprio a ela, ou tornar o
-  repositório privado.
+- ✅ **Fechado em 18/08/2026, confirmado em 23/08.** O repositório da raiz do
+  MazyOS é público (`github.com/Ryan-Augusto08/NutriBalance`), mas
+  `projetos/Rafael-Gimenez/` **está no `.gitignore`** (linha 53) e nunca foi
+  commitada aqui — `git log --all` na pasta volta vazio. A pasta ganhou
+  repositório próprio, local e sem remote. As fotos de paciente nunca
+  saíram da máquina.
+- ⚠️ **O que sobrou desse risco é o oposto: backup.** O repositório do
+  Rafael não tem remote, igual ao da Valéria. Se o disco se perder, os dois
+  projetos se perdem juntos. Manter local é decisão consciente (sigilo de
+  paciente), mas nenhuma alternativa de backup foi montada — repo privado,
+  disco externo, nada.
 - ⚠️ **Consentimento dos pacientes do Rafael** não foi levantado. A
   Resolução CFO-196/2019 permite antes/depois, mas exige autorização de cada
   paciente. As 20 fotos já estão publicadas no site.
+- ⚠️ **O site do Rafael não tem número de CRO** e por isso não pode ser
+  publicado. Registrado em 23/08/2026. O espaço está pronto no rodapé,
+  comentado. Não inventar número: registro falso é infração no conselho.

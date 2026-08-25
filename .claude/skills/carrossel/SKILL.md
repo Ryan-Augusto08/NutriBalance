@@ -2,7 +2,7 @@
 name: carrossel
 description: >
   Cria carrosséis e posts visuais pra Instagram, TikTok, LinkedIn com a identidade visual da marca.
-  Gera HTML estilizado + renderiza em PNG 1080x1350 via Playwright, com legenda pronta no final.
+  Gera HTML estilizado + renderiza em PNG 1080x1350 (Edge headless), com legenda pronta no final.
   Suporta carrossel texto puro, carrossel com foto IA (gerada via OpenAI) e post único.
   Use quando o usuário pedir "carrossel", "post", "conteúdo pro instagram", "criar imagem",
   "gerar foto", "post educativo", ou /carrossel.
@@ -17,10 +17,12 @@ Skill central de criação de conteúdo visual. Pega um tema → entrega HTMLs e
 - **Identidade visual:** `identidade/design-guide.md` — LER ANTES de criar qualquer visual
 - **Contexto do negócio:** `_memoria/empresa.md`
 - **Tom de voz:** `_memoria/preferencias.md`
-- **Renderizador de HTML pra PNG.** Preferência por Playwright (`render.js`),
-  **mas a máquina do Ryan não tem Node instalado** *(verificado em 17/08/2026:
-  `node` e `npx` não existem no PATH)*. O caminho que funciona aqui é o **Edge
-  headless**, que já vem no Windows — ver "Render sem Node" no Passo 4
+- **Renderizador de HTML pra PNG.** O caminho testado nesta máquina é o **Edge
+  headless**, que já vem no Windows — ver "Render com Edge" no Passo 4.
+  *A máquina ganhou Node em 18/08/2026 (v24.19.0, confirmado em 24/08), mas o
+  Playwright não está instalado em lugar nenhum* — então `render.js` só vira
+  opção depois de um `npm i playwright` e do download dos navegadores. Enquanto
+  isso não acontecer, o Edge continua sendo o caminho, e funciona
 - **OpenAI API (opcional):** pra gerar fotos realistas — só se o cliente tiver chave configurada
 - **Outputs vão em:** `marketing/conteudo/<tipo>-<tema>-<YYYY-MM-DD>/`
 
@@ -210,8 +212,9 @@ Se não tiver o script ainda, instruir o usuário a configurar `OPENAI_API_KEY` 
 
 2. Criar o renderizador na mesma pasta — abre o HTML e tira screenshot de cada `.slide` em 1080x1350.
 
-   **Render sem Node (é o caso desta máquina).** Não há Node nem Playwright
-   aqui, e o Edge do Windows resolve igual. Fazer um `render.ps1` que chama:
+   **Render com Edge (é o caminho desta máquina).** O Playwright não está
+   instalado aqui, e o Edge do Windows resolve igual. Fazer um `render.ps1`
+   que chama:
 
 ```
 C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
@@ -233,8 +236,9 @@ C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
    - O HTML precisa aceitar `?slide=N` e esconder os outros slides — um
      `<script>` de três linhas no fim do arquivo resolve.
 
-   **Se um dia o Node for instalado**, o `render.js` com Playwright volta a
-   ser o caminho preferido, reutilizando `node_modules` de uma pasta anterior:
+   **Se o Playwright for instalado um dia** (o Node já existe desde 18/08/2026),
+   o `render.js` volta a ser opção, reutilizando `node_modules` de uma pasta
+   anterior:
 
 ```bash
 NODE_PATH="<pasta-com-node_modules>/node_modules" node render.js
@@ -278,6 +282,6 @@ Se sim, chamar `/publicar-tema` com o mesmo tema.
 - Fotos IA: sempre pedir aprovação antes de usar no carrossel
 - Fotos IA: prompts em inglês
 - Fotos IA: nunca gerar fotos de pessoas/rostos identificáveis
-- HTMLs: um único arquivo `carrossel.html` com todos os slides + o renderizador (`render.ps1` aqui, `render.js` onde houver Node) na mesma pasta. Inline CSS
-- Render: sem Node nesta máquina — usar Edge headless. Onde houver Node, reutilizar `node_modules` (não rodar `npm install` em cada pasta)
+- HTMLs: um único arquivo `carrossel.html` com todos os slides + o renderizador (`render.ps1` aqui, `render.js` onde houver Playwright) na mesma pasta. Inline CSS
+- Render: Edge headless nesta máquina — o Playwright não está instalado. Onde houver, reutilizar `node_modules` (não rodar `npm install` em cada pasta)
 - Não repetir layout entre slides — usar variação visual

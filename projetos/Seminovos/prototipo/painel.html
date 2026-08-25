@@ -1,0 +1,663 @@
+<title>Pátio Seminovos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --bg:#E9ECEE;
+  --surface:#FFFFFF;
+  --surface-2:#F3F5F6;
+  --line:#D4DADE;
+  --line-soft:#E3E8EA;
+  --ink:#111A21;
+  --ink-2:#42535F;
+  --ink-3:#6B7C88;
+  --acao:#16607D;
+  --acao-soft:#E1EDF2;
+  --alerta:#A9601A;
+  --alerta-soft:#F6EADC;
+  --margem:#2C6B4C;
+  --margem-soft:#E2EEE8;
+  --perda:#9E3128;
+  --perda-soft:#F6E5E3;
+  --sombra:0 1px 2px rgba(17,26,33,.06), 0 1px 1px rgba(17,26,33,.04);
+  --r:10px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1318;
+    --surface:#151E25;
+    --surface-2:#1B262E;
+    --line:#2A3841;
+    --line-soft:#222E36;
+    --ink:#E7ECEF;
+    --ink-2:#A9B8C2;
+    --ink-3:#7D8D99;
+    --acao:#5FAECC;
+    --acao-soft:#16323E;
+    --alerta:#DFA664;
+    --alerta-soft:#332616;
+    --margem:#6EB994;
+    --margem-soft:#173026;
+    --perda:#DE8079;
+    --perda-soft:#33201E;
+    --sombra:0 1px 2px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1318;
+  --surface:#151E25;
+  --surface-2:#1B262E;
+  --line:#2A3841;
+  --line-soft:#222E36;
+  --ink:#E7ECEF;
+  --ink-2:#A9B8C2;
+  --ink-3:#7D8D99;
+  --acao:#5FAECC;
+  --acao-soft:#16323E;
+  --alerta:#DFA664;
+  --alerta-soft:#332616;
+  --margem:#6EB994;
+  --margem-soft:#173026;
+  --perda:#DE8079;
+  --perda-soft:#33201E;
+  --sombra:0 1px 2px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:15px;
+  line-height:1.45;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3{font-family:Archivo,"IBM Plex Sans",sans-serif;margin:0;text-wrap:balance;letter-spacing:-.015em}
+.num{font-family:"IBM Plex Mono","SFMono-Regular",monospace;font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--acao);outline-offset:2px;border-radius:4px}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+
+/* ---------- shell ---------- */
+.app{max-width:1080px;margin:0 auto;padding:0 0 64px}
+.topo{
+  position:sticky;top:0;z-index:20;
+  background:var(--surface);
+  border-bottom:1px solid var(--line);
+}
+.topo-in{
+  max-width:1080px;margin:0 auto;padding:14px 18px 0;
+  display:flex;flex-direction:column;gap:12px;
+}
+.marca{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.marca-logo{
+  width:30px;height:30px;border-radius:7px;background:var(--acao);
+  display:grid;place-items:center;color:var(--surface);flex:none;
+}
+.marca-nome{font-family:Archivo;font-weight:700;font-size:17px;letter-spacing:-.02em}
+.marca-sub{font-size:12px;color:var(--ink-3)}
+.selo{
+  margin-left:auto;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  font-weight:600;color:var(--alerta);background:var(--alerta-soft);
+  border:1px solid color-mix(in srgb, var(--alerta) 28%, transparent);
+  padding:3px 8px;border-radius:99px;white-space:nowrap;
+}
+.abas{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.abas::-webkit-scrollbar{display:none}
+.aba{
+  padding:9px 13px 11px;font-size:14px;font-weight:500;color:var(--ink-3);
+  border-bottom:2px solid transparent;white-space:nowrap;
+}
+.aba[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--acao);font-weight:600}
+.aba:hover{color:var(--ink-2)}
+
+.tela{padding:18px}
+.tela[hidden]{display:none}
+.secao{margin-bottom:26px}
+.secao-cab{display:flex;align-items:baseline;gap:10px;margin-bottom:11px}
+.secao-cab h2{font-size:13px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)}
+.secao-cab .cont{font-size:12px;color:var(--ink-3);margin-left:auto}
+
+/* ---------- kpis ---------- */
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media (min-width:640px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{
+  background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);
+  padding:13px 14px 14px;box-shadow:var(--sombra);
+}
+.kpi-rot{font-size:11.5px;color:var(--ink-3);letter-spacing:.02em;display:block;margin-bottom:5px}
+.kpi-val{font-family:Archivo;font-weight:700;font-size:23px;letter-spacing:-.03em;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi-val .pre{font-size:13px;font-weight:600;color:var(--ink-3);margin-right:2px}
+.kpi-pe{font-size:11.5px;color:var(--ink-3);margin-top:4px}
+.kpi-pe strong{color:var(--margem);font-weight:600}
+.kpi.destaque{border-color:color-mix(in srgb, var(--acao) 35%, transparent);background:var(--acao-soft)}
+
+/* ---------- grafico ---------- */
+.card{
+  background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);
+  box-shadow:var(--sombra);padding:15px 16px 12px;
+}
+.grafico-cab{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px}
+.grafico-cab h3{font-size:14.5px;font-weight:600}
+.grafico-cab span{font-size:11.5px;color:var(--ink-3)}
+.grafico-wrap{overflow-x:auto}
+.grafico{display:block;width:100%;min-width:300px;height:150px}
+.gr-linha{stroke:var(--line-soft);stroke-width:1}
+.gr-base{stroke:var(--line);stroke-width:1}
+.gr-barra{fill:var(--acao);opacity:.82;transition:opacity .12s}
+.gr-barra.atual{opacity:1}
+.gr-slot:hover .gr-barra{opacity:1}
+.gr-hit{fill:transparent}
+.gr-rot{font-size:11px;fill:var(--ink-3);text-anchor:middle;font-family:"IBM Plex Sans",sans-serif}
+.gr-val{font-size:12px;fill:var(--ink-2);text-anchor:middle;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+.gr-val.atual{fill:var(--ink);font-weight:600}
+.gr-slot:focus-visible{outline:none}
+.gr-slot:focus-visible .gr-barra{opacity:1;stroke:var(--ink);stroke-width:1.5}
+
+/* ---------- alertas ---------- */
+.alertas{display:grid;gap:9px}
+@media (min-width:760px){.alertas{grid-template-columns:1fr 1fr}}
+.alerta{
+  background:var(--surface);border:1px solid var(--line-soft);border-left:3px solid var(--alerta);
+  border-radius:var(--r);padding:12px 14px;box-shadow:var(--sombra);
+}
+.alerta.frio{border-left-color:var(--acao)}
+.alerta-tit{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.alerta-tit .qtd{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:99px;padding:1px 7px;color:var(--ink-2);
+}
+.alerta ul{margin:0;padding:0;list-style:none;display:grid;gap:5px}
+.alerta li{font-size:13px;color:var(--ink-2);display:flex;gap:8px}
+.alerta li .dado{margin-left:auto;color:var(--ink-3);font-family:"IBM Plex Mono",monospace;font-size:12px;white-space:nowrap}
+
+/* ---------- lista de carros ---------- */
+.filtros{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.filtros::-webkit-scrollbar{display:none}
+.chip{
+  font-size:12.5px;padding:5px 11px;border-radius:99px;border:1px solid var(--line);
+  background:var(--surface);color:var(--ink-2);white-space:nowrap;
+}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.carros{display:grid;gap:10px}
+@media (min-width:760px){.carros{grid-template-columns:1fr 1fr}}
+.carro{
+  display:flex;gap:12px;width:100%;text-align:left;
+  background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);
+  padding:11px;box-shadow:var(--sombra);transition:border-color .12s,transform .12s;
+}
+.carro:hover{border-color:var(--acao)}
+.carro:active{transform:scale(.995)}
+.foto{
+  width:78px;height:62px;flex:none;border-radius:7px;background:var(--surface-2);
+  border:1px solid var(--line-soft);display:grid;place-items:center;color:var(--ink-3);
+}
+.foto svg{width:52px;height:auto}
+.carro-corpo{min-width:0;flex:1}
+.carro-tit{display:block;font-size:14.5px;font-weight:600;line-height:1.25;letter-spacing:-.01em}
+.carro-ver{display:block;font-size:12.5px;color:var(--ink-3);margin-top:1px}
+.carro-meta{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:7px;font-size:12px;color:var(--ink-3);font-family:"IBM Plex Mono",monospace}
+.carro-pe{display:flex;align-items:center;gap:8px;margin-top:9px;flex-wrap:wrap}
+.preco{font-family:Archivo;font-weight:700;font-size:16px;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.pill{
+  font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  padding:2px 8px;border-radius:99px;border:1px solid transparent;white-space:nowrap;
+}
+.pill.disponivel{background:var(--surface-2);color:var(--ink-2);border-color:var(--line)}
+.pill.reservado{background:var(--acao-soft);color:var(--acao);border-color:color-mix(in srgb,var(--acao) 30%,transparent)}
+.pill.consignado{background:var(--surface-2);color:var(--ink-3);border-color:var(--line)}
+.pill.encalhado{background:var(--alerta-soft);color:var(--alerta);border-color:color-mix(in srgb,var(--alerta) 30%,transparent)}
+.pill.vendido{background:var(--margem-soft);color:var(--margem);border-color:color-mix(in srgb,var(--margem) 30%,transparent)}
+.pill.perdido{background:var(--perda-soft);color:var(--perda);border-color:color-mix(in srgb,var(--perda) 30%,transparent)}
+.tag-int{
+  margin-left:auto;font-size:11.5px;color:var(--acao);font-weight:600;
+  display:flex;align-items:center;gap:4px;
+}
+
+/* ---------- funil ---------- */
+.funil{display:grid;gap:14px}
+@media (min-width:760px){.funil{grid-template-columns:repeat(2,1fr)}}
+.coluna{display:grid;gap:18px;align-content:start}
+.etapa-cab{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.etapa-nome{font-size:12.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2)}
+.barra-etapa{flex:1;height:4px;border-radius:2px;background:var(--line-soft);overflow:hidden}
+.barra-etapa i{display:block;height:100%;background:var(--acao);border-radius:2px}
+.etapa-qtd{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.leads{display:grid;gap:7px}
+.lead{
+  background:var(--surface);border:1px solid var(--line-soft);border-radius:8px;
+  padding:10px 12px;box-shadow:var(--sombra);
+}
+.lead-topo{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.lead-nome{font-size:14px;font-weight:600}
+.lead-quando{margin-left:auto;font-size:11.5px;color:var(--ink-3);font-family:"IBM Plex Mono",monospace;white-space:nowrap}
+.lead-quando.frio{color:var(--alerta);font-weight:500}
+.lead-carro{font-size:12.5px;color:var(--ink-2);margin-top:2px}
+.lead-nota{font-size:12.5px;color:var(--ink-3);margin-top:5px;font-style:italic}
+
+/* ---------- vendas ---------- */
+.tabela-wrap{overflow-x:auto;border:1px solid var(--line-soft);border-radius:var(--r);background:var(--surface);box-shadow:var(--sombra)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px}
+th,td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--line-soft)}
+th{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:600;background:var(--surface-2)}
+th.n,td.n{text-align:right}
+td.n{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+td .sub{display:block;font-size:11.5px;color:var(--ink-3)}
+tfoot td{font-weight:600;background:var(--surface-2);border-top:1px solid var(--line);border-bottom:none}
+.troca{color:var(--acao);font-weight:600}
+
+/* ---------- ficha ---------- */
+.veu{
+  position:fixed;inset:0;z-index:60;background:rgba(10,16,20,.55);
+  display:flex;align-items:flex-end;justify-content:center;
+}
+.veu[hidden]{display:none}
+@media (min-width:700px){.veu{align-items:center;padding:24px}}
+.ficha{
+  background:var(--surface);width:100%;max-width:560px;max-height:88vh;overflow-y:auto;
+  border-radius:14px 14px 0 0;border:1px solid var(--line);padding:16px 18px 24px;
+  animation:sobe .18s ease-out;
+}
+@media (min-width:700px){.ficha{border-radius:14px}}
+@keyframes sobe{from{transform:translateY(14px);opacity:.6}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.ficha{animation:none}}
+.ficha-topo{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.ficha-topo h2{font-size:19px;font-weight:700;letter-spacing:-.02em}
+.ficha-topo p{margin:2px 0 0;font-size:13px;color:var(--ink-3)}
+.fechar{
+  margin-left:auto;flex:none;width:32px;height:32px;border-radius:8px;
+  border:1px solid var(--line);color:var(--ink-2);display:grid;place-items:center;font-size:17px;line-height:1;
+}
+.fechar:hover{background:var(--surface-2)}
+.especs{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:8px;overflow:hidden;margin:0 0 16px}
+@media (min-width:520px){.especs{grid-template-columns:repeat(4,1fr)}}
+.espec{background:var(--surface);padding:9px 11px}
+.espec dt{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.espec dd{margin:2px 0 0;font-size:13.5px;font-family:"IBM Plex Mono",monospace;font-weight:500}
+.bloco-tit{font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin:0 0 8px}
+.contas{border:1px solid var(--line-soft);border-radius:8px;overflow:hidden;margin-bottom:16px}
+.conta{display:flex;align-items:baseline;gap:10px;padding:8px 12px;font-size:13.5px;border-bottom:1px solid var(--line-soft);background:var(--surface)}
+.conta:last-child{border-bottom:none}
+.conta .v{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+.conta .d{color:var(--ink-3);font-size:12.5px}
+.conta.total{background:var(--surface-2);font-weight:600}
+.conta.total .v{color:var(--margem)}
+.conta.saida .v{color:var(--ink-2)}
+.aviso{font-size:12.5px;color:var(--ink-3);line-height:1.5;border-top:1px solid var(--line-soft);padding-top:12px;margin:4px 0 0}
+
+.rodape{
+  max-width:1080px;margin:0 auto;padding:22px 18px 0;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--ink-3);line-height:1.55;
+}
+.rodape strong{color:var(--ink-2);font-weight:600}
+</style>
+
+<div class="app">
+  <header class="topo">
+    <div class="topo-in">
+      <div class="marca">
+        <span class="marca-logo" aria-hidden="true">
+          <svg viewBox="0 0 60 24" width="20" fill="currentColor"><path d="M6 18h3.2a5.6 5.6 0 0 1 11.2 0h18a5.6 5.6 0 0 1 11.2 0H53a2 2 0 0 0 2-2v-3.1c0-1.3-.9-2.4-2.1-2.7L44 8.4l-5.4-4.5A4.4 4.4 0 0 0 35.8 3H21.4c-1.1 0-2.1.4-2.9 1.1L13.4 9l-6.5 1.5A3.2 3.2 0 0 0 4 13.6V16a2 2 0 0 0 2 2z"/></svg>
+        </span>
+        <div>
+          <div class="marca-nome">Garagem Modelo</div>
+          <div class="marca-sub">agosto 2026 · atualizado às 09:12</div>
+        </div>
+        <span class="selo">Protótipo · dados fictícios</span>
+      </div>
+      <nav class="abas" role="tablist" aria-label="Áreas do sistema">
+        <button class="aba" role="tab" aria-selected="true" data-tela="painel">Painel</button>
+        <button class="aba" role="tab" aria-selected="false" data-tela="estoque">Estoque</button>
+        <button class="aba" role="tab" aria-selected="false" data-tela="funil">Interessados</button>
+        <button class="aba" role="tab" aria-selected="false" data-tela="vendas">Vendas</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="tela" id="tela-painel" role="tabpanel" aria-label="Painel"></section>
+    <section class="tela" id="tela-estoque" role="tabpanel" aria-label="Estoque" hidden></section>
+    <section class="tela" id="tela-funil" role="tabpanel" aria-label="Interessados" hidden></section>
+    <section class="tela" id="tela-vendas" role="tabpanel" aria-label="Vendas" hidden></section>
+  </main>
+
+  <footer class="rodape">
+    <p><strong>Isto é um protótipo.</strong> Nenhuma loja, pessoa, placa ou venda aqui é real — os dados existem só para mostrar como o sistema se comportaria num pátio de porte médio. Nada é salvo.</p>
+  </footer>
+</div>
+
+<div class="veu" id="veu" hidden>
+  <div class="ficha" role="dialog" aria-modal="true" aria-labelledby="ficha-tit" id="ficha"></div>
+</div>
+
+<script>
+const brl = n => n.toLocaleString('pt-BR',{maximumFractionDigits:0});
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const carros = [
+  {id:1, marca:'Fiat', modelo:'Argo', versao:'1.3 Drive', ano:'2021/2022', cor:'Prata', placa:'RQP4G17', km:38400, compra:58000, anuncio:71900, dias:34, status:'disponivel', origem:'compra',
+   custos:[['Revisão e pastilhas',1450],['Documentação e transferência',850]]},
+  {id:2, marca:'Honda', modelo:'Civic', versao:'2.0 EXL CVT', ano:'2019/2019', cor:'Preto', placa:'FTA9J02', km:71200, compra:92000, anuncio:118500, dias:112, status:'disponivel', origem:'compra',
+   custos:[['Funilaria porta traseira',2600],['Revisão completa',1250],['Documentação',250]]},
+  {id:3, marca:'Volkswagen', modelo:'T-Cross', versao:'200 TSI Comfortline', ano:'2022/2023', cor:'Branco', placa:'SBN2H88', km:24900, compra:96500, anuncio:122000, dias:12, status:'reservado', origem:'compra',
+   custos:[['Higienização e polimento',1200]]},
+  {id:4, marca:'Chevrolet', modelo:'Onix', versao:'LT 1.0 Turbo', ano:'2020/2021', cor:'Vermelho', placa:'QXD7C41', km:52300, compra:52000, anuncio:68900, dias:61, status:'disponivel', origem:'compra',
+   custos:[['Embreagem',2100],['Pneus dianteiros',900],['Documentação',400]]},
+  {id:5, marca:'Toyota', modelo:'Corolla', versao:'XEi 2.0', ano:'2021/2022', cor:'Prata', placa:'RJM5B23', km:41800, compra:118000, anuncio:148900, dias:8, status:'disponivel', origem:'compra',
+   custos:[['Revisão de entrega',1900],['Documentação',900]]},
+  {id:6, marca:'Hyundai', modelo:'HB20', versao:'Comfort Plus 1.0', ano:'2019/2020', cor:'Branco', placa:'PVK3D59', km:68700, compra:44000, anuncio:59500, dias:97, status:'disponivel', origem:'compra',
+   custos:[['Ar-condicionado',1400],['Documentação',500]]},
+  {id:7, marca:'Jeep', modelo:'Renegade', versao:'Longitude 1.8', ano:'2021/2021', cor:'Cinza', placa:'TGH8F06', km:45100, compra:89000, anuncio:116000, dias:27, status:'disponivel', origem:'compra',
+   custos:[['Suspensão dianteira',3100],['Revisão',1650],['Documentação',450]]},
+  {id:8, marca:'Ford', modelo:'Ka', versao:'SE 1.0', ano:'2018/2019', cor:'Prata', placa:'MDA6K74', km:82400, compra:0, anuncio:46900, dias:19, status:'consignado', origem:'consignado',
+   custos:[]}
+];
+
+const interesses = [
+  {cliente:'Patrícia Nunes', carroId:5, etapa:'negociacao', dias:1, nota:'Quer fechar se cobrirem a entrada de 40 mil.'},
+  {cliente:'Marina Salgado', carroId:3, etapa:'proposta', dias:2, nota:'Proposta enviada por WhatsApp, aguardando retorno do marido.'},
+  {cliente:'Fábio Teixeira', carroId:1, etapa:'proposta', dias:5, nota:'Pediu simulação em 48x.'},
+  {cliente:'Ivo Marchetti', carroId:4, etapa:'contato', dias:3, nota:'Ligou pelo anúncio da OLX.'},
+  {cliente:'Cleber Antunes', carroId:2, etapa:'contato', dias:4, nota:'Perguntou se aceita moto na troca.'},
+  {cliente:'Douglas Ferraz', carroId:2, etapa:'visita', dias:9, nota:'Veio ver no sábado, gostou, sumiu depois.'},
+  {cliente:'Renata Vilela', carroId:7, etapa:'visita', dias:11, nota:'Test drive feito. Sem retorno desde então.'},
+  {cliente:'Wesley Braga', carroId:4, etapa:'novo', dias:0, nota:'Chegou hoje pelo Instagram.'},
+  {cliente:'Sandra Okamoto', carroId:6, etapa:'perdido', dias:6, nota:'Achou 4 mil mais barato em outra loja.'}
+];
+
+const vendas = [
+  {data:'05/08', carro:'Nissan Kicks S 1.6', ano:'2020/2020', cliente:'Eduardo Prates', valor:89900, compra:72000, custos:3500, pgto:'Financiado', troca:null},
+  {data:'09/08', carro:'Fiat Mobi Like 1.0', ano:'2021/2021', cliente:'Juliana Cordeiro', valor:52500, compra:43000, custos:1800, pgto:'À vista', troca:null},
+  {data:'14/08', carro:'VW Polo Highline 1.0', ano:'2019/2020', cliente:'Marcos V. Rocha', valor:78000, compra:63500, custos:4200, pgto:'Misto', troca:'Ford Ka 2018'},
+  {data:'17/08', carro:'Renault Duster Zen 1.6', ano:'2021/2022', cliente:'Aline Bastos', valor:94500, compra:79000, custos:2600, pgto:'Financiado', troca:null},
+  {data:'20/08', carro:'Chevrolet Prisma LT 1.4', ano:'2018/2018', cliente:'Gilmar Souza', valor:58900, compra:47800, custos:3900, pgto:'Financiado', troca:null},
+  {data:'22/08', carro:'Honda Fit LX 1.5', ano:'2019/2019', cliente:'Tatiane Moreira', valor:72400, compra:60000, custos:2100, pgto:'Misto', troca:'Hyundai HB20 2019'}
+];
+
+const serieVendas = [
+  {mes:'mar', qtd:4},{mes:'abr', qtd:7},{mes:'mai', qtd:5},
+  {mes:'jun', qtd:8},{mes:'jul', qtd:6},{mes:'ago', qtd:6, atual:true}
+];
+
+const ETAPAS = {novo:'Novo', contato:'Em contato', visita:'Visitou', proposta:'Proposta', negociacao:'Negociação', perdido:'Perdido'};
+const ATIVAS = ['novo','contato','visita','proposta','negociacao'];
+const DIAS_ENCALHE = 90, DIAS_FRIO = 7;
+
+const custoTotal = c => c.custos.reduce((s,par) => s + par[1], 0);
+const investido = c => c.origem === 'consignado' ? 0 : c.compra + custoTotal(c);
+const margemPrev = c => c.anuncio - investido(c);
+const encalhado = c => c.dias >= DIAS_ENCALHE && c.status === 'disponivel';
+const interessadosDe = id => interesses.filter(i => i.carroId === id && ATIVAS.includes(i.etapa));
+const carroDe = id => carros.find(c => c.id === id);
+
+const silhueta = '<svg viewBox="0 0 60 24" fill="currentColor" aria-hidden="true"><path opacity=".5" d="M6 18h3.2a5.6 5.6 0 0 1 11.2 0h18a5.6 5.6 0 0 1 11.2 0H53a2 2 0 0 0 2-2v-3.1c0-1.3-.9-2.4-2.1-2.7L44 8.4l-5.4-4.5A4.4 4.4 0 0 0 35.8 3H21.4c-1.1 0-2.1.4-2.9 1.1L13.4 9l-6.5 1.5A3.2 3.2 0 0 0 4 13.6V16a2 2 0 0 0 2 2z"/></svg>';
+
+/* ---------------- painel ---------------- */
+function renderPainel(){
+  const emPatio = carros.length;
+  const capital = carros.reduce((s,c) => s + investido(c), 0);
+  const fat = vendas.reduce((s,v) => s + v.valor, 0);
+  const marg = vendas.reduce((s,v) => s + v.valor - v.compra - v.custos, 0);
+  const ticket = Math.round(fat / vendas.length);
+  const pctMarg = (marg / fat * 100).toFixed(1).replace('.',',');
+  const encalhados = carros.filter(encalhado).sort((a,b) => b.dias - a.dias);
+  const presos = encalhados.reduce((s,c) => s + investido(c), 0);
+  const ativos = interesses.filter(i => ATIVAS.includes(i.etapa));
+  const frios = ativos.filter(i => i.dias >= DIAS_FRIO).sort((a,b) => b.dias - a.dias);
+  const carrosComInteresse = new Set(ativos.map(i => i.carroId)).size;
+
+  const kpi = (rot, val, pe, pre, dest) =>
+    '<div class="kpi' + (dest ? ' destaque' : '') + '">' +
+      '<span class="kpi-rot">' + rot + '</span>' +
+      '<div class="kpi-val">' + (pre ? '<span class="pre">' + pre + '</span>' : '') + val + '</div>' +
+      (pe ? '<div class="kpi-pe">' + pe + '</div>' : '') +
+    '</div>';
+
+  document.getElementById('tela-painel').innerHTML =
+    '<div class="secao">' +
+      '<div class="secao-cab"><h2>Mês corrente</h2><span class="cont">1 a 23 de agosto</span></div>' +
+      '<div class="kpis">' +
+        kpi('Carros vendidos', vendas.length, 'meta do mês: 8') +
+        kpi('Faturamento', brl(fat), 'ticket médio R$ ' + brl(ticket), 'R$') +
+        kpi('Margem bruta', brl(marg), '<strong>' + pctMarg + '%</strong> sobre o faturado', 'R$', true) +
+        kpi('Giro médio', '47', 'dias entre entrada e venda') +
+      '</div>' +
+    '</div>' +
+    '<div class="secao">' +
+      '<div class="secao-cab"><h2>Pátio agora</h2></div>' +
+      '<div class="kpis">' +
+        kpi('Carros no pátio', emPatio, '1 consignado, 1 reservado') +
+        kpi('Capital parado', brl(capital), 'só estoque próprio', 'R$') +
+        kpi('Interessados ativos', ativos.length, 'em ' + carrosComInteresse + ' carros diferentes') +
+        kpi('Parados +90 dias', encalhados.length, 'R$ ' + brl(presos) + ' presos') +
+      '</div>' +
+    '</div>' +
+    '<div class="secao">' +
+      '<div class="card">' +
+        '<div class="grafico-cab"><h3>Carros vendidos por mês</h3><span>* agosto ainda em curso</span></div>' +
+        '<div class="grafico-wrap">' + grafico(serieVendas) + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="secao">' +
+      '<div class="secao-cab"><h2>Precisa de você</h2></div>' +
+      '<div class="alertas">' +
+        '<div class="alerta">' +
+          '<div class="alerta-tit">Encalhados no pátio <span class="qtd">' + encalhados.length + '</span></div>' +
+          '<ul>' + encalhados.map(c =>
+            '<li><span>' + esc(c.marca + ' ' + c.modelo + ' ' + c.ano.slice(0,4)) + '</span><span class="dado">' + c.dias + ' dias</span></li>'
+          ).join('') + '</ul>' +
+        '</div>' +
+        '<div class="alerta frio">' +
+          '<div class="alerta-tit">Interessados sem retorno <span class="qtd">' + frios.length + '</span></div>' +
+          '<ul>' + frios.map(i =>
+            '<li><span>' + esc(i.cliente + ' · ' + carroDe(i.carroId).modelo) + '</span><span class="dado">há ' + i.dias + ' dias</span></li>'
+          ).join('') + '</ul>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+}
+
+/* ---------------- gráfico ---------------- */
+function grafico(serie){
+  const W = 560, H = 150, padL = 8, padR = 8, padT = 26, padB = 26;
+  const max = Math.max.apply(null, serie.map(d => d.qtd));
+  const util = H - padT - padB;
+  const slot = (W - padL - padR) / serie.length;
+  const bw = Math.min(46, slot - 14);
+  const y = v => padT + util - (v / max) * util;
+  const path = (x, yy, w, h, r) => {
+    r = Math.min(r, h, w / 2);
+    return 'M' + x + ',' + (yy + h) + ' L' + x + ',' + (yy + r) +
+           ' Q' + x + ',' + yy + ' ' + (x + r) + ',' + yy +
+           ' L' + (x + w - r) + ',' + yy +
+           ' Q' + (x + w) + ',' + yy + ' ' + (x + w) + ',' + (yy + r) +
+           ' L' + (x + w) + ',' + (yy + h) + ' Z';
+  };
+  let g = '';
+  [0, 0.5, 1].forEach(f => {
+    const yy = padT + util - f * util;
+    g += '<line class="' + (f === 0 ? 'gr-base' : 'gr-linha') + '" x1="' + padL + '" y1="' + yy + '" x2="' + (W - padR) + '" y2="' + yy + '"/>';
+  });
+  serie.forEach((d, i) => {
+    const cx = padL + slot * i + slot / 2, x = cx - bw / 2, yy = y(d.qtd), h = padT + util - yy;
+    g += '<g class="gr-slot" tabindex="0" role="img" aria-label="' + d.mes + ': ' + d.qtd + ' carros vendidos' + (d.atual ? ', mês em curso' : '') + '">' +
+      '<rect class="gr-hit" x="' + (padL + slot * i) + '" y="' + (padT - 10) + '" width="' + slot + '" height="' + (util + 20) + '">' +
+        '<title>' + d.mes + ' · ' + d.qtd + ' carros' + (d.atual ? ' (parcial)' : '') + '</title></rect>' +
+      '<path class="gr-barra' + (d.atual ? ' atual' : '') + '" d="' + path(x, yy, bw, h, 4) + '"/>' +
+      '<text class="gr-val' + (d.atual ? ' atual' : '') + '" x="' + cx + '" y="' + (yy - 7) + '">' + d.qtd + '</text>' +
+      '<text class="gr-rot" x="' + cx + '" y="' + (H - 8) + '">' + d.mes + (d.atual ? '*' : '') + '</text>' +
+    '</g>';
+  });
+  return '<svg class="grafico" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Carros vendidos por mês, de março a agosto de 2026">' + g + '</svg>';
+}
+
+/* ---------------- estoque ---------------- */
+let filtro = 'todos';
+function renderEstoque(){
+  const lista = carros.filter(c => {
+    if (filtro === 'todos') return true;
+    if (filtro === 'encalhados') return encalhado(c);
+    if (filtro === 'interesse') return interessadosDe(c.id).length > 0;
+    return c.status === filtro;
+  });
+  const chip = (v, r) => '<button class="chip" data-filtro="' + v + '" aria-pressed="' + (filtro === v) + '">' + r + '</button>';
+  document.getElementById('tela-estoque').innerHTML =
+    '<div class="secao-cab"><h2>Estoque</h2><span class="cont">' + lista.length + ' de ' + carros.length + ' carros</span></div>' +
+    '<div class="filtros">' +
+      chip('todos','Todos') + chip('disponivel','Disponíveis') + chip('reservado','Reservados') +
+      chip('interesse','Com interessado') + chip('encalhados','Parados +90 dias') + chip('consignado','Consignados') +
+    '</div>' +
+    '<div class="carros">' + lista.map(cardCarro).join('') + '</div>';
+}
+function cardCarro(c){
+  const ints = interessadosDe(c.id).length;
+  const st = encalhado(c) ? 'encalhado' : c.status;
+  const rot = {disponivel:'Disponível', reservado:'Reservado', consignado:'Consignado', encalhado: c.dias + ' dias parado'}[st];
+  return '<button class="carro" data-carro="' + c.id + '">' +
+    '<span class="foto">' + silhueta + '</span>' +
+    '<span class="carro-corpo">' +
+      '<span class="carro-tit">' + esc(c.marca + ' ' + c.modelo) + '</span>' +
+      '<span class="carro-ver">' + esc(c.versao + ' · ' + c.ano) + '</span>' +
+      '<span class="carro-meta"><span>' + brl(c.km) + ' km</span><span>' + esc(c.placa) + '</span><span>' + esc(c.cor) + '</span></span>' +
+      '<span class="carro-pe">' +
+        '<span class="preco">R$ ' + brl(c.anuncio) + '</span>' +
+        '<span class="pill ' + st + '">' + rot + '</span>' +
+        (ints ? '<span class="tag-int">' + ints + ' interessado' + (ints > 1 ? 's' : '') + '</span>' : '') +
+      '</span>' +
+    '</span>' +
+  '</button>';
+}
+
+/* ---------------- ficha ---------------- */
+function abrirFicha(id){
+  const c = carroDe(id), ints = interessadosDe(id), ct = custoTotal(c);
+  const linhas = c.origem === 'consignado'
+    ? '<div class="conta"><span class="d">Carro de terceiro, em consignação</span><span class="v d">não é capital da loja</span></div>' +
+      '<div class="conta"><span>Anúncio</span><span class="v">R$ ' + brl(c.anuncio) + '</span></div>' +
+      '<div class="conta total"><span>Comissão prevista (5%)</span><span class="v">R$ ' + brl(Math.round(c.anuncio * 0.05)) + '</span></div>'
+    : '<div class="conta"><span>Compra</span><span class="v">R$ ' + brl(c.compra) + '</span></div>' +
+      c.custos.map(p => '<div class="conta saida"><span class="d">' + esc(p[0]) + '</span><span class="v">+ R$ ' + brl(p[1]) + '</span></div>').join('') +
+      '<div class="conta"><span>Investido no carro</span><span class="v">R$ ' + brl(c.compra + ct) + '</span></div>' +
+      '<div class="conta"><span>Anunciado por</span><span class="v">R$ ' + brl(c.anuncio) + '</span></div>' +
+      '<div class="conta total"><span>Margem se vender no anúncio</span><span class="v">R$ ' + brl(margemPrev(c)) + '</span></div>';
+
+  document.getElementById('ficha').innerHTML =
+    '<div class="ficha-topo">' +
+      '<div><h2 id="ficha-tit">' + esc(c.marca + ' ' + c.modelo) + '</h2>' +
+      '<p>' + esc(c.versao + ' · ' + c.ano + ' · ' + c.cor) + '</p></div>' +
+      '<button class="fechar" id="btn-fechar" aria-label="Fechar ficha">×</button>' +
+    '</div>' +
+    '<dl class="especs">' +
+      '<div class="espec"><dt>Placa</dt><dd>' + esc(c.placa) + '</dd></div>' +
+      '<div class="espec"><dt>KM</dt><dd>' + brl(c.km) + '</dd></div>' +
+      '<div class="espec"><dt>No pátio</dt><dd>' + c.dias + ' dias</dd></div>' +
+      '<div class="espec"><dt>Situação</dt><dd>' + {disponivel:'Disponível', reservado:'Reservado', consignado:'Consignado'}[c.status] + '</dd></div>' +
+    '</dl>' +
+    '<h3 class="bloco-tit">Quanto esse carro dá</h3>' +
+    '<div class="contas">' + linhas + '</div>' +
+    '<h3 class="bloco-tit">Quem está interessado (' + ints.length + ')</h3>' +
+    '<div class="leads">' +
+      (ints.length ? ints.map(i =>
+        '<div class="lead"><div class="lead-topo">' +
+          '<span class="lead-nome">' + esc(i.cliente) + '</span>' +
+          '<span class="pill ' + (i.dias >= DIAS_FRIO ? 'encalhado' : 'reservado') + '">' + ETAPAS[i.etapa] + '</span>' +
+          '<span class="lead-quando' + (i.dias >= DIAS_FRIO ? ' frio' : '') + '">' + (i.dias === 0 ? 'hoje' : 'há ' + i.dias + 'd') + '</span>' +
+        '</div><div class="lead-nota">' + esc(i.nota) + '</div></div>'
+      ).join('') : '<div class="lead"><div class="lead-nota">Ninguém registrado ainda neste carro.</div></div>') +
+    '</div>' +
+    '<p class="aviso">Placa e telefone são dados pessoais. Num sistema em uso, só quem tem perfil de acesso enxerga esta ficha, e fica salvo o registro de quem a abriu.</p>';
+
+  document.getElementById('veu').hidden = false;
+  document.body.style.overflow = 'hidden';
+  document.getElementById('btn-fechar').focus();
+}
+function fecharFicha(){
+  document.getElementById('veu').hidden = true;
+  document.body.style.overflow = '';
+}
+
+/* ---------------- funil ---------------- */
+function renderFunil(){
+  const ativos = interesses.filter(i => ATIVAS.includes(i.etapa));
+  const bloco = et => {
+    const lista = interesses.filter(i => i.etapa === et);
+    if (!lista.length) return '';
+    return '<div>' +
+      '<div class="etapa-cab">' +
+        '<span class="etapa-nome">' + ETAPAS[et] + '</span>' +
+        '<span class="barra-etapa"><i style="width:' + Math.round(lista.length / ativos.length * 100) + '%"></i></span>' +
+        '<span class="etapa-qtd">' + lista.length + '</span>' +
+      '</div>' +
+      '<div class="leads">' + lista.map(cardLead).join('') + '</div>' +
+    '</div>';
+  };
+  const perdidos = interesses.filter(i => i.etapa === 'perdido');
+  document.getElementById('tela-funil').innerHTML =
+    '<div class="secao-cab"><h2>Quem está interessado em qual carro</h2><span class="cont">' + ativos.length + ' ativos</span></div>' +
+    '<div class="funil">' +
+      '<div class="coluna">' + ['negociacao','proposta'].map(bloco).join('') + '</div>' +
+      '<div class="coluna">' + ['visita','contato','novo'].map(bloco).join('') + '</div>' +
+    '</div>' +
+    '<div class="secao" style="margin-top:24px">' +
+      '<div class="secao-cab"><h2>Perdidos</h2><span class="cont">' + perdidos.length + ' este mês</span></div>' +
+      '<div class="leads">' + perdidos.map(cardLead).join('') + '</div>' +
+    '</div>';
+}
+function cardLead(i){
+  const c = carroDe(i.carroId), frio = ATIVAS.includes(i.etapa) && i.dias >= DIAS_FRIO;
+  return '<div class="lead">' +
+    '<div class="lead-topo">' +
+      '<span class="lead-nome">' + esc(i.cliente) + '</span>' +
+      (i.etapa === 'perdido' ? '<span class="pill perdido">Perdido</span>' : '') +
+      '<span class="lead-quando' + (frio ? ' frio' : '') + '">' + (i.dias === 0 ? 'hoje' : 'há ' + i.dias + 'd') + (frio ? ' · esfriando' : '') + '</span>' +
+    '</div>' +
+    '<div class="lead-carro">' + esc(c.marca + ' ' + c.modelo + ' ' + c.ano.slice(0,4)) + ' · <span class="num">R$ ' + brl(c.anuncio) + '</span></div>' +
+    '<div class="lead-nota">' + esc(i.nota) + '</div>' +
+  '</div>';
+}
+
+/* ---------------- vendas ---------------- */
+function renderVendas(){
+  const fat = vendas.reduce((s,v) => s + v.valor, 0);
+  const marg = vendas.reduce((s,v) => s + v.valor - v.compra - v.custos, 0);
+  document.getElementById('tela-vendas').innerHTML =
+    '<div class="secao-cab"><h2>Vendas de agosto</h2><span class="cont">' + vendas.length + ' carros</span></div>' +
+    '<div class="tabela-wrap"><table>' +
+      '<thead><tr><th>Data</th><th>Carro</th><th>Comprador</th><th class="n">Venda</th><th class="n">Margem</th></tr></thead>' +
+      '<tbody>' + vendas.map(v =>
+        '<tr>' +
+          '<td class="n">' + v.data + '</td>' +
+          '<td>' + esc(v.carro) + '<span class="sub">' + esc(v.ano) +
+            (v.troca ? ' · <span class="troca">entrou ' + esc(v.troca) + ' na troca</span>' : '') + '</span></td>' +
+          '<td>' + esc(v.cliente) + '<span class="sub">' + esc(v.pgto) + '</span></td>' +
+          '<td class="n">R$ ' + brl(v.valor) + '</td>' +
+          '<td class="n">R$ ' + brl(v.valor - v.compra - v.custos) + '</td>' +
+        '</tr>'
+      ).join('') + '</tbody>' +
+      '<tfoot><tr><td colspan="3">Total do mês</td><td class="n">R$ ' + brl(fat) + '</td><td class="n">R$ ' + brl(marg) + '</td></tr></tfoot>' +
+    '</table></div>' +
+    '<p class="aviso" style="border:0;padding-top:14px">Duas das seis vendas receberam um carro na troca — cada uma gerou uma entrada nova no estoque, com o valor de avaliação virando o preço de compra do carro recebido.</p>';
+}
+
+/* ---------------- navegação ---------------- */
+function trocarTela(nome){
+  document.querySelectorAll('.aba').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tela === nome)));
+  document.querySelectorAll('.tela').forEach(s => { s.hidden = s.id !== 'tela-' + nome; });
+  window.scrollTo(0, 0);
+}
+document.addEventListener('click', e => {
+  const aba = e.target.closest('.aba');
+  if (aba) { trocarTela(aba.dataset.tela); return; }
+  const chip = e.target.closest('.chip');
+  if (chip) { filtro = chip.dataset.filtro; renderEstoque(); return; }
+  const carro = e.target.closest('[data-carro]');
+  if (carro) { abrirFicha(Number(carro.dataset.carro)); return; }
+  if (e.target.id === 'btn-fechar' || e.target.closest('#btn-fechar') || e.target.id === 'veu') fecharFicha();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharFicha(); });
+
+renderPainel(); renderEstoque(); renderFunil(); renderVendas();
+</script>

@@ -72,3 +72,12 @@ email_config.php
 # do contador. O repositório da raiz é público, então nada daqui é versionado
 # até o repo virar privado ou o projeto ganhar repositório próprio.
 projetos/Escritorio-Contabil/
+
+# Seminovos saiu do repositório público em 26/08/2026, quando a validação
+# deixou de ser hipotética: entraram duas lojas reais de Bady Bassitt/SP
+# (Portuga Automóveis e M9 Autos) — nome, endereço, telefone do dono e, nas
+# entrevistas, o que cada uma fatura e paga de sistema. Dado de empresa e de
+# terceiro, dito em conversa particular. O próprio CLAUDE.md do projeto já
+# previa essa troca; ela só chegou antes do CPF e da placa.
+# Quem versiona agora é o git de dentro da pasta.
+projetos/Seminovos/

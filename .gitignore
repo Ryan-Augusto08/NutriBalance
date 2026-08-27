@@ -81,3 +81,8 @@ projetos/Escritorio-Contabil/
 # previa essa troca; ela só chegou antes do CPF e da placa.
 # Quem versiona agora é o git de dentro da pasta.
 projetos/Seminovos/
+
+# Portuga Automóveis — cliente pagante desde 26/08/2026 (conserto do site).
+# Endereço, telefone do dono e, mais pra frente, acesso ao WordPress dele.
+# Mesma regra do Rafael e do Escritório: git próprio dentro da pasta.
+projetos/Portuga-Automoveis/

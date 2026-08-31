@@ -1,5 +1,21 @@
 # Produto — site + carrosséis vendáveis
 
+> ## ⏸ EM PAUSA DESDE 28/08/2026 — não abandonado
+>
+> Este plano é de 17/08 e descreve **um produto**: site + carrossel vendáveis
+> como pacote, com a Valéria de cobaia e o Rafael de segundo cliente.
+>
+> **O foco virou pra outro produto em 28/08**, e vale saber qual, porque os
+> dois se parecem e não são a mesma coisa: um **sistema de gestão + site para
+> loja de seminovos**, em `projetos/Seminovos/`. Aquele tem alvo de venda
+> concreto — quatro lojas em Bady Bassitt — e este aqui não tinha.
+>
+> Nada foi apagado. Se a frente dos seminovos travar, ou se o Rafael pedir o
+> site, o plano abaixo continua inteiro e continua certo. A separação entre
+> conteúdo e estrutura que ele descreve é a mesma ideia que virou o
+> `src/config/clientes/` do sistema de seminovos — só que aplicada primeiro
+> lá.
+
 > Escrito em 17/08/2026. Como transformar o que hoje é trabalho artesanal
 > num produto que se vende, se entrega em dias e **não prende o Ryan a cada
 > cliente**.

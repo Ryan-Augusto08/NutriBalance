@@ -1,5 +1,14 @@
 # Tarefas do produto
 
+> ## ⏸ PARADA DESDE 19/08/2026
+>
+> A última tarefa aqui é de 19/08. **Não foi esquecimento: o foco mudou** — ver
+> o aviso no topo do `PRODUTO.md`. O trabalho das duas semanas seguintes foi
+> todo no sistema de seminovos, e está registrado em
+> `projetos/Seminovos/CLAUDE.md`.
+>
+> Esta lista volta a andar quando o template de site voltar a ser prioridade.
+
 > Lista corrida. A mais recente fica no topo. Ao concluir, marcar `[x]` e
 > anotar o que mudou — não apagar, o histórico serve de registro.
 

@@ -85,6 +85,7 @@
 }
 
 .grafico-card {
+  position: relative; /* referência da caixinha de detalhe */
   border: 1px solid var(--border-soft);
   border-radius: 12px;
   padding: 10px 12px 6px;
@@ -146,6 +147,52 @@
   fill: var(--pie-proteina);
 }
 
+/* Último ponto: o "onde estou hoje". */
+.grafico-ponto.atual {
+  stroke: var(--card-bg);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Realce do ponto tocado: linha-guia tracejada + anel na cor da série. */
+.grafico-realce line {
+  stroke: var(--text-muted);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  vector-effect: non-scaling-stroke;
+}
+.grafico-realce circle {
+  fill: var(--card-bg);
+  stroke-width: 2.5;
+  vector-effect: non-scaling-stroke;
+}
+.grafico-realce.peso circle {
+  stroke: var(--green-btn);
+}
+.grafico-realce.cintura circle {
+  stroke: var(--pie-proteina);
+}
+
+/* Caixinha com data e valor do ponto, acima dele. */
+.grafico-dica-ponto {
+  position: absolute;
+  z-index: 1;
+  padding: 5px 9px;
+  border-radius: 8px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+.grafico-dica-ponto[hidden] {
+  display: none;
+}
+
 .grafico-eixo {
   font-size: 9px;
   fill: var(--text-muted);
@@ -156,6 +203,14 @@
 .grafico-grade {
   stroke: var(--border-soft);
   stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Linhas das marcas de data: ainda mais discretas que a grade horizontal. */
+.grafico-grade-vertical {
+  stroke: var(--border-soft);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
   vector-effect: non-scaling-stroke;
 }
 

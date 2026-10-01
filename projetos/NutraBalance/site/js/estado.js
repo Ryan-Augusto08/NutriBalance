@@ -26,6 +26,11 @@ export const estado = {
   // Chave do localStorage: `nutrabalance_data_<id>`, isolando as refeições
   // por usuário no mesmo navegador. Definida no boot.
   chaveStorage: null,
+
+  // Ids das refeições com o card expandido. Fica fora de `dados` porque é só
+  // estado de tela (não vai pro localStorage), mas precisa sobreviver a cada
+  // atualizarTela(), que redesenha a lista inteira.
+  refeicoesAbertas: new Set(),
 };
 
 export const VERSAO_DADOS = 3;

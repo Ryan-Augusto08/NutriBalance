@@ -67,6 +67,10 @@ projetos/Rafael-Gimenez/
 # valendo se o projeto mudar de pasta de novo.
 email_config.php
 
+# Contas exportadas do NutraBalance (banco/exportar_contas.php): e-mail e
+# hash de senha de quem se cadastrou. Viaja por pendrive, nunca por commit.
+contas_exportadas*.json
+
 # Escritório contábil do pai do Ryan. A pasta carrega carteira de clientes,
 # honorários, CNPJ e às vezes CPF — dado de terceiro, sob sigilo profissional
 # do contador. O repositório da raiz é público, então nada daqui é versionado
@@ -82,7 +86,9 @@ projetos/Escritorio-Contabil/
 # Quem versiona agora é o git de dentro da pasta.
 projetos/Seminovos/
 
-# Portuga Automóveis — cliente pagante desde 26/08/2026 (conserto do site).
-# Endereço, telefone do dono e, mais pra frente, acesso ao WordPress dele.
+# Portuga Automóveis — alvo da primeira venda desde 26/08/2026. NÃO é cliente:
+# ninguém falou com o dono até 01/09/2026, e a linha anterior aqui dizia
+# "cliente pagante", o que nunca foi verdade. Endereço, telefone do dono e, se
+# a venda acontecer, acesso ao site dele.
 # Mesma regra do Rafael e do Escritório: git próprio dentro da pasta.
 projetos/Portuga-Automoveis/

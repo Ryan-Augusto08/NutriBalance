@@ -1541,8 +1541,15 @@ foi clicado.</p>
 <pre><code>document.getElementById("lista-refeicoes").addEventListener("click", (e) => {
   // dataset converte o atributo kebab-case em camelCase:
   // data-adicionar-alimento -> dataset.adicionarAlimento
+  const botaoAlternar = e.target.closest("[data-alternar-refeicao]");
+  if (botaoAlternar) return alternarRefeicao(botaoAlternar.dataset.alternarRefeicao);
+
   const botaoAdicionarAlimento = e.target.closest("[data-adicionar-alimento]");
-  if (botaoAdicionarAlimento) return abrirBuscaAlimento(botaoAdicionarAlimento.dataset.adicionarAlimento);
+  if (botaoAdicionarAlimento) {
+    const id = botaoAdicionarAlimento.dataset.adicionarAlimento;
+    estado.refeicoesAbertas.add(id);
+    return abrirBuscaAlimento(id);
+  }
 
   const botaoRemoverItem = e.target.closest("[data-remover-item]");
   if (botaoRemoverItem) return removerItem(botaoRemoverItem.dataset.removerItem);
@@ -1568,6 +1575,21 @@ forma padrão de anexar dados a um elemento sem inventar atributos inválidos.</
   isso é essencial — sem delegação, seria preciso reassociar todos os eventos após cada
   renderização.</p>
 </div>
+
+<h4>Cards de refeição recolhíveis</h4>
+
+<p>Por sugestão da banca, cada card de refeição passou a funcionar como um "leia mais": fechado, mostra
+só o tipo da refeição, a quantidade de alimentos e o total de kcal; a seta abre a lista de alimentos
+e o resumo de macros. Com várias refeições no dia, a tela fica mais curta e o usuário lê primeiro o
+que mais importa, que é o total.</p>
+
+<p>Como a lista inteira é redesenhada a cada alteração, o card não pode "lembrar" sozinho se estava
+aberto. Essa informação fica em <code>estado.refeicoesAbertas</code>, um <code>Set</code> com os ids
+das refeições expandidas, que <code>cardRefeicao()</code> consulta ao montar o HTML. Ela não vai
+para o <code>localStorage</code>: é estado de tela, não dado do usuário. Duas regras evitam
+armadilhas: refeição sem alimento fica sempre aberta, senão o botão de adicionar ficaria escondido;
+e clicar em "+ Adicionar alimento" marca a refeição como aberta, para ela não recolher logo depois
+de ganhar o primeiro item.</p>
 
 <h3>5.6 XSS e a função escaparHtml</h3>
 
@@ -1639,26 +1661,17 @@ escala.</p>
 <p>O problema: os dados estão em quilogramas e datas; a tela está em pixels. É preciso mapear um
 espaço no outro.</p>
 
-<pre><code>const LARGURA = 300, ALTURA = 132;
-const margemEsq = 10, margemDir = 12, margemTopo = 14, margemBase = 22;
-
-// Folga vertical: 15% da amplitude (ou 1 unidade quando todos iguais).
-const folga = vmax - vmin > 0 ? (vmax - vmin) * 0.15 : 1;
-vmin -= folga;
-vmax += folga;
+<pre><code>const LARGURA = 300, ALTURA = 162;
+const esquerda = 46, direita = LARGURA - 10, topo = 10, base = ALTURA - 32;
 
 // eixo X: data -> pixel
-const x = (iso) =&gt; {
-  if (t1 === t0) return (margemEsq + (LARGURA - margemDir)) / 2;   // ponto unico: centro
-  const t = new Date(iso + "T00:00:00").getTime();
-  return margemEsq + ((t - t0) / (t1 - t0)) * (LARGURA - margemEsq - margemDir);
+const x = (t) =&gt; {
+  if (t1 === t0) return (esquerda + direita) / 2;   // data unica: centro
+  return esquerda + ((t - t0) / (t1 - t0)) * (direita - esquerda);
 };
 
 // eixo Y: valor -> pixel
-const y = (v) =&gt; {
-  if (vmax === vmin) return (margemTopo + (ALTURA - margemBase)) / 2;
-  return margemTopo + (1 - (v - vmin) / (vmax - vmin)) * (ALTURA - margemTopo - margemBase);
-};</code></pre>
+const y = (v) =&gt; base - ((v - escala.min) / (escala.max - escala.min)) * (base - topo);</code></pre>
 
 <h4>Como ler essas duas funções</h4>
 
@@ -1666,29 +1679,82 @@ const y = (v) =&gt; {
 
 <ol>
   <li><strong>Normalizar:</strong> <code>(t - t0) / (t1 - t0)</code> transforma qualquer data em um
-  número entre 0 e 1, onde 0 é a primeira medição e 1 é a última.</li>
+  número entre 0 e 1, onde 0 é o primeiro ponto e 1 é o último.</li>
   <li><strong>Escalar:</strong> multiplicar pela largura útil converte a fração em pixels.</li>
   <li><strong>Deslocar:</strong> somar a margem afasta da borda, deixando espaço para os rótulos.</li>
 </ol>
 
-<p>A diferença crucial está no <code>1 -</code> da função <code>y</code>. Em matemática, o eixo Y
-cresce para cima; em tela, cresce para <strong>baixo</strong> — a coordenada 0 é o topo. O
-<code>1 - fração</code> inverte o eixo, para que um peso maior apareça mais alto no gráfico.</p>
+<p>A diferença crucial está na função <code>y</code>, que parte de <code>base</code> e
+<strong>subtrai</strong>. Em matemática, o eixo Y cresce para cima; em tela, cresce para
+<strong>baixo</strong> — a coordenada 0 é o topo. Subtrair a partir da base inverte o eixo, para que
+um peso maior apareça mais alto no gráfico.</p>
 
 <div class="porque">
   <span class="rotulo">Duas decisões de projeto no gráfico</span>
-  <p><strong>A folga de 15%.</strong> Sem ela, o maior valor tocaria o topo e o menor tocaria a base,
-  e os pontos ficariam colados na borda. Ampliar a faixa em 15% para cada lado dá respiro visual.
-  O caso <code>: 1</code> cobre a situação em que todos os valores são iguais — sem folga, a divisão
-  <code>(v - vmin) / (vmax - vmin)</code> seria divisão por zero.</p>
+  <p><strong>Escala em números redondos.</strong> Os limites do eixo vertical não são o menor e o
+  maior peso medidos, e sim os números redondos logo abaixo e logo acima deles, com passo de 1, 2,
+  2,5, 5 ou 10 vezes uma potência de 10 (função <code>escalaVertical</code>). Assim a grade mostra
+  96,0 / 98,0 / 100,0 em vez de 96,3 / 98,1, que o usuário leria como se fossem medições. Uma janela
+  mínima de 2 unidades evita a divisão por zero quando todos os valores são iguais.</p>
   <p><strong>O caso de uma medição só.</strong> Com um único ponto não existe evolução para traçar.
   Em vez de deixar o gráfico vazio, o código desenha uma linha horizontal tracejada no nível atual e
   mostra a dica "Registre em outro dia para ver a linha de evolução". Preserva a leitura de gráfico
   sem inventar uma tendência que os dados não sustentam.</p>
 </div>
 
-<p>O elemento <code>viewBox="0 0 300 132"</code> merece nota: ele define um sistema de coordenadas
-interno independente do tamanho real na tela. O código calcula tudo em uma grade de 300 por 132, e o
+<h4>Agrupamento dos pontos em períodos longos</h4>
+
+<p>Na primeira versão, cada medição virava uma bolinha. Com um ano de histórico eram dezenas de
+bolinhas encavaladas, e os trechos em que o usuário se pesou todo dia pareciam mais "cheios" que os
+outros. Depois da observação da banca, o gráfico passou a agrupar os pontos conforme a extensão dos
+dados exibidos:</p>
+
+<table>
+  <tr><th>Extensão dos dados</th><th>Cada ponto do gráfico é</th></tr>
+  <tr><td>até 45 dias</td><td>uma medição</td></tr>
+  <tr><td>até 180 dias</td><td>a média da semana (segunda a domingo)</td></tr>
+  <tr><td>mais de 180 dias</td><td>a média do mês</td></tr>
+</table>
+
+<pre><code>function agruparPontos(pontos) {
+  const grupo = tipoDeGrupo(pontos);          // "dia", "semana" ou "mes"
+  if (grupo === "dia") return pontos.map((p) =&gt; ({ ...p, qtd: 1, grupo, chave: p.iso }));
+
+  const grupos = new Map();                   // chave -&gt; medicoes do grupo
+  for (const p of pontos) {
+    const chave = grupo === "semana" ? segundaDaSemana(p.iso) : p.iso.slice(0, 7);
+    if (!grupos.has(chave)) grupos.set(chave, []);
+    grupos.get(chave).push(p);
+  }
+  return [...grupos].map(([chave, lista]) =&gt; ({ /* data media, valor medio, qtd */ }));
+}</code></pre>
+
+<p>A regra olha a extensão real dos dados, e não o botão de período escolhido: quem tem três semanas
+de histórico continua vendo cada medição mesmo no filtro "Tudo". Cada grupo é desenhado na data média
+das suas medições, para a posição no eixo continuar fiel ao tempo. O valor grande no topo do cartão
+continua sendo a última medição real, e não a média do último mês.</p>
+
+<h4>Eixo de datas pelo calendário</h4>
+
+<p>Os rótulos de data também mudaram. Antes eram escolhidos entre as datas das medições, o que gerava
+marcas em dias quebrados (01/10, 03/12) e sem o ano. Agora a função <code>marcasDeData</code> gera
+marcas em datas redondas, independentes das medições: dia a dia (ou dia sim, dia não) em até 10 dias,
+toda segunda-feira em até 45 dias e o dia 1 do mês acima disso, com passo de 1, 2 ou 3 meses para
+nunca passar de seis rótulos. O ano aparece na primeira marca e em cada janeiro ("out/25", "jan/26",
+"abr"). Cada rótulo tem a largura estimada pelo número de caracteres e só entra se não encostar no
+vizinho; o de hoje, na ponta direita, tem prioridade.</p>
+
+<h4>Detalhe ao tocar ou passar o mouse</h4>
+
+<p>Como os pontos agrupados escondem os valores individuais, tocar no gráfico (ou passar o mouse)
+mostra uma caixinha com o período e o valor do ponto mais próximo, por exemplo "Março de 2026 · média
+99,4 kg (4 medições)". O cálculo converte a posição do dedo, em pixels da tela, de volta para as
+coordenadas do <code>viewBox</code>, dividindo pela razão entre a largura desenhada e os 300 da grade
+interna. O ouvinte é um só, no container, pela mesma técnica de delegação da seção 5.5: o gráfico é
+redesenhado a cada troca de período, mas o container continua o mesmo.</p>
+
+<p>O elemento <code>viewBox="0 0 300 162"</code> merece nota: ele define um sistema de coordenadas
+interno independente do tamanho real na tela. O código calcula tudo em uma grade de 300 por 162, e o
 navegador escala o desenho para o espaço disponível. Como SVG é vetorial, não perde qualidade em
 nenhum tamanho de tela.</p>
 
@@ -1828,6 +1894,17 @@ pode conter um ajuste manual feito no modal de perfil.</p>
   usuário ajustou localmente" — que é exatamente a informação necessária para decidir.</p>
 </div>
 
+<h4>Metas atualizadas ao registrar peso</h4>
+
+<p>As metas também mudam quando o usuário registra um peso novo: o <code>salvar_medicao.php</code>
+recalcula a meta de kcal e os macros com o peso mais recente e devolve o resultado na resposta. A
+banca observou que o card de perfil continuava mostrando a meta antiga até a página ser recarregada.
+A correção está em <code>aplicarMetasNovas()</code>, no <code>progresso.js</code>: o front aplica as
+metas devolvidas pelo servidor, atualiza o mesmo retrato <code>ultimasMetasSessao</code> descrito
+acima, recalcula a previsão de prazo e redesenha a tela. O card de perfil, o Resumo do Dia e o selo
+de previsão mudam no mesmo instante. Como o retrato já acompanha o banco, o próximo carregamento não
+confunde essa mudança com uma personalização refeita.</p>
+
 <h2 class="quebra">7. Convenção de código em português</h2>
 
 <p>Todo o código do projeto — variáveis, funções, constantes, nomes de arquivo e pasta, ids de HTML,
@@ -1956,6 +2033,12 @@ gera problemas de codificação entre PHP, MySQL e navegador. Acento continua no
   <li><strong>Configurar o envio de e-mail</strong> (só para a recuperação de senha). Criar o
   arquivo <code>site/api/email_config.php</code> com o conteúdo indicado logo abaixo. Sem esse passo
   o resto do sistema roda normalmente; apenas o e-mail de redefinição não sai.</li>
+  <li><strong>Criar a conta de demonstração</strong> (opcional, para a apresentação). Na pasta
+  <code>banco/</code>, rodar <code>D:\Xampp\php\php.exe criar_conta_demo.php</code>. O script cria o
+  login <code>demo@nutrabalance.com</code> / <code>demo123</code>, com perfil completo e cerca de
+  14 meses de peso e cintura, para o gráfico de Progresso já aparecer preenchido. As datas são
+  contadas a partir do dia em que o script roda, então todos os períodos do gráfico têm pontos.
+  Rodar de novo recria só essa conta.</li>
   <li><strong>Abrir</strong> <code>http://localhost/nutrabalance/</code>.</li>
 </ol>
 
@@ -2134,6 +2217,40 @@ limitações reais do NutraBalance hoje.</p>
     as marcações <code>Secure</code> e <code>HttpOnly</code>.</td>
   </tr>
 </table>
+
+<h4>Tecnologias sugeridas pela banca</h4>
+
+<p>Na apresentação, a banca indicou duas ferramentas para a evolução do projeto. Nenhuma das duas foi
+adotada nesta versão. A seguir estão o que cada uma traria e por que o sistema continua como está.</p>
+
+<p><strong>Laravel.</strong> É o framework PHP mais usado no mercado. No NutraBalance, ele
+substituiria partes que hoje foram escritas à mão:</p>
+
+<ul>
+  <li><strong>Rotas</strong> declaradas em um arquivo só, no lugar de um arquivo PHP por endpoint em
+  <code>site/api/</code>;</li>
+  <li><strong>Eloquent</strong>, que representa cada tabela como uma classe
+  (<code>Usuario</code>, <code>Medicao</code>) e dispensa escrever SQL nas consultas simples;</li>
+  <li><strong>Migrations</strong>, que versionam o esquema do banco em código, no lugar do
+  <code>nutrabalance_completo.sql</code> único;</li>
+  <li><strong>Autenticação, validação e proteção CSRF</strong> prontas, no lugar do
+  <code>_bootstrap.php</code> e das validações feitas campo a campo.</li>
+</ul>
+
+<p>O projeto ficou em PHP puro por decisão didática: sessões, <em>prepared statements</em>,
+<code>password_hash</code> e códigos HTTP aparecem escritos no próprio código, e cada um deles pode
+ser explicado linha a linha (capítulo 3). Um framework esconderia esses mecanismos atrás de
+convenções. Como a API já é separada do front-end (seção 1.5), a migração seria feita só no
+back-end: os endpoints viram rotas e controllers do Laravel, e o HTML, o CSS e o JavaScript
+continuam os mesmos, chamando os mesmos endereços.</p>
+
+<p><strong>Supabase.</strong> É uma plataforma que entrega um banco PostgreSQL já hospedado, com
+autenticação de usuários e uma API gerada automaticamente a partir das tabelas. Ela resolveria de
+forma direta a primeira limitação da tabela acima: as refeições passariam para tabelas no banco e
+ficariam disponíveis em qualquer dispositivo, sem que fosse preciso escrever um endpoint PHP para
+cada operação. O custo é trocar o MySQL pelo PostgreSQL e fazer o sistema depender de um serviço
+externo. Para um trabalho cujo objetivo é mostrar domínio de banco de dados e de back-end, construir
+essas partes teve mais valor do que contratá-las prontas.</p>
 
 <h2 class="quebra">11. Glossário</h2>
 

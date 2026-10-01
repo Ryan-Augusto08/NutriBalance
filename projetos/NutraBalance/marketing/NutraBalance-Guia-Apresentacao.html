@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>NutraBalance — Guia de Apresentação do TCC</title>
+<style>
+  @page { size: A4; margin: 17mm 15mm 15mm 15mm; }
+
+  :root{
+    --verde:#2f7d4f;
+    --verde-escuro:#1f5636;
+    --verde-claro:#eef6f0;
+    --verde-borda:#cfe3d6;
+    --texto:#1d2320;
+    --cinza:#5d6b63;
+    --linha:#dde5e0;
+    --amarelo:#fdf6e3;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    font-family:"Segoe UI", Arial, Helvetica, sans-serif;
+    color:var(--texto);
+    font-size:10.5pt;
+    line-height:1.5;
+    margin:0;
+  }
+
+  h1,h2,h3,h4{ color:var(--verde-escuro); line-height:1.25; }
+  h2{
+    font-size:16pt;
+    margin:0 0 10px 0;
+    padding-bottom:6px;
+    border-bottom:2px solid var(--verde);
+  }
+  h3{ font-size:12pt; margin:18px 0 6px 0; }
+  h4{ font-size:10.5pt; margin:14px 0 4px 0; color:var(--verde); }
+  p{ margin:0 0 9px 0; text-align:justify; }
+  ul,ol{ margin:0 0 9px 0; padding-left:18px; }
+  li{ margin-bottom:4px; }
+  code{
+    font-family:Consolas,"Courier New",monospace;
+    font-size:9.3pt;
+    background:var(--verde-claro);
+    padding:1px 4px;
+    border-radius:3px;
+  }
+
+  .capa{
+    height:250mm;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    text-align:center;
+    page-break-after:always;
+  }
+  .capa .selo{
+    font-size:9.5pt;
+    letter-spacing:2.5px;
+    text-transform:uppercase;
+    color:var(--verde);
+    margin-bottom:14px;
+  }
+  .capa h1{ font-size:34pt; margin:0 0 6px 0; letter-spacing:-0.5px; }
+  .capa .sub{ font-size:14pt; color:var(--cinza); margin-bottom:26px; }
+  .capa .regua{ width:70mm; height:3px; background:var(--verde); margin:0 auto 26px auto; }
+  .capa .ficha{
+    margin:0 auto;
+    width:122mm;
+    text-align:left;
+    background:var(--verde-claro);
+    border:1px solid var(--verde-borda);
+    border-radius:8px;
+    padding:16px 20px;
+    font-size:10pt;
+  }
+  .capa .ficha div{ margin-bottom:5px; }
+  .capa .ficha b{ color:var(--verde-escuro); display:inline-block; width:40mm; }
+  .capa .rodape{ margin-top:30px; font-size:9pt; color:var(--cinza); }
+
+  .secao{ page-break-before:always; }
+
+  .destaque{
+    background:var(--verde-claro);
+    border-left:4px solid var(--verde);
+    border-radius:0 6px 6px 0;
+    padding:11px 14px;
+    margin:12px 0;
+    page-break-inside:avoid;
+  }
+  .destaque p:last-child{ margin-bottom:0; }
+  .atencao{
+    background:var(--amarelo);
+    border-left:4px solid #c9a227;
+    border-radius:0 6px 6px 0;
+    padding:11px 14px;
+    margin:12px 0;
+    page-break-inside:avoid;
+  }
+  .atencao p:last-child{ margin-bottom:0; }
+  .frase{
+    border:1px solid var(--verde-borda);
+    border-radius:8px;
+    background:#fff;
+    padding:13px 16px;
+    margin:12px 0;
+    font-size:11.5pt;
+    line-height:1.55;
+    page-break-inside:avoid;
+  }
+  .frase .rotulo{
+    display:block;
+    font-size:8.5pt;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--verde);
+    margin-bottom:6px;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:10px 0 14px 0;
+    font-size:9.8pt;
+    page-break-inside:avoid;
+  }
+  th{
+    background:var(--verde);
+    color:#fff;
+    text-align:left;
+    padding:7px 9px;
+    font-weight:600;
+  }
+  td{
+    border-bottom:1px solid var(--linha);
+    padding:6px 9px;
+    vertical-align:top;
+  }
+  tr:nth-child(even) td{ background:#f8fbf9; }
+
+  .numeros{ display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+  .numeros div{
+    flex:1 1 28%;
+    border:1px solid var(--verde-borda);
+    border-radius:8px;
+    padding:10px 6px;
+    text-align:center;
+    background:#fff;
+  }
+  .numeros strong{ display:block; font-size:19pt; color:var(--verde); line-height:1.1; }
+  .numeros span{ font-size:8.8pt; color:var(--cinza); }
+
+  .bloco{
+    border:1px solid var(--linha);
+    border-radius:8px;
+    padding:12px 14px;
+    margin-bottom:11px;
+    page-break-inside:avoid;
+  }
+  .bloco .cabeca{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    border-bottom:1px solid var(--linha);
+    padding-bottom:6px;
+    margin-bottom:8px;
+  }
+  .bloco .cabeca h4{ margin:0; font-size:11pt; color:var(--verde-escuro); }
+  .bloco .tempo{
+    font-size:8.8pt;
+    color:#fff;
+    background:var(--verde);
+    border-radius:10px;
+    padding:2px 9px;
+    white-space:nowrap;
+  }
+  .bloco .fala{
+    background:var(--verde-claro);
+    border-radius:5px;
+    padding:8px 11px;
+    margin:7px 0;
+    font-style:italic;
+  }
+  .bloco .fala p{ margin:0; }
+
+  .pergunta{ border-bottom:1px solid var(--linha); padding:10px 0; page-break-inside:avoid; }
+  .pergunta .p{ font-weight:600; color:var(--verde-escuro); margin-bottom:5px; }
+  .pergunta .curta{ background:var(--verde-claro); border-radius:5px; padding:7px 10px; margin-bottom:6px; }
+  .pergunta .curta b{ color:var(--verde); }
+  .pergunta .longa{ font-size:9.9pt; color:#333; }
+  .pergunta .longa p{ margin-bottom:5px; }
+
+  ol.passos{ counter-reset:p; list-style:none; padding-left:0; }
+  ol.passos li{ position:relative; padding-left:26px; margin-bottom:7px; }
+  ol.passos li::before{
+    counter-increment:p;
+    content:counter(p);
+    position:absolute;
+    left:0; top:1px;
+    width:18px; height:18px;
+    background:var(--verde);
+    color:#fff;
+    border-radius:50%;
+    font-size:9pt;
+    text-align:center;
+    line-height:18px;
+  }
+
+  .conta{
+    font-family:Consolas,"Courier New",monospace;
+    font-size:9.2pt;
+    background:#f6faf7;
+    border:1px solid var(--verde-borda);
+    border-radius:6px;
+    padding:10px 13px;
+    white-space:pre;
+    line-height:1.45;
+    page-break-inside:avoid;
+    margin:10px 0;
+  }
+
+  ul.check{ list-style:none; padding-left:0; }
+  ul.check li{ padding-left:22px; position:relative; margin-bottom:6px; }
+  ul.check li::before{
+    content:"";
+    position:absolute;
+    left:0; top:3px;
+    width:11px; height:11px;
+    border:1.5px solid var(--verde);
+    border-radius:2px;
+  }
+
+  .sumario li{ margin-bottom:6px; }
+  .sumario b{ color:var(--verde-escuro); }
+</style>
+</head>
+<body>
+
+<div class="capa">
+  <div class="selo">Trabalho de Conclusão de Curso</div>
+  <h1>NutraBalance</h1>
+  <div class="sub">Guia de apresentação e defesa</div>
+  <div class="regua"></div>
+  <div class="ficha">
+    <div><b>Projeto</b> Site de acompanhamento nutricional</div>
+    <div><b>Curso</b> Ensino Médio integrado a Desenvolvimento de Sistemas</div>
+    <div><b>Finalidade</b> Material de estudo da equipe para a defesa</div>
+    <div><b>Endereço local</b> http://localhost/nutrabalance/</div>
+    <div><b>Documento base</b> NutraBalance-Documentacao-Tecnica.pdf</div>
+  </div>
+  <div class="rodape">Documento de estudo interno — 21 de setembro de 2026</div>
+</div>
+
+<!-- =================== COMO USAR =================== -->
+<div class="secao">
+<h2>Como usar este guia</h2>
+
+<p>Este material não é a documentação técnica do projeto. A documentação explica
+<i>como o sistema foi construído</i>; este guia explica <i>como falar sobre ele
+diante da banca</i>. São coisas diferentes, e a segunda é a que decide a nota no
+dia da defesa.</p>
+
+<p>O guia foi escrito para ser estudado por toda a equipe, inclusive por quem não
+escreveu o código. Nenhuma seção exige abrir o projeto para ser entendida. Onde
+um termo técnico é inevitável, ele aparece explicado no glossário da última
+seção.</p>
+
+<h3>O que estudar, em ordem</h3>
+
+<ul class="sumario">
+  <li><b>1. O projeto em poucas frases</b> — o pitch. Todo mundo decora. É a resposta para "do que se trata o trabalho de vocês".</li>
+  <li><b>2. O que o sistema faz</b> — as funcionalidades entregues, em linguagem de apresentação.</li>
+  <li><b>3. Roteiro da apresentação</b> — a ordem dos blocos, o tempo de cada um e a divisão de falas.</li>
+  <li><b>4. Roteiro da demonstração</b> — o passo a passo da tela, com os números que precisam aparecer.</li>
+  <li><b>5. A arquitetura em três níveis</b> — a mesma explicação em três profundidades, conforme quem pergunta.</li>
+  <li><b>6. Os números do projeto</b> — a ficha de memória. Número na ponta da língua passa domínio.</li>
+  <li><b>7. Perguntas da banca</b> — resposta curta para decorar e versão longa para entender.</li>
+  <li><b>8. Limitações honestas</b> — o que está incompleto e como falar disso sem se enfraquecer.</li>
+  <li><b>9. Erros de apresentação</b> — o que não fazer.</li>
+  <li><b>10. Checklist do dia</b> — conferir na véspera e na hora.</li>
+  <li><b>11. Glossário</b> — os termos que podem cair, em uma linha cada.</li>
+</ul>
+
+<div class="destaque">
+<p><b>Regra que vale para o guia inteiro:</b> não decore frases longas. Decore a
+ideia e o número. Texto decorado trava quando a banca interrompe no meio — e a
+banca interrompe no meio. Ideia entendida se remonta em qualquer ordem.</p>
+</div>
+
+<h3>Divisão de falas sugerida</h3>
+
+<p>A divisão abaixo separa a apresentação em três partes de peso parecido. Cada
+pessoa estuda a fundo a sua parte e no nível básico as outras duas, porque a
+banca pergunta a quem ela quiser.</p>
+
+<table>
+  <tr><th style="width:20%">Parte</th><th style="width:40%">Assume</th><th>Precisa dominar</th></tr>
+  <tr><td><b>Parte A</b><br>Abertura</td><td>Problema, proposta, público e a demonstração ao vivo</td><td>Seções 1, 2 e 4</td></tr>
+  <tr><td><b>Parte B</b><br>Técnica</td><td>Arquitetura, banco de dados e segurança</td><td>Seções 5 e 6, e as perguntas técnicas da seção 7</td></tr>
+  <tr><td><b>Parte C</b><br>Fechamento</td><td>A matemática nutricional, limitações e próximos passos</td><td>As contas da seção 4, a seção 8 e as perguntas de fórmula da seção 7</td></tr>
+</table>
+
+<div class="atencao">
+<p><b>Sobre a pergunta "qual foi a participação de cada um".</b> Ela cai com
+frequência e a única resposta segura é a verdadeira. Combinem antes qual foi a
+divisão real de trabalho e digam isso com naturalidade. Banca não pune divisão
+desigual de tarefas; pune resposta ensaiada que se contradiz quando ela faz a
+mesma pergunta para duas pessoas.</p>
+</div>
+</div>
+
+<!-- =================== 1. PITCH =================== -->
+<div class="secao">
+<h2>1. O projeto em poucas frases</h2>
+
+<p>Três versões da mesma explicação, em tamanhos diferentes. A versão que se usa
+depende de quanto tempo a pergunta dá. Todos os integrantes devem saber as três.</p>
+
+<div class="frase">
+<span class="rotulo">Versão de dez segundos</span>
+O NutraBalance é um site de acompanhamento nutricional. A pessoa registra o que
+comeu, e o sistema calcula quanto ela ainda pode comer no dia e acompanha a
+evolução do peso ao longo do tempo.
+</div>
+
+<div class="frase">
+<span class="rotulo">Versão de trinta segundos — a principal</span>
+O NutraBalance é um site que ajuda quem quer ganhar, perder ou manter peso.
+No primeiro acesso, a pessoa informa peso, altura, idade, nível de atividade e
+objetivo, e o sistema calcula a meta diária de calorias e a divisão em
+carboidrato, proteína e gordura, usando a equação de Mifflin-St Jeor. Depois,
+ela registra as refeições do dia buscando os alimentos na tabela TACO, que é a
+tabela oficial brasileira de composição de alimentos, e acompanha em barras o
+quanto já consumiu de cada meta. Existe ainda uma seção de progresso, que guarda
+o histórico de peso e cintura em um gráfico. O sistema foi construído do zero,
+sem framework: HTML, CSS e JavaScript no navegador, PHP e MySQL no servidor.
+</div>
+
+<div class="frase">
+<span class="rotulo">Versão para quem não é da área</span>
+É um caderno de alimentação que faz as contas sozinho. Em vez de a pessoa
+anotar o que comeu e calcular na mão quantas calorias aquilo tinha, ela busca o
+alimento por nome, informa a quantidade, e o site soma tudo e mostra quanto
+falta para bater a meta do dia.
+</div>
+
+<h3>O problema que o trabalho ataca</h3>
+
+<p>Vale abrir a apresentação pelo problema, não pela tecnologia. A banca avalia
+se o trabalho resolve alguma coisa, e uma abertura que começa em "usamos PHP e
+MySQL" perde essa chance logo no primeiro minuto.</p>
+
+<p>A formulação do problema é: quem decide cuidar da alimentação esbarra em
+contas que não sabe fazer. Quantas calorias a pessoa gasta por dia, quanto
+precisa comer para perder peso sem exagerar no corte, e quanto de proteína,
+carboidrato e gordura isso representa. Essas contas existem, são conhecidas na
+literatura, mas não são acessíveis para quem não é da área de saúde. O
+NutraBalance faz essas contas, aplica sobre alimentos brasileiros de uma tabela
+oficial e devolve o resultado em uma tela que qualquer pessoa entende.</p>
+
+<h3>O recorte assumido</h3>
+
+<p>A referência declarada é o MyFitnessPal, com uma exceção assumida desde o
+início: o NutraBalance não lê código de barras. Diga isso antes que perguntem.
+Recorte declarado é sinal de planejamento; recorte descoberto pela banca parece
+funcionalidade esquecida.</p>
+</div>
+
+<!-- =================== 2. O QUE FAZ =================== -->
+<div class="secao">
+<h2>2. O que o sistema faz</h2>
+
+<p>Seis funcionalidades entregues e funcionando. A coluna da direita traz o que
+dizer sobre cada uma quando ela aparecer na tela durante a demonstração.</p>
+
+<h3>2.1 Cadastro, login e recuperação de senha</h3>
+<p>A pessoa cria conta com nome, e-mail e senha. Se esquecer a senha, pede a
+redefinição e recebe um link por e-mail. <b>O que destacar:</b> a senha nunca é
+guardada no banco — o que fica salvo é o hash, um resultado que só vai de ida.
+E o e-mail não manda senha nova: manda um link com um código de uso único e
+prazo de validade.</p>
+
+<h3>2.2 Onboarding com cálculo de metas</h3>
+<p>Na primeira entrada, a pessoa informa peso, altura, idade, sexo, nível de
+atividade, objetivo e peso desejado. O sistema devolve a meta diária de
+calorias, as metas de cada macronutriente, o IMC com a faixa de peso saudável e
+uma previsão de prazo até o objetivo. <b>O que destacar:</b> os números mudam na
+tela enquanto a pessoa digita, antes de salvar. É a parte onde a matemática do
+trabalho aparece.</p>
+
+<h3>2.3 Registro de refeições com busca na TACO</h3>
+<p>A pessoa escolhe a refeição, busca o alimento pelo nome e informa a
+quantidade. A base é a TACO, tabela oficial da Unicamp, com 597 alimentos
+carregados. <b>O que destacar:</b> a busca ignora acento e casa por palavras —
+digitar <code>arroz cozido</code> encontra <code>Arroz, integral, cozido</code>,
+mesmo com as palavras separadas e fora de ordem.</p>
+
+<h3>2.4 Dashboard de metas e macros</h3>
+<p>A tela principal mostra quantas calorias já foram consumidas, quanto falta
+para a meta, três barras de progresso — carboidrato, proteína e gordura — e a
+lista das refeições do dia. <b>O que destacar:</b> nada disso recarrega a
+página. Adicionar um alimento move as barras na hora.</p>
+
+<h3>2.5 Seção Progresso</h3>
+<p>Histórico de peso e cintura, com seletor de métrica, cinco períodos e um
+gráfico de evolução. <b>O que destacar:</b> o gráfico é desenhado à mão em SVG,
+sem biblioteca de gráficos, com grade e escala em números redondos. É um bom
+ponto para mostrar domínio: a maioria dos trabalhos importa uma biblioteca
+pronta aqui.</p>
+
+<h3>2.6 Perfil e foto</h3>
+<p>A pessoa edita os próprios dados e envia uma foto de perfil. <b>O que
+destacar:</b> o envio de imagem é validado de verdade no servidor — tipo de
+arquivo e tamanho — e não só pela extensão do nome, que qualquer um altera.</p>
+
+<div class="destaque">
+<p><b>Se sobrar tempo na demonstração,</b> mostre a busca de alimentos e o
+gráfico de progresso. São as duas partes que impressionam mais rápido: a
+primeira porque responde enquanto se digita, a segunda porque é desenho feito no
+código.</p>
+</div>
+</div>
+
+<!-- =================== 3. ROTEIRO =================== -->
+<div class="secao">
+<h2>3. Roteiro da apresentação</h2>
+
+<p>Roteiro de quinze minutos, que é a duração mais comum. Se a banca der dez,
+corte o bloco 6 e encurte o 4. Se der vinte, alongue a demonstração — nunca a
+introdução.</p>
+
+<div class="bloco">
+  <div class="cabeca"><h4>Bloco 1 — Abertura e problema</h4><span class="tempo">1 min 30</span></div>
+  <p><b>Quem fala:</b> Parte A. <b>Na tela:</b> slide de capa.</p>
+  <div class="fala"><p>Apresente a equipe e o nome do trabalho. Enuncie o problema:
+  quem decide cuidar da alimentação esbarra em contas que não sabe fazer. Não
+  cite tecnologia nenhuma ainda.</p></div>
+  <p><b>Erro comum aqui:</b> gastar três minutos em introdução. O tempo bom da
+  apresentação está na demonstração, não na abertura.</p>
+</div>
+
+<div class="bloco">
+  <div class="cabeca"><h4>Bloco 2 — A proposta e o recorte</h4><span class="tempo">1 min 30</span></div>
+  <p><b>Quem fala:</b> Parte A. <b>Na tela:</b> slide com as funcionalidades.</p>
+  <div class="fala"><p>Use a versão de trinta segundos do pitch. Em seguida liste
+  as seis funcionalidades entregues, sem detalhar nenhuma, e declare o recorte:
+  a referência é o MyFitnessPal, sem a leitura por código de barras.</p></div>
+</div>
+
+<div class="bloco">
+  <div class="cabeca"><h4>Bloco 3 — Demonstração ao vivo</h4><span class="tempo">5 min</span></div>
+  <p><b>Quem fala:</b> Parte A conduz; Parte C entra nas contas. <b>Na tela:</b> o sistema rodando.</p>
+  <div class="fala"><p>Siga o roteiro da seção 4 deste guia, passo a passo, sem
+  improvisar caminho novo. Narre o que está fazendo enquanto faz — banca não
+  acompanha clique em silêncio.</p></div>
+  <p><b>É o bloco mais importante.</b> Vale um terço do tempo total. Nenhuma
+  explicação convence tanto quanto o sistema funcionando na frente de todos.</p>
+</div>
+
+<div class="bloco">
+  <div class="cabeca"><h4>Bloco 4 — Arquitetura</h4><span class="tempo">3 min</span></div>
+  <p><b>Quem fala:</b> Parte B. <b>Na tela:</b> slide com o desenho das três camadas.</p>
+  <div class="fala"><p>Explique as três camadas: navegador, servidor e banco.
+  Depois percorra o ciclo de uma requisição — o que acontece do clique até o
+  número mudar na tela. Use o nível 2 da seção 5.</p></div>
+  <p>Encerre já explicando por que o PHP não imprime HTML neste projeto. É a
+  pergunta mais provável da banca, e respondê-la antes de ser perguntada muda o
+  tom da arguição.</p>
+</div>
+
+<div class="bloco">
+  <div class="cabeca"><h4>Bloco 5 — A matemática e o banco</h4><span class="tempo">2 min</span></div>
+  <p><b>Quem fala:</b> Parte C, com apoio da Parte B no banco. <b>Na tela:</b> slide com a conta do exemplo.</p>
+  <div class="fala"><p>Mostre a conta completa de um caso: da equação de
+  Mifflin-St Jeor até a meta de calorias e a divisão em macros. Depois, as
+  quatro tabelas do banco em uma frase cada.</p></div>
+</div>
+
+<div class="bloco">
+  <div class="cabeca"><h4>Bloco 6 — Limitações e próximos passos</h4><span class="tempo">1 min 30</span></div>
+  <p><b>Quem fala:</b> Parte C. <b>Na tela:</b> slide de limitações.</p>
+  <div class="fala"><p>Assuma as duas ou três limitações reais, cada uma seguida
+  da solução conhecida. Ver seção 8.</p></div>
+  <p>Reconhecer limite com solução em mãos é o que separa quem entendeu o próprio
+  trabalho de quem só o executou.</p>
+</div>
+
+<div class="bloco">
+  <div class="cabeca"><h4>Bloco 7 — Fechamento</h4><span class="tempo">30 s</span></div>
+  <p><b>Quem fala:</b> quem abriu. <b>Na tela:</b> slide final.</p>
+  <div class="fala"><p>Retome o problema do início e feche dizendo o que o
+  sistema resolve dele. Agradeça e abra para perguntas.</p></div>
+</div>
+
+<div class="atencao">
+<p><b>Ensaiem com cronômetro pelo menos duas vezes.</b> A percepção de tempo
+falha: quase toda equipe estoura no bloco 4, que é onde a vontade de explicar
+tudo aparece. Se o ensaio passar de quinze minutos, corte conteúdo do bloco 4,
+nunca da demonstração.</p>
+</div>
+</div>
+
+<!-- =================== 4. DEMONSTRACAO =================== -->
+<div class="secao">
+<h2>4. Roteiro da demonstração</h2>
+
+<p>Este é o caminho exato a percorrer na tela. Os números da seção 4.2 foram
+conferidos no sistema em execução: se você informar esses dados, são esses
+valores que devem aparecer. Decore-os. Anunciar o número antes de ele aparecer
+na tela é a demonstração mais forte que existe — prova que o sistema calcula, e
+não que a tela mostra um valor qualquer.</p>
+
+<h3>4.1 Antes de começar</h3>
+<ul class="check">
+  <li>XAMPP aberto, com Apache e MySQL ligados (os dois botões em verde).</li>
+  <li>Navegador aberto em <code>http://localhost/nutrabalance/</code>.</li>
+  <li>Uma conta de teste já criada e com dados, para o caso de o cadastro ao vivo falhar.</li>
+  <li>Zoom do navegador em 100%, e aba única — nada de aba de rede social aberta ao lado.</li>
+  <li>Notificações do sistema silenciadas.</li>
+</ul>
+
+<h3>4.2 O caminho, passo a passo</h3>
+
+<ol class="passos">
+  <li><b>Tela de login.</b> Mostre a tela e diga em uma frase que a senha não é guardada, só o hash. Não entre ainda.</li>
+  <li><b>Crie uma conta na hora</b>, com nome, e-mail e senha. Isso prova que o cadastro funciona de verdade e não é uma tela estática.</li>
+  <li><b>Onboarding.</b> Preencha exatamente: homem, 17 anos, 175 cm, 80 kg, atividade moderada, objetivo perder, peso desejado 72 kg.</li>
+  <li><b>Pare antes de salvar</b> e chame atenção para os números que apareceram sozinhos enquanto você digitava. Anuncie: meta de 2.390 kcal, macros 299 g de carboidrato, 120 g de proteína e 80 g de gordura, IMC 26,1 classificado como sobrepeso, faixa saudável de 56,7 kg a 76,3 kg, e prazo de cinco meses.</li>
+  <li><b>Salve</b> e siga para o dashboard. Aponte a meta do dia e as três barras zeradas.</li>
+  <li><b>Busque um alimento.</b> Digite <code>arroz cozido</code> e mostre que encontra <code>Arroz, integral, cozido</code>, mesmo sem o acento e com as palavras separadas. Adicione uma quantidade.</li>
+  <li><b>Mostre as barras se movendo</b> e diga que a página não recarregou. Adicione um segundo alimento para reforçar.</li>
+  <li><b>Vá para Progresso.</b> Registre uma medição de peso e mostre o ponto entrando no gráfico. Troque a métrica para cintura e troque o período, para mostrar que o gráfico responde.</li>
+  <li><b>Encerre no dashboard</b>, que é a tela que resume o trabalho.</li>
+</ol>
+
+<h3>4.3 A conta que está por trás</h3>
+
+<p>Se a banca pedir a origem dos números, é esta a sequência. Vale para a Parte C
+saber de cor pelo menos os passos 1, 2 e 3.</p>
+
+<div class="conta">Entrada: homem, 17 anos, 175 cm, 80 kg, atividade moderada,
+        objetivo perder, peso desejado 72 kg
+
+PASSO 1 - Taxa metabolica basal (Mifflin-St Jeor, homem)
+  TMB = (10 x 80) + (6,25 x 175) - (5 x 17) + 5
+      = 800 + 1093,75 - 85 + 5 = 1813,75 kcal/dia
+
+PASSO 2 - Gasto diario total (fator de atividade moderada = 1,55)
+  TDEE = 1813,75 x 1,55 = 2811,31 kcal/dia
+
+PASSO 3 - Meta com deficit de 15%
+  meta = 2811,31 x 0,85 = 2389,61  ->  2390 kcal/dia
+
+PASSO 4 - Macronutrientes (divisao 50/20/30)
+  carboidrato = (2390 x 0,50) / 4 = 298,75  ->  299 g
+  proteina    = (2390 x 0,20) / 4 = 119,50  ->  120 g
+  gordura     = (2390 x 0,30) / 9 =  79,67  ->   80 g
+
+PASSO 5 - IMC e faixa saudavel
+  IMC = 80 / (1,75 x 1,75) = 26,12  ->  "Sobrepeso"
+  faixa = 18,5 a 24,9 de IMC  ->  56,7 kg a 76,3 kg
+
+PASSO 6 - Previsao de prazo
+  kg a perder = 8      deficit diario = 421,31 kcal
+  dias = (8 x 7700) / 421,31 = 146,2  ->  "Meta daqui a 5 meses"
+  ritmo = 0,38 kg por semana</div>
+
+<p>Os números 4, 4 e 9 do passo 4 são as calorias por grama de carboidrato,
+proteína e gordura. O 7.700 do passo 6 é a estimativa de calorias contidas em um
+quilo de gordura corporal. Se perguntarem de onde vêm, é assim que se responde.</p>
+
+<h3>4.4 Se a demonstração falhar</h3>
+
+<p>Plano B em ordem de preferência. Decidam antes quem executa cada um, para não
+haver três pessoas mexendo no computador ao mesmo tempo.</p>
+
+<table>
+  <tr><th style="width:26%">Falha</th><th>O que fazer</th></tr>
+  <tr><td>A página não abre</td><td>Verifique se Apache e MySQL estão ligados no painel do XAMPP. É a causa em quase todos os casos. Ligue os dois e recarregue.</td></tr>
+  <tr><td>Abre, mas o login não responde</td><td>É o MySQL desligado ou o banco não importado. Ligue o MySQL. Se persistir, passe ao plano do vídeo.</td></tr>
+  <tr><td>O computador da escola não é o de vocês</td><td>Use a cópia de pendrive, com o passo a passo no arquivo <code>COMO-RODAR.txt</code> que acompanha a pasta. Teste no dia anterior, não na hora.</td></tr>
+  <tr><td>Nada funciona</td><td>Apresente com o vídeo gravado. Grave esse vídeo com antecedência, percorrendo o mesmo roteiro da seção 4.2.</td></tr>
+</table>
+
+<div class="atencao">
+<p><b>Dois avisos que valem conferir antes da defesa.</b></p>
+<p>Primeiro: o site publicado na internet não serve de plano B hoje. A página
+carrega, mas a parte que responde os dados está fora do ar — login e busca de
+alimentos falham. Se a apresentação for usar o endereço online, isso precisa ser
+religado e testado antes.</p>
+<p>Segundo: a cópia de pendrive está parada em agosto e ainda traz o projeto com
+o nome antigo, NutriBalance. Se ela for o plano B, atualize a pasta antes, ou a
+banca verá dois nomes diferentes para o mesmo trabalho.</p>
+</div>
+
+<h3>4.5 Grave o vídeo de segurança</h3>
+<p>Cinco minutos de tela gravada, percorrendo o roteiro da seção 4.2, resolvem
+qualquer falha de computador no dia. Grave uma vez, deixe o arquivo no mesmo
+pendrive e esqueça. É o item de menor esforço e maior retorno da preparação
+inteira.</p>
+</div>
+
+<!-- =================== 5. ARQUITETURA =================== -->
+<div class="secao">
+<h2>5. A arquitetura em três níveis</h2>
+
+<p>A mesma explicação em três profundidades. Comece sempre pelo nível 1 e só
+desça se a pergunta pedir. Descer antes da hora confunde quem perguntou e
+consome tempo.</p>
+
+<h3>Nível 1 — para qualquer pessoa</h3>
+<div class="frase">
+O sistema tem três partes. O navegador é o que a pessoa vê e onde ela clica. O
+servidor é quem faz as contas e decide o que pode. O banco de dados é onde tudo
+fica guardado. O navegador nunca fala direto com o banco: ele pede ao servidor,
+o servidor consulta o banco e devolve a resposta.
+</div>
+
+<h3>Nível 2 — para a apresentação</h3>
+
+<p>O front-end é feito de HTML, CSS e JavaScript puros, sem framework. O
+back-end é uma API em PHP: onze endereços que recebem um pedido e devolvem
+dados em JSON. O banco é MySQL, com quatro tabelas.</p>
+
+<p>A diferença em relação ao que se costuma ver é que o PHP nunca imprime HTML.
+Ele devolve apenas dados, e quem monta a tela é o JavaScript. Por isso o site
+não recarrega a página quando o usuário adiciona um alimento: só o pedaço que
+mudou é redesenhado.</p>
+
+<h4>O ciclo de uma requisição, do clique ao número na tela</h4>
+<ol class="passos">
+  <li>A pessoa digita o nome de um alimento na busca.</li>
+  <li>O JavaScript espera ela parar de digitar e envia um pedido para <code>api/buscar.php</code>.</li>
+  <li>O PHP recebe, confere a sessão, monta a consulta com marcadores e pergunta ao MySQL.</li>
+  <li>O MySQL devolve as linhas que casam com a busca.</li>
+  <li>O PHP transforma isso em JSON e responde, com o código de status adequado.</li>
+  <li>O JavaScript recebe o JSON e desenha a lista de resultados na tela.</li>
+</ol>
+
+<h3>Nível 3 — se a banca aprofundar</h3>
+
+<table>
+  <tr><th style="width:24%">Camada</th><th>Detalhe</th></tr>
+  <tr><td>Front-end</td><td>JavaScript em módulos ES: <code>principal.js</code> é o único script que o dashboard carrega, e todo o resto entra por <code>import</code>. Estado compartilhado em <code>estado.js</code>, desenho de tela em <code>tela.js</code>, e um módulo por área de interação.</td></tr>
+  <tr><td>Back-end</td><td>PHP 8.2. Um arquivo de bootstrap comum a todos os endpoints cuida de cabeçalhos, sessão e tratamento de erro. Acesso ao banco por PDO, sempre com prepared statements.</td></tr>
+  <tr><td>Banco</td><td>MySQL, quatro tabelas: <code>alimentos</code> com os 597 registros da TACO, <code>usuarios</code> com conta e personalização, <code>medicoes</code> com o histórico de peso e cintura, e <code>redefinicoes_senha</code> com os tokens de recuperação.</td></tr>
+  <tr><td>Sessão</td><td>Os dados da sessão ficam no servidor; o navegador guarda apenas um identificador aleatório em cookie. O identificador é regenerado no login, para evitar fixação de sessão.</td></tr>
+  <tr><td>Dependências</td><td>Uma só biblioteca externa, o PHPMailer, instalada à mão, sem Composer. Nenhum framework, nenhum CDN, nenhuma etapa de build.</td></tr>
+</table>
+
+<div class="destaque">
+<p><b>A frase a ter pronta sobre a escolha de arquitetura:</b> "As duas
+arquiteturas são válidas. O que não se pode é misturar as duas no mesmo projeto,
+e por isso os onze endpoints seguem o mesmo padrão." Ela responde à crítica sem
+desqualificar o jeito ensinado em aula — que é exatamente o equilíbrio que a
+banca espera.</p>
+</div>
+</div>
+
+<!-- =================== 6. NUMEROS =================== -->
+<div class="secao">
+<h2>6. Os números do projeto</h2>
+
+<p>Ficha de memória. Número respondido na hora, sem procurar, é o que mais
+rápido passa a impressão de domínio do próprio trabalho.</p>
+
+<div class="numeros">
+  <div><strong>597</strong><span>alimentos da TACO</span></div>
+  <div><strong>11</strong><span>endpoints na API</span></div>
+  <div><strong>4</strong><span>tabelas no banco</span></div>
+  <div><strong>6</strong><span>páginas HTML</span></div>
+  <div><strong>15</strong><span>módulos JavaScript</span></div>
+  <div><strong>1</strong><span>biblioteca externa</span></div>
+</div>
+
+<table>
+  <tr><th style="width:30%">Item</th><th>Valor</th></tr>
+  <tr><td>Linguagem do servidor</td><td>PHP 8.2</td></tr>
+  <tr><td>Banco de dados</td><td>MySQL, via MariaDB 10.4</td></tr>
+  <tr><td>Servidor local</td><td>XAMPP — Apache e MySQL</td></tr>
+  <tr><td>Front-end</td><td>HTML, CSS e JavaScript puros, em módulos ES</td></tr>
+  <tr><td>Biblioteca externa</td><td>PHPMailer, instalada à mão, para o e-mail de recuperação</td></tr>
+  <tr><td>Fonte dos alimentos</td><td>TACO, 4ª edição — Tabela Brasileira de Composição de Alimentos</td></tr>
+  <tr><td>Fórmula da taxa metabólica</td><td>Mifflin-St Jeor, publicada em 1990</td></tr>
+  <tr><td>Ajuste calórico</td><td>15% para baixo ou para cima, conforme o objetivo</td></tr>
+  <tr><td>Divisões de macros</td><td>50/20/30 padrão; 40/35/25 quando o objetivo envolve recomposição</td></tr>
+  <tr><td>Calorias por grama</td><td>4 para carboidrato, 4 para proteína, 9 para gordura</td></tr>
+  <tr><td>Equivalente de um quilo de gordura</td><td>7.700 kcal</td></tr>
+  <tr><td>Endereço local</td><td>http://localhost/nutrabalance/</td></tr>
+</table>
+
+<h3>Por que esses números importam</h3>
+
+<p>Três deles costumam render pergunta:</p>
+
+<ul>
+  <li><b>Uma biblioteca externa só.</b> Mostra que o trabalho não é montagem de peças prontas. O gráfico, a busca, o cálculo e a renderização da tela foram escritos no projeto.</li>
+  <li><b>597 alimentos.</b> Mostra que a base é real e oficial, não uma lista inventada para a demonstração.</li>
+  <li><b>Quatro tabelas.</b> Um banco pequeno e bem definido é mais fácil de defender do que um banco grande e mal justificado. Saibam dizer o que cada tabela guarda, em uma frase.</li>
+</ul>
+
+<div class="atencao">
+<p><b>Nunca chute número.</b> Se não lembrar, diga que vai conferir e siga
+adiante. Número errado dito com segurança é pior do que número não lembrado: a
+banca costuma verificar, e o erro contamina a confiança no resto da
+apresentação.</p>
+</div>
+</div>
+
+<!-- =================== 7. PERGUNTAS =================== -->
+<div class="secao">
+<h2>7. Perguntas da banca</h2>
+
+<p>Cada pergunta traz uma <b>resposta curta</b>, que é a que se fala, e uma
+explicação abaixo, que é a que se estuda. Se a banca aceitar a curta e mudar de
+assunto, não continue falando: resposta que se estende sem ser pedida atrai
+pergunta nova.</p>
+
+<h3>7.1 Sobre a arquitetura</h3>
+
+<div class="pergunta">
+  <div class="p">Por que o PHP não gera o HTML, como se costuma fazer?</div>
+  <div class="curta"><b>Curta:</b> Porque o dashboard muda o tempo todo sem trocar de página. Com o PHP imprimindo a tela, cada alimento adicionado recarregaria tudo. Separando, o PHP responde só os dados e o JavaScript atualiza o pedaço que mudou.</div>
+  <div class="longa">
+  <p>Desenvolvendo: adicionar um alimento move as barras de macros, trocar de dia
+  troca a lista, registrar uma medição redesenha o gráfico. Há também o
+  reaproveitamento — <code>sessao.php</code> serve ao dashboard, à tela de
+  personalização e à guarda de todas as páginas; como devolve dados e não HTML,
+  cada tela usa o que precisa. As duas arquiteturas são válidas. O que não se pode
+  é misturar as duas no mesmo projeto, e por isso os onze endpoints seguem o mesmo
+  padrão.</p>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="p">Por que não usaram React ou outro framework?</div>
+  <div class="curta"><b>Curta:</b> Porque o projeto tem seis páginas e não precisa da complexidade que um framework resolve. Escrever na mão obrigou a entender o que o framework faria por baixo.</div>
+  <div class="longa">
+  <p>Desenvolvendo: delegação de eventos, renderização e escopo passaram a ser
+  decisões conscientes em vez de comportamento automático. E, na prática, não há
+  etapa de build nem dependências para instalar: basta copiar a pasta, ligar o
+  XAMPP e o sistema roda em qualquer computador — o que importa em um trabalho que
+  será apresentado em máquina que não é a nossa.</p>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="p">Vocês usaram bibliotecas prontas?</div>
+  <div class="curta"><b>Curta:</b> Uma só, o PHPMailer, para o envio de e-mail, e instalada à mão, sem gerenciador de pacotes. O resto é PHP e JavaScript puros.</div>
+  <div class="longa">
+  <p>Desenvolvendo: o que pode parecer biblioteca são funções nativas da
+  linguagem — <code>password_hash</code>, <code>filter_var</code>,
+  <code>random_bytes</code> e o PDO fazem parte do PHP. Até o gráfico de
+  progresso é SVG escrito à mão, sem biblioteca de gráficos.</p>
+  </div>
+</div>
+
+<h3>7.2 Sobre segurança</h3>
+
+<div class="pergunta">
+  <div class="p">Como o sistema se protege de SQL Injection?</div>
+  <div class="curta"><b>Curta:</b> Com prepared statements em todas as consultas. O comando vai ao banco com marcadores no lugar dos valores, e os valores vão separados — então o banco nunca interpreta o que o usuário digitou como comando.</div>
+  <div class="longa">
+  <p>Desenvolvendo: se alguém digitar <code>'; DROP TABLE usuarios; --</code> no
+  campo de busca, isso vira apenas um texto a ser procurado. A configuração
+  <code>EMULATE_PREPARES => false</code> garante que a preparação é feita pelo
+  MySQL e não simulada pelo PHP.</p>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="p">Se o banco vazar, as senhas ficam expostas?</div>
+  <div class="curta"><b>Curta:</b> Não, porque as senhas não são guardadas. O que fica salvo é o hash gerado por <code>password_hash</code>, que é um caminho só de ida.</div>
+  <div class="longa">
+  <p>Desenvolvendo: na verificação, a mesma função é aplicada à senha digitada e
+  os resultados são comparados. O <code>password_hash</code> ainda aplica um salt
+  aleatório, então dois usuários com a mesma senha têm hashes diferentes — o que
+  impede descobrir senhas repetidas comparando registros.</p>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="p">Como o sistema sabe que continuo logado ao mudar de página?</div>
+  <div class="curta"><b>Curta:</b> Por sessão. O servidor guarda quem eu sou e manda ao navegador apenas um identificador aleatório, dentro de um cookie, que volta a cada requisição.</div>
+  <div class="longa">
+  <p>Desenvolvendo: os dados ficam no servidor, o navegador carrega só a chave.
+  No login o identificador é regenerado, para evitar ataque de fixação de
+  sessão.</p>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="p">Por que guardar o hash do token de recuperação, e não o token?</div>
+  <div class="curta"><b>Curta:</b> Porque, enquanto vale, o token autoriza trocar a senha — vale tanto quanto ela. Se o banco vazasse com o token em texto puro, qualquer pedido pendente viraria uma conta invadida.</div>
+  <div class="longa">
+  <p>Desenvolvendo: guardando o SHA-256, o vazamento não serve para nada, porque
+  do hash não se volta ao token. É o mesmo raciocínio aplicado à senha.</p>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="p">Por que não enviar uma senha nova pronta por e-mail?</div>
+  <div class="curta"><b>Curta:</b> Por dois motivos. A senha trafegaria em texto puro e ficaria guardada na caixa de entrada por tempo indeterminado. E qualquer pessoa poderia trancar outra fora da própria conta só sabendo o e-mail dela.</div>
+  <div class="longa">
+  <p>Desenvolvendo: com token, a senha atual continua valendo até o dono do
+  e-mail escolher a nova. Um pedido de redefinição feito por terceiro não causa
+  nenhum efeito sobre a conta.</p>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="p">Se o cálculo já existe em JavaScript, por que repetir em PHP?</div>
+  <div class="curta"><b>Curta:</b> Porque o JavaScript roda no navegador do usuário e ele pode alterá-lo. A versão em JavaScript serve para a prévia ao vivo; a que vale é a do servidor, que recalcula do zero e ignora o valor recebido.</div>
+  <div class="longa">
+  <p>Desenvolvendo: é a aplicação da regra de nunca confiar no cliente. O custo é
+  ter a fórmula em dois lugares, o que está declarado nas limitações, com um
+  comentário nos dois arquivos alertando que uma mudança precisa ir aos dois.</p>
+  </div>
+</div>
+
+<h3>7.3 Sobre a matemática nutricional</h3>
+
+<div class="pergunta">
+  <div class="p">De onde vem a fórmula do cálculo de calorias?</div>
+  <div class="curta"><b>Curta:</b> Da equação de Mifflin-St Jeor, de 1990, que calcula a taxa metabólica basal a partir de peso, altura, idade e sexo. Multiplicamos pelo fator de atividade e aplicamos o ajuste de 15% conforme o objetivo.</div>
+  <div class="longa">
+  <p>Desenvolvendo: escolhemos Mifflin-St Jeor em vez de Harris-Benedict porque é
+  mais recente e tem melhor precisão para pessoas com sobrepeso, que são boa parte
+  do público de um aplicativo de contagem de calorias.</p>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="p">Por que déficit de 15% e não mais?</div>
+  <div class="curta"><b>Curta:</b> Porque déficits agressivos aumentam a perda de massa magra, são difíceis de sustentar e podem gerar deficiência de nutrientes. A faixa recomendada vai de 10% a 20%, e 15% é o meio dela.</div>
+  <div class="longa">
+  <p>Desenvolvendo: usamos percentual em vez de valor fixo porque 500 kcal a
+  menos pesam muito mais para quem gasta 1.800 do que para quem gasta 3.500. O
+  percentual se ajusta ao tamanho da pessoa.</p>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="p">Por que acompanhar a cintura, se já existe o peso?</div>
+  <div class="curta"><b>Curta:</b> Porque o peso sozinho esconde mudança de composição corporal. É possível manter o peso e reduzir a cintura, o que indica troca de gordura por músculo.</div>
+</div>
+
+<h3>7.4 Sobre o funcionamento e os testes</h3>
+
+<div class="pergunta">
+  <div class="p">O que acontece se dois usuários usarem o mesmo computador?</div>
+  <div class="curta"><b>Curta:</b> Os dados do servidor são separados pela sessão. No navegador, a chave de armazenamento inclui o identificador do usuário, então as refeições de um não aparecem para o outro.</div>
+</div>
+
+<div class="pergunta">
+  <div class="p">Como vocês garantiram que o sistema funciona?</div>
+  <div class="curta"><b>Curta:</b> Testando os endpoints diretamente, no fluxo completo — cadastrar, entrar, salvar perfil, registrar medição, listar e sair. Também testamos a migração de dados salvos no formato antigo e a restauração do banco a partir do dump.</div>
+  <div class="longa">
+  <p>Desenvolvendo: a restauração foi conferida importando o dump em um banco
+  separado e verificando que voltam os 597 alimentos e todos os usuários e
+  medições. Se a banca perguntar por testes automatizados, a resposta honesta é
+  que não há — os testes foram manuais e sistemáticos, e automatizá-los é um
+  próximo passo.</p>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="p">Qual é a maior limitação do sistema?</div>
+  <div class="curta"><b>Curta:</b> As refeições ficam salvas no navegador, não no banco. Trocar de navegador ou de computador faz perder o histórico alimentar.</div>
+  <div class="longa">
+  <p>Desenvolvendo: é consequência da ordem de desenvolvimento — o dashboard veio
+  antes do login. A solução é conhecida: criar as tabelas <code>refeicoes</code> e
+  <code>itens_refeicao</code>, com chave estrangeira para <code>usuarios</code>, e
+  migrar o que estiver no navegador na primeira entrada. Conta, perfil, metas e
+  medições já estão no banco.</p>
+  </div>
+</div>
+
+<div class="pergunta">
+  <div class="p">Por que não há leitura de código de barras, se a referência é o MyFitnessPal?</div>
+  <div class="curta"><b>Curta:</b> Foi um recorte assumido desde o início do projeto. Ler código de barras exigiria câmera e uma base de produtos industrializados com código, que é outra fonte de dados — e o foco era a tabela TACO.</div>
+</div>
+</div>
+
+<!-- =================== 8. LIMITACOES =================== -->
+<div class="secao">
+<h2>8. Limitações honestas</h2>
+
+<p>Reconhecer os limites do próprio trabalho é sinal de domínio, não de fraqueza.
+A forma de apresentar é sempre a mesma: <b>limitação, causa e solução
+conhecida</b>, nessa ordem, em duas ou três frases. Limitação dita sem solução
+parece descuido; com solução, parece escolha de prioridade.</p>
+
+<table>
+  <tr><th style="width:30%">Limitação</th><th>Como falar dela</th></tr>
+  <tr>
+    <td><b>Refeições no navegador</b></td>
+    <td>Não sincronizam entre dispositivos. Solução: tabelas <code>refeicoes</code> e <code>itens_refeicao</code> no banco, com migração do que já existe no navegador. É a principal, e convém ser a equipe a citá-la primeiro.</td>
+  </tr>
+  <tr>
+    <td><b>Fórmula duplicada</b></td>
+    <td>O cálculo existe em <code>calculo.js</code> e em <code>salvar_perfil.php</code>. É deliberado — um para a prévia ao vivo, outro para valer — mas obriga a alterar nos dois lugares se a fórmula mudar. Há comentário nos dois arquivos alertando sobre isso.</td>
+  </tr>
+  <tr>
+    <td><b>Previsão de prazo linear</b></td>
+    <td>Não considera que o gasto diário cai conforme o peso diminui, então tende a ser otimista em prazos longos. Solução: recalcular o gasto em intervalos ao longo da simulação.</td>
+  </tr>
+  <tr>
+    <td><b>Sem edição de medição</b></td>
+    <td>Registrar de novo no mesmo dia substitui o valor, mas não há interface para apagar uma medição de outra data.</td>
+  </tr>
+  <tr>
+    <td><b>Porções caseiras aproximadas</b></td>
+    <td>A TACO não traz peso de porção, então os valores de "uma fatia" ou "uma concha" seguem tabelas de medidas caseiras e servem como atalho. O usuário sempre pode digitar os gramas.</td>
+  </tr>
+  <tr>
+    <td><b>E-mail depende de serviço externo</b></td>
+    <td>A recuperação de senha funciona, mas é o único ponto do sistema que depende de um serviço de fora. Em rede que bloqueie a porta de envio, o e-mail não sai — o pedido fica registrado no banco, mas não chega ao usuário.</td>
+  </tr>
+  <tr>
+    <td><b>Sem HTTPS no ambiente local</b></td>
+    <td>Em ambiente local não é problema. Em produção, seria obrigatório HTTPS e cookie de sessão com as marcações Secure e HttpOnly. Saber disso já é meia resposta.</td>
+  </tr>
+  <tr>
+    <td><b>Sem testes automatizados</b></td>
+    <td>Os testes foram manuais e sistemáticos. Automatizá-los é próximo passo declarado, não algo que foi esquecido.</td>
+  </tr>
+</table>
+
+<h3>Próximos passos, se perguntarem</h3>
+<ol>
+  <li>Levar as refeições para o banco de dados, com migração do que está no navegador.</li>
+  <li>Completar o que falta do escopo de referência, exceto a leitura por código de barras.</li>
+  <li>Recalcular o gasto diário ao longo da previsão, para o prazo deixar de ser linear.</li>
+  <li>Adicionar edição e exclusão de medições anteriores.</li>
+</ol>
+
+<div class="destaque">
+<p><b>A frase de fechamento do bloco de limitações:</b> "Todas elas têm solução
+conhecida e foram deixadas de fora por prioridade, não por não sabermos
+resolver." Dita com calma, ela transforma a lista de faltas em demonstração de
+controle sobre o projeto.</p>
+</div>
+</div>
+
+<!-- =================== 9. ERROS =================== -->
+<div class="secao">
+<h2>9. Erros de apresentação</h2>
+
+<p>Os que mais custam nota, em ordem de frequência.</p>
+
+<table>
+  <tr><th style="width:34%">Erro</th><th>Por que custa caro e o que fazer</th></tr>
+  <tr>
+    <td><b>Ler o slide</b></td>
+    <td>A banca lê mais rápido que você fala, e passa a esperar. Slide é apoio visual: poucas palavras, e a explicação vem da sua fala.</td>
+  </tr>
+  <tr>
+    <td><b>Decorar texto corrido</b></td>
+    <td>Trava na primeira interrupção, e a banca interrompe. Decore a ideia e os números.</td>
+  </tr>
+  <tr>
+    <td><b>Demonstrar em silêncio</b></td>
+    <td>Cliques sem narração não são acompanhados. Diga o que está fazendo enquanto faz.</td>
+  </tr>
+  <tr>
+    <td><b>Inventar resposta</b></td>
+    <td>É o erro mais caro de todos. "Não implementei isso, mas a forma de fazer seria assim" vale muito mais do que uma resposta inventada que não se sustenta na pergunta seguinte.</td>
+  </tr>
+  <tr>
+    <td><b>Pedir desculpa pelo trabalho</b></td>
+    <td>Frases como "é simples" ou "faltou tempo" desvalorizam o que foi feito antes de a banca avaliar. Apresente o que existe; o que falta vai no bloco de limitações, com solução ao lado.</td>
+  </tr>
+  <tr>
+    <td><b>Um integrante responder por todos</b></td>
+    <td>A banca repara. Se a pergunta cai para alguém e outra pessoa responde por cima, a impressão é de que só uma domina o trabalho. Quem recebeu a pergunta começa; os outros complementam depois, se for o caso.</td>
+  </tr>
+  <tr>
+    <td><b>Entrar em discussão com a banca</b></td>
+    <td>Crítica de banca não se rebate: se reconhece e se responde com o raciocínio que levou à escolha. Discordar é possível, desde que com argumento e sem disputa.</td>
+  </tr>
+  <tr>
+    <td><b>Estourar o tempo</b></td>
+    <td>Ser interrompido no meio da demonstração é o pior desfecho possível. Ensaie com cronômetro.</td>
+  </tr>
+</table>
+
+<h3>Quando você não souber a resposta</h3>
+<p>Existe uma sequência que funciona e não custa nota:</p>
+<ol class="passos">
+  <li>Reconheça sem rodeio: "Isso eu não implementei" ou "não sei o valor exato".</li>
+  <li>Mostre o caminho: "O jeito de resolver seria...". Isso prova entendimento mesmo sem a implementação.</li>
+  <li>Devolva ao que você domina: retome um ponto próximo que você fez e sabe explicar.</li>
+</ol>
+<p>O que não funciona é inventar. A banca conhece o assunto melhor do que a
+equipe, e a pergunta seguinte costuma revelar a invenção.</p>
+</div>
+
+<!-- =================== 10. CHECKLIST =================== -->
+<div class="secao">
+<h2>10. Checklist do dia</h2>
+
+<h3>Uma semana antes</h3>
+<ul class="check">
+  <li>Ensaio completo com cronômetro, os três integrantes, do início ao fim.</li>
+  <li>Vídeo de segurança gravado, percorrendo o roteiro da demonstração.</li>
+  <li>Cópia de pendrive atualizada e testada em um computador que não é o de desenvolvimento.</li>
+  <li>Simulação de arguição: alguém de fora faz as perguntas da seção 7, fora de ordem.</li>
+  <li>Slides prontos e revisados — poucas palavras por slide.</li>
+</ul>
+
+<h3>Na véspera</h3>
+<ul class="check">
+  <li>Conta de teste criada e com dados, para o caso de o cadastro ao vivo falhar.</li>
+  <li>Pendrive com site, banco, o vídeo e o PDF da documentação.</li>
+  <li>Segundo ensaio, só da demonstração, até sair sem hesitação.</li>
+  <li>Conferir que o computador da apresentação liga, abre o XAMPP e roda o site.</li>
+  <li>Combinar quem fala o quê e quem senta no teclado.</li>
+</ul>
+
+<h3>Uma hora antes</h3>
+<ul class="check">
+  <li>XAMPP aberto, Apache e MySQL ligados e em verde.</li>
+  <li>Site aberto e testado: entrar, buscar um alimento, abrir o progresso.</li>
+  <li>Zoom do navegador em 100%, aba única, notificações silenciadas.</li>
+  <li>Projetor testado com a tela do site, não só com o slide.</li>
+  <li>Carregador na tomada.</li>
+</ul>
+
+<h3>Na hora</h3>
+<ul class="check">
+  <li>Falar devagar. A pressa é o efeito mais comum do nervosismo e o mais fácil de corrigir conscientemente.</li>
+  <li>Olhar para a banca, não para a tela.</li>
+  <li>Narrar cada passo da demonstração.</li>
+  <li>Anotar as perguntas difíceis para retomar no fechamento, se houver tempo.</li>
+</ul>
+</div>
+
+<!-- =================== 11. GLOSSARIO =================== -->
+<div class="secao">
+<h2>11. Glossário</h2>
+
+<p>Os termos que podem aparecer na arguição, em uma linha cada. Serve para quem
+não escreveu o código acompanhar a conversa e responder ao menos o nível 1.</p>
+
+<table>
+  <tr><th style="width:28%">Termo</th><th>Significado</th></tr>
+  <tr><td>API</td><td>Conjunto de endereços que um sistema oferece para outro consumir. Aqui, a pasta <code>api/</code>.</td></tr>
+  <tr><td>Back-end</td><td>A parte que roda no servidor: o PHP e o banco de dados.</td></tr>
+  <tr><td>Front-end</td><td>A parte que roda no navegador: HTML, CSS e JavaScript.</td></tr>
+  <tr><td>Endpoint</td><td>Cada endereço da API, com uma função própria. O projeto tem onze.</td></tr>
+  <tr><td>JSON</td><td>Formato de texto para troca de dados entre sistemas. É o que o PHP devolve ao JavaScript.</td></tr>
+  <tr><td>Requisição</td><td>Um pedido enviado do navegador ao servidor.</td></tr>
+  <tr><td>Cookie</td><td>Pequeno texto que o servidor pede ao navegador para guardar e reenviar a cada requisição.</td></tr>
+  <tr><td>Sessão</td><td>O registro, no servidor, de quem está logado. O navegador carrega só o identificador.</td></tr>
+  <tr><td>Hash</td><td>Resultado de uma transformação que só vai de ida. Do hash não se recupera o valor original.</td></tr>
+  <tr><td>Salt</td><td>Valor aleatório somado à senha antes do hash, para que senhas iguais gerem hashes diferentes.</td></tr>
+  <tr><td>Token</td><td>Código aleatório de uso único, aqui usado para autorizar a troca de senha.</td></tr>
+  <tr><td>SQL Injection</td><td>Ataque em que o usuário digita comando de banco em um campo de texto, esperando que seja executado.</td></tr>
+  <tr><td>Prepared statement</td><td>Consulta enviada ao banco com marcadores no lugar dos valores, que impede o ataque acima.</td></tr>
+  <tr><td>PDO</td><td>A camada do PHP usada para conversar com o banco de dados.</td></tr>
+  <tr><td>XSS</td><td>Ataque em que se injeta código na página por um campo de texto. Evitado escapando o que vem do usuário antes de exibir.</td></tr>
+  <tr><td>DOM</td><td>A representação da página na memória do navegador, que o JavaScript manipula.</td></tr>
+  <tr><td>Módulo ES</td><td>Arquivo JavaScript que declara do que depende, com <code>import</code>, em vez de depender da ordem das tags na página.</td></tr>
+  <tr><td>Debounce</td><td>Técnica de adiar uma ação até que os disparos parem. Na busca, evita consultar o servidor a cada tecla.</td></tr>
+  <tr><td>Delegação de eventos</td><td>Registrar um ouvinte no elemento pai em vez de um em cada filho.</td></tr>
+  <tr><td>SVG</td><td>Formato de imagem descrita por coordenadas, no próprio código da página. É como o gráfico de progresso foi feito.</td></tr>
+  <tr><td>localStorage</td><td>Espaço de armazenamento dentro do navegador. É onde as refeições do dia ficam salvas hoje.</td></tr>
+  <tr><td>TMB</td><td>Taxa metabólica basal: as calorias gastas em repouso absoluto.</td></tr>
+  <tr><td>TDEE</td><td>Gasto energético diário total: a TMB multiplicada pelo fator de atividade.</td></tr>
+  <tr><td>Macronutrientes</td><td>Carboidrato, proteína e gordura — os três componentes em que as calorias se dividem.</td></tr>
+  <tr><td>IMC</td><td>Índice de massa corporal: peso dividido pela altura ao quadrado.</td></tr>
+  <tr><td>TACO</td><td>Tabela Brasileira de Composição de Alimentos, da Unicamp. Fonte dos 597 alimentos do sistema.</td></tr>
+  <tr><td>XAMPP</td><td>Pacote que instala Apache, MySQL e PHP juntos, usado para rodar o site no computador local.</td></tr>
+  <tr><td>Apache</td><td>O servidor web: o programa que atende o navegador e executa o PHP.</td></tr>
+  <tr><td>Dump</td><td>Arquivo com a estrutura e o conteúdo do banco, usado para restaurá-lo em outra máquina.</td></tr>
+</table>
+
+<div class="destaque">
+<p><b>Última orientação.</b> O trabalho está funcionando ponta a ponta e tem
+material técnico documentado. O risco da defesa não está no sistema: está em
+apresentá-lo mal, estourar o tempo ou inventar resposta. Os três se resolvem com
+ensaio, e ensaio é a única parte da preparação que não dá para terceirizar.</p>
+</div>
+</div>
+
+</body>
+</html>

@@ -29,12 +29,28 @@ function removerItem(idItem) {
   atualizarTela();
 }
 
+// Abre ou recolhe o card da refeição (só estado de tela, nada é salvo).
+function alternarRefeicao(id) {
+  if (estado.refeicoesAbertas.has(id)) estado.refeicoesAbertas.delete(id);
+  else estado.refeicoesAbertas.add(id);
+  atualizarTela();
+}
+
 // Delegação de eventos na lista de refeições
 document.getElementById("lista-refeicoes").addEventListener("click", (e) => {
   // dataset converte o atributo kebab-case em camelCase:
   // data-adicionar-alimento → dataset.adicionarAlimento
+  const botaoAlternar = e.target.closest("[data-alternar-refeicao]");
+  if (botaoAlternar) return alternarRefeicao(botaoAlternar.dataset.alternarRefeicao);
+
   const botaoAdicionarAlimento = e.target.closest("[data-adicionar-alimento]");
-  if (botaoAdicionarAlimento) return abrirBuscaAlimento(botaoAdicionarAlimento.dataset.adicionarAlimento);
+  if (botaoAdicionarAlimento) {
+    // Marca como aberta: sem isso, a refeição vazia (aberta só por estar vazia)
+    // recolheria sozinha logo depois de ganhar o primeiro alimento.
+    const id = botaoAdicionarAlimento.dataset.adicionarAlimento;
+    estado.refeicoesAbertas.add(id);
+    return abrirBuscaAlimento(id);
+  }
 
   const botaoRemoverItem = e.target.closest("[data-remover-item]");
   if (botaoRemoverItem) return removerItem(botaoRemoverItem.dataset.removerItem);
@@ -93,8 +109,10 @@ document.getElementById("refeicao-cancelar-btn").addEventListener("click", () =>
 
 formRefeicao.addEventListener("submit", (e) => {
   e.preventDefault();
+  const id = uid();
+  estado.refeicoesAbertas.add(id); // refeição nova já aparece aberta
   estado.dados.refeicoes.push({
-    id: uid(),
+    id,
     tipo: document.getElementById("refeicao-tipo").value,
     data: document.getElementById("refeicao-data").value,
     itens: [],

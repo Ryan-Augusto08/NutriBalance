@@ -102,6 +102,13 @@
   padding-right: 42px;
 }
 
+/* O Edge desenha um olho próprio em todo campo de senha. Como já existe o
+   .olho-btn, o dele é escondido para não aparecerem dois. */
+.campo-senha input::-ms-reveal,
+.campo-senha input::-ms-clear {
+  display: none;
+}
+
 .olho-btn {
   position: absolute;
   right: 4px;

@@ -59,23 +59,37 @@ function linhaItem(item) {
     </div>`;
 }
 
+// Card recolhível: fechado, mostra só o tipo e o total de kcal; a seta abre a
+// lista de alimentos e os macros. Refeição sem alimento fica sempre aberta,
+// senão o botão de adicionar ficaria escondido.
 function cardRefeicao(refeicao) {
   const totais = totaisDaRefeicao(refeicao);
-  const htmlItens = refeicao.itens.length
-    ? refeicao.itens.map(linhaItem).join("")
-    : `<p class="refeicao-vazia">Nenhum alimento ainda. Toque em "+ Adicionar alimento".</p>`;
-  const resumo = refeicao.itens.length
-    ? `<div class="refeicao-resumo">${blocoMacros(totais)}<div class="refeicao-kcal">${arred(totais.kcal)} <span>kcal</span></div></div>`
-    : "";
+  const vazia = refeicao.itens.length === 0;
+  const aberta = vazia || estado.refeicoesAbertas.has(refeicao.id);
+  const htmlItens = vazia
+    ? `<p class="refeicao-vazia">Nenhum alimento ainda. Toque em "+ Adicionar alimento".</p>`
+    : refeicao.itens.map(linhaItem).join("");
+  const resumo = vazia
+    ? ""
+    : `<div class="refeicao-resumo">${blocoMacros(totais)}<div class="refeicao-kcal">${arred(totais.kcal)} <span>kcal</span></div></div>`;
+  const qtdItens = `${refeicao.itens.length} ${refeicao.itens.length === 1 ? "alimento" : "alimentos"}`;
   return `
-    <div class="refeicao-card" data-refeicao-id="${refeicao.id}">
+    <div class="refeicao-card ${aberta ? "aberta" : ""}" data-refeicao-id="${refeicao.id}">
       <div class="refeicao-card-topo">
-        <p class="refeicao-titulo">${escaparHtml(refeicao.tipo)}</p>
+        <button class="refeicao-alternar" type="button" data-alternar-refeicao="${refeicao.id}"
+          aria-expanded="${aberta}" ${vazia ? "disabled" : ""}
+          title="${aberta ? "Recolher" : "Ver alimentos"}">
+          <span class="refeicao-seta" aria-hidden="true">▼</span>
+          <span class="refeicao-titulo">${escaparHtml(refeicao.tipo)}</span>
+          <span class="refeicao-total">${qtdItens} · ${arred(totais.kcal)} kcal</span>
+        </button>
         <button class="refeicao-remover" data-remover-refeicao="${refeicao.id}">remover</button>
       </div>
-      <div class="refeicao-itens">${htmlItens}</div>
-      <button class="adicionar-alimento-btn" data-adicionar-alimento="${refeicao.id}">+ Adicionar alimento</button>
-      ${resumo}
+      <div class="refeicao-corpo" ${aberta ? "" : "hidden"}>
+        <div class="refeicao-itens">${htmlItens}</div>
+        <button class="adicionar-alimento-btn" data-adicionar-alimento="${refeicao.id}">+ Adicionar alimento</button>
+        ${resumo}
+      </div>
     </div>`;
 }
 

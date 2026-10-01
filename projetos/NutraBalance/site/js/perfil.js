@@ -109,6 +109,29 @@ document.getElementById("foto-remover-btn").addEventListener("click", async () =
   }
 });
 
+/* ---------- prévia dos macros ---------- */
+
+// Recalcula Carbo/Proteína/Gordura a cada tecla no campo de kcal, sem gravar.
+// Usa a mesma conta do salvar, e o perfil ainda guarda as metas de quando o
+// modal abriu: a proporção de base não muda a cada tecla, e o que aparece
+// aqui é exatamente o que será salvo.
+function mostrarPreviaMacros() {
+  const metaKcal = Number(document.getElementById("perfil-meta-campo").value);
+  const campos = {
+    metaCarbo: document.getElementById("perfil-carbo-campo"),
+    metaProteina: document.getElementById("perfil-proteina-campo"),
+    metaGordura: document.getElementById("perfil-gordura-campo"),
+  };
+  if (!(metaKcal > 0)) {
+    for (const campo of Object.values(campos)) campo.value = "";
+    return;
+  }
+  const m = ajustarMacrosParaKcal(metaKcal, estado.dados.perfil);
+  for (const [chave, campo] of Object.entries(campos)) campo.value = m[chave];
+}
+
+document.getElementById("perfil-meta-campo").addEventListener("input", mostrarPreviaMacros);
+
 /* ---------- salvar / cancelar ---------- */
 
 document.getElementById("perfil-cancelar-btn").addEventListener("click", () => {

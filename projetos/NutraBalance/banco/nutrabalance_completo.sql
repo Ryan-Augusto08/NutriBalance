@@ -769,3 +769,128 @@ INSERT INTO `alimentos` (`id`, `numero_taco`, `categoria`, `descricao`, `umidade
 INSERT INTO `alimentos` (`id`, `numero_taco`, `categoria`, `descricao`, `umidade`, `energia_kcal`, `energia_kj`, `proteina`, `lipideos`, `carboidrato`, `fibra`, `colesterol`, `cinzas`, `calcio`, `magnesio`, `manganes`, `fosforo`, `ferro`, `sodio`, `potassio`, `cobre`, `zinco`, `retinol`, `rae`, `tiamina`, `riboflavina`, `piridoxina`, `niacina`, `vitamina_c`) VALUES (597,597,'Nozes e sementes','Noz, crua',6.245,620.06,2594.33,13.971,59.360,18.364,7.250,NULL,2.061,105.306,152.891,4.053,396.277,2.035,4.571,533.255,0.754,2.064,NULL,NULL,0.377,0.000,0.130,1.083,0.000);
 
 -- fim dos dados (597 alimentos da TACO 4a edicao)
+
+
+-- =====================================================================
+-- CONTA DE DEMONSTRACAO
+-- =====================================================================
+--
+-- Entra junto com a instalacao de proposito: no PC da amostra tecnica, um
+-- unico import tem que entregar o sistema com uma conta que ja abre com
+-- historico. Sem isso a maquina chega com o banco vazio e nao ha o que
+-- mostrar — foi o que aconteceu no notebook em 30/09/2026.
+--
+--   E-mail: demo@nutrabalance.com
+--   Senha:  demo123
+--
+-- 73 medicoes de peso (36 tambem com cintura) cobrindo 427 dias.
+--
+-- POR QUE AS DATAS SAO RELATIVAS
+-- Cada linha entra como DATE_SUB(CURDATE(), INTERVAL n DAY), nunca com data
+-- fixa. Com data fixa o arquivo apodrece: gerado hoje e importado duas
+-- semanas depois, a medicao mais recente ja estaria com 14 dias e os filtros
+-- "7 dias" e "1 mes" do grafico apareceriam VAZIOS. Assim o historico sempre
+-- termina no dia da importacao.
+--
+-- SEGURO RODAR DE NOVO: o DELETE abaixo atinge SO a conta demo, e a FK com
+-- ON DELETE CASCADE leva as medicoes dela junto. Contas reais nao sao
+-- tocadas.
+--
+-- ⚠️ ESTE BLOCO E GERADO a partir de criar_conta_demo.php, que e a fonte da
+-- verdade da curva de peso. Se a curva mudar la, gerar este bloco de novo —
+-- senao o script e o arquivo passam a criar contas diferentes.
+--
+-- ⚠️ Vale tambem para o Railway: importar este arquivo em producao cria a
+-- conta demo la. A senha ja e publica no README, mas se um dia o deploy
+-- virar endereco divulgado, e este bloco que deve sair.
+-- =====================================================================
+
+DELETE FROM usuarios WHERE email = 'demo@nutrabalance.com';
+
+INSERT INTO usuarios
+  (nome, email, senha_hash, sexo, idade, altura_cm, peso_kg, cintura_cm,
+   peso_alvo, atividade, meta, objetivo,
+   meta_kcal, meta_carbo, meta_proteina, meta_gordura)
+VALUES
+  ('Conta Demonstração', 'demo@nutrabalance.com',
+   '$2y$10$0oPLdnnjW0xu64FaNf0R7.xfacFMJPAO.xdXkdMfCMKj37ZPXZEpe',
+   'M', 30, 178, 85.6, 95.5,
+   80.0, 'moderado', 'perder', NULL,
+   2402, 300, 120, 80);
+
+SET @uid = LAST_INSERT_ID();
+
+INSERT INTO medicoes (usuario_id, data, peso_kg, cintura_cm) VALUES
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 427 DAY), 98.4, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 420 DAY), 97.8, 105.7),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 413 DAY), 97.8, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 406 DAY), 97.2, 105.2),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 399 DAY), 97.1, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 392 DAY), 96.7, 104.7),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 385 DAY), 96.3, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 378 DAY), 96.2, 104.1),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 371 DAY), 95.6, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 364 DAY), 95.6, 103.6),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 357 DAY), 95.0, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 350 DAY), 95.0, 103.1),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 343 DAY), 94.5, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 336 DAY), 94.3, 102.7),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 329 DAY), 94.1, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 322 DAY), 93.6, 102.2),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 315 DAY), 93.6, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 308 DAY), 93.0, 101.7),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 301 DAY), 93.1, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 294 DAY), 92.5, 101.3),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 287 DAY), 92.4, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 280 DAY), 92.1, 100.8),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 273 DAY), 91.8, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 266 DAY), 91.7, 100.4),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 259 DAY), 91.2, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 252 DAY), 91.3, 100.0),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 245 DAY), 90.8, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 238 DAY), 90.8, 99.6),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 231 DAY), 90.4, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 224 DAY), 90.2, 99.2),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 217 DAY), 90.0, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 210 DAY), 89.6, 98.9),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 203 DAY), 89.7, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 196 DAY), 89.2, 98.5),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 189 DAY), 89.3, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 182 DAY), 88.8, 98.2),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 175 DAY), 88.8, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 168 DAY), 88.5, 97.9),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 161 DAY), 88.3, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 154 DAY), 88.3, 97.6),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 147 DAY), 87.8, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 140 DAY), 87.9, 97.3),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 133 DAY), 87.5, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 126 DAY), 87.6, 97.0),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 119 DAY), 87.2, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 112 DAY), 87.1, 96.7),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 105 DAY), 87.1, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 98 DAY), 86.8, 96.5),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 91 DAY), 86.9, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 84 DAY), 86.4, 96.3),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 77 DAY), 86.6, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 70 DAY), 86.2, 96.1),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 63 DAY), 86.3, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 56 DAY), 86.1, 95.9),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 49 DAY), 86.0, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 42 DAY), 86.0, 95.8),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 35 DAY), 85.7, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 30 DAY), 86.1, 95.6),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 27 DAY), 85.4, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 24 DAY), 85.7, 95.6),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 21 DAY), 85.6, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 18 DAY), 85.4, 95.6),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 15 DAY), 85.9, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 12 DAY), 85.4, 95.5),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 9 DAY), 86.1, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 7 DAY), 85.6, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 6 DAY), 85.5, 95.5),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 5 DAY), 85.1, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 4 DAY), 85.5, 95.5),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 3 DAY), 85.8, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 2 DAY), 85.8, 95.5),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 1 DAY), 86.0, NULL),
+  (@uid, DATE_SUB(CURDATE(), INTERVAL 0 DAY), 85.6, 95.5);

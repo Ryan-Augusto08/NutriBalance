@@ -10,6 +10,9 @@ de Composição de Alimentos — TACO, 4ª edição**, que alimenta a busca do s
   alimentos já carregados. **É o único arquivo necessário para instalar.**
 - `importar_taco.php` — lê `../dados/Taco-4a-Edicao.xlsx` e repopula a tabela
   `alimentos`. Só é usado para **regerar** os dados, não para instalar.
+- `criar_conta_demo.php` — recria **só** a conta de demonstração, sem
+  reimportar o banco. A conta já vem dentro do `nutrabalance_completo.sql`;
+  este script existe para refazê-la ou para criá-la no Railway.
 
 ## Pré-requisitos
 
@@ -67,6 +70,57 @@ Com **Apache** e **MySQL** ligados no XAMPP, acesse:
 
 Se o `root` do seu MySQL tiver senha, ajuste `DB_PASS` em
 `site/api/conexao.php` — é o único lugar onde as credenciais ficam.
+
+**3. A conta de demonstração já veio junto**
+
+O `nutrabalance_completo.sql` do passo 1 **já traz a conta demo**, com perfil
+completo e 427 dias de peso e cintura. Não há passo extra: depois de importar,
+o login abaixo já abre com histórico.
+
+| E-mail | Senha |
+|---|---|
+| `demo@nutrabalance.com` | `demo123` |
+
+Ela existe por sugestão da banca: um login que abre com o gráfico de Progresso
+cheio, sem registrar meses de medições na hora. O que entrega, conferido em
+01/10/2026 numa instalação feita do zero:
+
+| Filtro | Pontos de peso | Pontos de cintura | Agrupamento |
+|---|---|---|---|
+| 7 dias | 8 | 4 | por dia |
+| 1 mês | 16 | 8 | por dia |
+| 3 meses | 24 | 12 | por semana |
+| 1 ano | 64 | 32 | por mês |
+| Tudo | 73 | 36 | por mês |
+
+**As datas são relativas ao dia da importação**, não fixas — e é isso que
+impede o arquivo de envelhecer. Um dump comum congela as datas: importado duas
+semanas depois de gerado, a medição mais recente já estaria com 14 dias e os
+filtros "7 dias" e "1 mês" apareceriam **vazios**. No arquivo cada linha entra
+como `DATE_SUB(CURDATE(), INTERVAL n DAY)`.
+
+As refeições **não** entram: elas ficam no `localStorage` do navegador, não no
+banco. Levá-las para o banco é a próxima etapa planejada.
+
+### Recriar só a conta demo
+
+Para refazer a conta sem reimportar o banco inteiro, a partir desta pasta:
+
+```
+D:Xamppphpphp.exe criar_conta_demo.php
+```
+
+Rodar de novo apaga e recria **só** a conta demo — contas reais não são
+tocadas, porque o `DELETE` filtra pelo e-mail e a chave estrangeira usa
+`ON DELETE CASCADE`.
+
+Para criar a conta no banco do Railway, defina antes `DB_HOST`, `DB_PORT`,
+`DB_NAME`, `DB_USER` e `DB_PASS` no terminal.
+
+⚠️ **O `criar_conta_demo.php` é a fonte da verdade da curva de peso.** Se ela
+mudar lá, o bloco `CONTA DE DEMONSTRACAO` no fim do
+`nutrabalance_completo.sql` precisa ser gerado de novo — senão o script e o
+arquivo de instalação passam a criar contas diferentes.
 
 ## As tabelas
 

@@ -124,11 +124,13 @@ cada uma termina com algo que já dá para mostrar.
   commitada aqui — `git log --all` na pasta volta vazio. A pasta ganhou
   repositório próprio, local e sem remote. As fotos de paciente nunca
   saíram da máquina.
-- ⚠️ **O que sobrou desse risco é o oposto: backup.** O repositório do
-  Rafael não tem remote, igual ao da Valéria. Se o disco se perder, os dois
-  projetos se perdem juntos. Manter local é decisão consciente (sigilo de
-  paciente), mas nenhuma alternativa de backup foi montada — repo privado,
-  disco externo, nada.
+- ✅ **Fechado em 27/08/2026 — o backup existe.** Este item dizia que Rafael e
+  Valéria eram só locais e se perderiam com o disco. Os dois ganharam remote
+  **privado** no GitHub em 27/08 (`Ryan-Augusto08/RafaelGimenez` e
+  `Ryan-Augusto08/Valeria`), e o Seminovos e a Portuga também têm o seu. O
+  Escritório Contábil segue sem, **por decisão**: ainda não tem conteúdo que
+  justifique. Privado é o ponto — o sigilo de paciente continua valendo, o que
+  mudou é que ele agora convive com backup.
 - ⚠️ **Consentimento dos pacientes do Rafael** não foi levantado. A
   Resolução CFO-196/2019 permite antes/depois, mas exige autorização de cada
   paciente. As 20 fotos já estão publicadas no site.

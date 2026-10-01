@@ -16,15 +16,35 @@
 </head>
 <body>
   <div class="app">
+    <!--
+      Cabeçalho em UMA linha: marca, menu de seções e Sair lado a lado.
+      Como ficou baixo, o cabeçalho INTEIRO acompanha a rolagem — antes só a
+      barra do menu grudava, porque a logo de 88px era alta demais pra isso.
+
+      Os links são âncoras de HTML puro: funcionam sem JavaScript. O menu.js
+      só acrescenta o destaque da seção em que a pessoa está.
+    -->
     <header class="app-cabecalho">
-      <div class="marca">
-        <img class="logo-img" src="img/logo.png" alt="NutraBalance" />
+      <!--
+        A marca inteira (logo + nome) é o atalho de volta ao topo. href="#"
+        é o destino "início do documento" do próprio HTML: funciona sem
+        JavaScript, e o scroll-behavior do CSS é que faz a subida ser suave.
+
+        O alt da imagem fica VAZIO de propósito: o nome "NutraBalance" já
+        está escrito do lado, dentro do mesmo link. Com alt preenchido, o
+        leitor de tela anunciaria "NutraBalance NutraBalance".
+      -->
+      <a class="marca" href="#" title="Voltar ao topo">
+        <img class="logo-img" src="img/logo.png" alt="" />
         <span class="marca-nome"><span class="marca-nutra">Nutra</span><span class="marca-balance">Balance</span></span>
-      </div>
-      <span class="cabecalho-espaco"></span>
+      </a>
+      <nav class="menu-secoes" aria-label="Seções do painel">
+        <a href="#resumo">Resumo</a>
+        <a href="#refeicoes">Refeições</a>
+        <a href="#progresso">Progresso</a>
+      </nav>
       <button class="sair-btn" id="sair-btn" type="button">Sair</button>
     </header>
-
     <div class="banner-topo" role="img" aria-label="Tigela de comida saudável"></div>
 
     <main class="conteudo">
@@ -53,12 +73,12 @@
 
       <button class="copiar-dia-btn" id="copiar-dia-btn" type="button" hidden></button>
 
-      <section>
+      <section id="resumo">
         <h2 class="secao-titulo">Resumo do Dia — pista até a meta</h2>
         <div class="progresso-diario" id="progresso-diario"></div>
       </section>
 
-      <section>
+      <section id="refeicoes">
         <div class="secao-cabecalho">
           <h2 class="secao-titulo">Minhas Refeições</h2>
           <button class="adicionar-btn" id="nova-refeicao-btn" title="Adicionar refeição" aria-label="Adicionar refeição">+</button>
@@ -66,7 +86,7 @@
         <div class="lista-refeicoes" id="lista-refeicoes"></div>
       </section>
 
-      <section>
+      <section id="progresso">
         <div class="secao-cabecalho">
           <h2 class="secao-titulo">Progresso</h2>
           <button class="adicionar-btn" id="nova-medicao-btn" title="Registrar medição" aria-label="Registrar medição">+</button>

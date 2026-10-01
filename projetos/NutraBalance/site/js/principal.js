@@ -17,6 +17,7 @@ import "./refeicoes.js";
 import "./alimentos.js";
 import "./perfil.js";
 import "./travas.js";
+import "./menu.js";
 
 /* ---------- botão Mudar meta (recalcula pela personalização, grava no banco) ---------- */
 document.getElementById("mudar-meta-btn").addEventListener("click", () => {

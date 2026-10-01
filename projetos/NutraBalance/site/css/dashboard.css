@@ -13,28 +13,62 @@
 
 /* ---------- cabeçalho e marca ---------- */
 
+/* Marca, menu e Sair na MESMA linha.
+   Nos tamanhos originais isso não cabia: logo de 88px, nome em 32px (209px
+   de largura), os três links (239px) e o Sair (53px) somavam ~630px, contra
+   440px úteis no desktop e 350px no celular. O que abriu espaço foi encolher
+   a marca — a logo e o nome, que juntos eram quase metade do orçamento.
+
+   Como a linha ficou baixa, o cabeçalho INTEIRO pode acompanhar a rolagem.
+   Antes só a barra do menu grudava, justamente porque a logo de 88px era
+   alta demais para ficar congelada no topo de um celular. */
 .app-cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   display: flex;
   align-items: center;
-  padding: 16px 20px 8px;
+  gap: 10px;
+  padding: 10px 16px;
+  /* Mesmo fundo da página, não branco: o cabeçalho não se destaca como um
+     cartão, só acompanha a rolagem. Opaco é obrigatório de qualquer forma —
+     sem fundo, o conteúdo passaria por trás e apareceria pelas frestas
+     entre as pílulas. */
+  background: var(--bg);
 }
 
 .marca {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  flex-shrink: 0;
+  /* É um link agora (volta ao topo), mas não deve parecer um: a marca já
+     é reconhecível e sublinhado embaixo dela ficaria estranho. */
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
+/* 88px -> 40px: a logo sozinha comia um quinto da largura da tela. */
 .logo-img {
-  height: 88px;
+  height: 40px;
   width: auto;
 }
 
+/* 32px -> 17px. Abaixo de 430px o nome sai de cena e fica só a logo: com os
+   três links na mesma linha, não há largura para os dois. */
 .marca-nome {
   font-weight: 800;
-  font-size: 32px;
+  font-size: 17px;
   letter-spacing: -0.01em;
   line-height: 1;
+  white-space: nowrap;
+}
+
+@media (max-width: 430px) {
+  .marca-nome {
+    display: none;
+  }
 }
 
 .marca-nutra {
@@ -50,6 +84,7 @@
 }
 
 .sair-btn {
+  flex-shrink: 0;
   border: 1px solid var(--border-soft);
   background: var(--card-bg);
   color: var(--text-muted);
@@ -67,7 +102,7 @@
 
 .banner-topo {
   height: 140px;
-  margin: 0 20px 20px;
+  margin: 20px 20px 20px;
   border-radius: 16px;
   background-image: linear-gradient(135deg, rgba(47, 109, 63, 0.55), rgba(226, 87, 44, 0.35)),
     url("../img/banner.jpg");
@@ -81,6 +116,83 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+/* ---------- menu de seções ---------- */
+
+/*
+  Só esta barra acompanha a rolagem. O cabeçalho acima NÃO gruda: a logo tem
+  88px e congelá-la comeria quase um quinto da tela de um celular.
+
+  É isso que faz o menu valer a pena — um menu de âncoras que some ao rolar
+  obriga a voltar ao topo para usá-lo.
+*/
+/* Já vive dentro do .app-cabecalho, que é quem gruda — aqui não precisa de
+   position nem de fundo próprio. O flex:1 empurra o Sair para a ponta. */
+.menu-secoes {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Mesma pílula do .sair-btn — é a linguagem que os controles desta tela já
+   usam. Nenhuma cor nova: tudo sai dos tokens do base.css. */
+/* As pílulas invertem em relação ao .sair-btn: ali o fundo é branco sobre o
+   verde-claro da página; aqui é o verde-claro sobre o branco do bloco. Pílula
+   branca sobre cartão branco sumiria. */
+/* Compactas de propósito: na mesma linha da marca e do Sair, cada pixel de
+   padding conta. Brancas sobre o verde-claro da página, igual ao .sair-btn
+   ao lado — é a mesma linguagem de controle. */
+.menu-secoes a {
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  border: 1px solid var(--border-soft);
+  background: var(--card-bg);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 7px 10px;
+  border-radius: 999px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.menu-secoes a:hover {
+  background: var(--border-soft);
+  color: var(--text-main);
+}
+
+/* O banner começa depois do bloco branco, então precisa do respiro. */
+
+/* Seção em que a pessoa está. A classe é posta pelo menu.js; sem JavaScript
+   o menu continua navegando, só não destaca. */
+.menu-secoes a.ativo {
+  background: var(--green-btn);
+  border-color: var(--green-btn);
+  color: #fff;
+}
+
+/* A âncora precisa parar ABAIXO da barra.
+   A barra MEDIDA tem 55px (não os 39 que a conta no papel dava: o padding de
+   10px em cima e embaixo, mais a pílula de 31px, mais a borda). 68px dá 13px
+   de folga para o título não encostar na barra.
+   Estimar aqui já custou caro: no site do Rafael, em 30/09/2026, um
+   scroll-padding 19px menor que o cabeçalho escondia o título de cada seção.
+   Se a altura da barra mudar, MEDIR de novo. */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 68px;
+}
+
+/* Quem pediu menos movimento rola sem animação. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .menu-secoes a {
+    transition: none;
+  }
 }
 
 /* ---------- barra de navegação por data ---------- */

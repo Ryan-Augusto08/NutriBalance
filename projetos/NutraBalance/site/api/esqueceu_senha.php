@@ -8,9 +8,16 @@
  * alterada aqui — quem troca é o redefinir_senha.php, depois que a pessoa
  * provar que recebeu o e-mail.
  *
- * A resposta é SEMPRE a mesma, exista ou não a conta. Se respondesse
- * "e-mail não cadastrado", qualquer pessoa poderia usar esta tela para
- * descobrir quem tem conta no site (mesmo critério do login.php).
+ * E-mail sem conta recebe "não cadastrado" e nenhum link é gerado. Até
+ * 17/10/2026 a resposta era sempre a mesma, exista ou não a conta, para
+ * ninguém usar esta tela para descobrir quem tem cadastro. Saiu porque não
+ * protegia nada: o registrar.php já responde "Esse e-mail já está
+ * cadastrado", e é assim que tem que ser, senão a pessoa não sabe por que o
+ * cadastro falhou. E a resposta genérica confundia: "enviamos um link" para
+ * um endereço que nunca recebe nada.
+ *
+ * O login.php continua com a mensagem única de "e-mail ou senha incorretos":
+ * lá o que se protege é a senha, não a existência da conta.
  */
 
 require __DIR__ . '/_bootstrap.php';
@@ -27,13 +34,6 @@ const INTERVALO_MINIMO_SEGUNDOS = 60;
 $dados = corpo();
 $email = trim($dados['email'] ?? '');
 
-// Mesma resposta em todos os caminhos de sucesso — ver comentário do topo.
-$respostaGenerica = [
-    'ok' => true,
-    'mensagem' => 'Se esse e-mail estiver cadastrado, enviamos um link para redefinir a senha. '
-        . 'O link vale por 1 hora. Confira também a caixa de spam.',
-];
-
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     responder(['erro' => 'E-mail inválido.'], 422);
 }
@@ -41,16 +41,19 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 try {
     $pdo = conectar();
 
-    $stmt = $pdo->prepare('SELECT id, nome FROM usuarios WHERE email = ?');
+    // O e-mail que vale é o do cadastro, não o digitado. A comparação do
+    // MySQL ignora maiúsculas, então "Ana@Gmail.com" acha a conta de
+    // "ana@gmail.com" — e o link vai para o endereço que está no banco.
+    $stmt = $pdo->prepare('SELECT id, nome, email FROM usuarios WHERE email = ?');
     $stmt->execute([$email]);
     $usuario = $stmt->fetch();
 
     if (!$usuario) {
-        responder($respostaGenerica);
+        responder(['erro' => 'Esse e-mail não está cadastrado no NutraBalance.'], 404);
     }
 
-    // Já houve um pedido há poucos segundos? Não gera outro, mas responde
-    // igual — assim ninguém usa o tempo de resposta para deduzir nada.
+    // Já houve um pedido há poucos segundos? Não gera outro: o link do
+    // pedido anterior continua valendo e está a caminho.
     $recente = $pdo->prepare(
         'SELECT id FROM redefinicoes_senha
           WHERE usuario_id = ?
@@ -59,7 +62,11 @@ try {
     );
     $recente->execute([$usuario['id']]);
     if ($recente->fetch()) {
-        responder($respostaGenerica);
+        responder([
+            'ok' => true,
+            'mensagem' => 'Já enviamos um link para esse e-mail há menos de 1 minuto. '
+                . 'Confira a caixa de entrada e o spam antes de pedir outro.',
+        ]);
     }
 
     // Pedir um link novo invalida os anteriores: só o último e-mail funciona.
@@ -76,6 +83,7 @@ try {
         'INSERT INTO redefinicoes_senha (usuario_id, token_hash, expira_em)
          VALUES (?, ?, DATE_ADD(NOW(), INTERVAL ' . VALIDADE_MINUTOS . ' MINUTE))'
     )->execute([$usuario['id'], hash('sha256', $token)]);
+    $pedidoId = $pdo->lastInsertId();
 
     $link = url_site() . '/redefinir-senha.html?token=' . $token;
     $nome = htmlspecialchars($usuario['nome'], ENT_QUOTES, 'UTF-8');
@@ -111,11 +119,23 @@ try {
         . "O link vale por 1 hora e só pode ser usado uma vez.\n"
         . "Se não foi você quem pediu, ignore esta mensagem.\n";
 
-    enviar_email($email, 'Redefinição de senha — NutraBalance', $corpoHtml, $corpoTexto);
+    $enviado = enviar_email(
+        $usuario['email'], 'Redefinição de senha — NutraBalance', $corpoHtml, $corpoTexto
+    );
 
-    // Mesmo que o SMTP falhe, a resposta é a genérica: o motivo da falha
-    // fica no log do servidor, não na tela de quem pediu.
-    responder($respostaGenerica);
+    if (!$enviado) {
+        // O link nunca saiu, então o pedido é desfeito: sem isso, o anti-flood
+        // barraria a nova tentativa dizendo "já enviamos". O motivo real da
+        // falha (senha de app, rede) fica no log; a tela só diz que não foi.
+        $pdo->prepare('DELETE FROM redefinicoes_senha WHERE id = ?')->execute([$pedidoId]);
+        responder(['erro' => 'Não foi possível enviar o e-mail agora. Tente de novo em alguns minutos.'], 502);
+    }
+
+    responder([
+        'ok' => true,
+        'mensagem' => 'Enviamos um link para redefinir a senha. '
+            . 'Ele vale por 1 hora. Confira também a caixa de spam.',
+    ]);
 } catch (Throwable $e) {
     error_log('NutraBalance: erro em esqueceu_senha.php — ' . $e->getMessage());
     falhar($e, 'Falha ao processar o pedido.');

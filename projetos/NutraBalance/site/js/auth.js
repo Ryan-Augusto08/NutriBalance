@@ -101,9 +101,8 @@ export async function tratarCadastro(e) {
 /**
  * Tela "esqueceu a senha": pede o link de redefinição.
  *
- * O back responde a mesma coisa exista ou não a conta, então aqui não há
- * caminho de erro por "e-mail não encontrado" — só falha de rede ou
- * formato inválido.
+ * Os erros vêm prontos do back e caem no mesmo `dados.erro`: e-mail não
+ * cadastrado (404), formato inválido (422) e falha no envio (502).
  */
 export async function tratarEsqueceuSenha(e) {
   e.preventDefault();

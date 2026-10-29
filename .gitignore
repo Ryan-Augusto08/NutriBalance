@@ -92,3 +92,15 @@ projetos/Seminovos/
 # a venda acontecer, acesso ao site dele.
 # Mesma regra do Rafael e do Escritório: git próprio dentro da pasta.
 projetos/Portuga-Automoveis/
+
+# Carmino Motors — loja de seminovos em Bady Bassitt, alvo de venda desde
+# 03/10/2026. NÃO é cliente, e é concorrente direta da Portuga. Vai juntar
+# endereço, telefone do dono e o estoque dele, que é dado de empresa real:
+# ignorada desde o primeiro dia, como o Escritório.
+projetos/Carmino-Motors/
+
+# Apostas Fortnite (nome provisório) — cliente novo desde 28/10/2026, sistema
+# web de apostas pra comunidade de um streamer. Vai juntar conta e dado
+# pessoal de viewer, muitos menores de idade: ignorada desde o primeiro dia.
+# Quando tiver código, é repositório próprio privado.
+projetos/Apostas-Fortnite/

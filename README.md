@@ -72,7 +72,9 @@ e devolve relatório semanal com alertas e recomendações.
 
 **Produção** — ferramentas do dia a dia
 `/analisar-dados` lê CSV/XLSX/PDF e gera resumo executivo ·
-`/email-profissional` rascunha email a partir de contexto livre.
+`/email-profissional` rascunha email a partir de contexto livre ·
+`/seguranca` revisa site e sistema (dependências, login, uploads,
+formulários, cabeçalhos) e corrige o que for aprovado.
 
 ---
 

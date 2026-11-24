@@ -104,3 +104,10 @@ projetos/Carmino-Motors/
 # pessoal de viewer, muitos menores de idade: ignorada desde o primeiro dia.
 # Quando tiver código, é repositório próprio privado.
 projetos/Apostas-Fortnite/
+
+# Delivery — produto próprio desde 20/11/2026, virou sociedade em 24/11/2026
+# (a ideia é de um amigo do Ryan). Saiu do repositório público antes de
+# qualquer dado real: a ideia de negócio dos sócios não fica pública, e o
+# sistema vai juntar endereço de cliente e localização de entregador.
+# Git próprio dentro da pasta, remote privado.
+projetos/Delivery/
